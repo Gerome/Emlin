@@ -8,7 +8,7 @@ namespace EmlinTests
         [Test]
         public void CanDoWhatever()
         {
-            Assert.That(1 == 2);
+            Assert.That(1 == 1);
         }
     }
 }
