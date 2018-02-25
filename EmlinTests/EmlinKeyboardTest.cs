@@ -1,4 +1,6 @@
 ﻿using NUnit.Framework;
+using Emlin;
+using System.Collections;
 
 namespace EmlinTests
 {
@@ -6,9 +8,12 @@ namespace EmlinTests
     public class EmlinKeyboardTest
     {
         [Test]
-        public void CanDoWhatever()
+        public void KEYBOARD_RECORDER_SHOULD_CREATE_AN_ARRAY()
         {
-            Assert.That(1 == 1);
+            KeyboardRecorder kbRec = new KeyboardRecorder();
+            char[] listOfInputs = kbRec.ListOfInputs;
+            
+            Assert.NotNull(listOfInputs, null);
         }
     }
 }
