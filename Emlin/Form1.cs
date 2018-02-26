@@ -12,9 +12,13 @@ namespace Emlin
 {
     public partial class Form1 : Form
     {
+        public KeyboardRecorder kbRec;
+
         public Form1()
         {
             InitializeComponent();
-        }
+            kbRec = new KeyboardRecorder();
+            this.KeyPress += new KeyPressEventHandler(kbRec.Keypressed);
+        } 
     }
 }
