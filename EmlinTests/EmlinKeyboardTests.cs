@@ -8,13 +8,13 @@ using System.Threading;
 namespace EmlinTests
 {
     [TestFixture]
-    public class EmlinKeyboardTest
+    public class EmlinKeyboardTests
     {
         char[] listOfInputs;
         List<char> listOfKeysEntered;
         KeyboardRecorder kbRec = new KeyboardRecorder();
 
-        public EmlinKeyboardTest()
+        public EmlinKeyboardTests()
         {
             
             listOfInputs = kbRec.ListOfInputs;
