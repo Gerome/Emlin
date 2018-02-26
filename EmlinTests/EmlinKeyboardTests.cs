@@ -12,13 +12,13 @@ namespace EmlinTests
     {
         char[] listOfInputs;
         List<char> listOfKeysEntered;
+        KeyboardRecorder kbRec = new KeyboardRecorder();
 
         public EmlinKeyboardTest()
         {
-            Form1 form = new Form1();
-            form.Show();
-            listOfInputs = form.kbRec.ListOfInputs;
-            listOfKeysEntered = form.kbRec.KeysEntered;
+            
+            listOfInputs = kbRec.ListOfInputs;
+            listOfKeysEntered = kbRec.KeysEntered;
         }
 
         [Test]
@@ -35,13 +35,17 @@ namespace EmlinTests
         }
         
         [Test]
-        public void PRESSING_A_KEY_SHOULD_ADD_KEY_ARRAYLIST_OF_PRESSED_KEYS()
+        public void PRESSING_A_KEY_SHOULD_ADD_KEY_TO_ARRAYLIST_OF_PRESSED_KEYS()
         {
-            SendKeys.SendWait("A");
+            kbRec.Keypressed(null, new KeyPressEventArgs('A'));         
             Assert.That(listOfKeysEntered.Contains('A'));
-
         }
 
-        
+        [Test]
+        public void PRESSING_A_KEY_SHOULD_ADD_ANOTHER_KEY_TO_ARRAYLIST_OF_PRESSED_KEYS()
+        {
+            kbRec.Keypressed(null, new KeyPressEventArgs('B'));
+            Assert.That(listOfKeysEntered.Contains('B'));
+        }
     }
 }
