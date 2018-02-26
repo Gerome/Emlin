@@ -24,7 +24,7 @@ namespace Emlin
         public List<char> KeysEntered { get => keysEntered; set => keysEntered = value; }
 
         public void Keypressed(Object o, KeyPressEventArgs e)
-        {
+        { 
             KeysEntered.Add(e.KeyChar);         
         }
     }
