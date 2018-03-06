@@ -18,8 +18,8 @@ namespace EmlinTests
 
         //private int DECIMAL_ASCII_OF_FIRST_CHAR = 32;
         //private int DECIMAL_ASCII_OF_LAST_CHAR  = 128;
-        private int NUMBER_OF_INPUTS            = 96;
-        private int NUMBER_OF_COOMBINATIONS     = 96 * 96;
+        private const int NUMBER_OF_INPUTS            = 96;
+        private const int NUMBER_OF_COOMBINATIONS     = NUMBER_OF_INPUTS * NUMBER_OF_INPUTS;
 
         public EmlinKeyboardTests()
         {
@@ -76,39 +76,37 @@ namespace EmlinTests
         [Test]
         public void LAST_VALUE_IN_COMBINATIONS_SHOULD_SPACE_SPACE()
         {
-
             Assert.That(dictOfCombinations[NUMBER_OF_COOMBINATIONS - 1], Is.EqualTo(new List<char>() { '\u007f', '\u007f' }));
         }
 
-        //[Test]
-        //public void PRESSING_A_KEY_SHOULD_ADD_KEY_TO_ARRAYLIST_OF_PRESSED_KEYS()
-        //{
-        //    //kbRec.Keypressed(null, new KeyPressEventArgs('A'));         
-        //    //Assert.That(listOfKeysEntered.Contains('A'));
-        //}
+        [Test]
+        public void PRESSING_TWO_KEYS_CREATES_COMBINATION_OBJECT()
+        {
+ 
 
-        //[Test]
-        //public void PRESSING_A_KEY_SHOULD_ADD_ANOTHER_KEY_TO_ARRAYLIST_OF_PRESSED_KEYS()
-        //{
-        //    //kbRec.Keypressed(null, new KeyPressEventArgs('B'));
-        //    //Assert.That(listOfKeysEntered.Contains('B'));
-        //}
+            int combId = HelperFunctions.GetCombinationId('A', 'B');
+            KeyCombination keyComb = new KeyCombination(combId);
+            keyComb.AddTimespanToList(new TimeSpan(300000));
 
-        //[Test]
-        //public void PRESSING_TWO_KEYS_AT_DIFFERENT_TIMES_SHOULD_RECORD_THE_DIFFERENCE()
-        //{
-        //    //kbRec.Keypressed(null, new KeyPressEventArgs('A'));
-        //    //Thread.Sleep(new TimeSpan(300000));
-        //    //kbRec.Keypressed(null, new KeyPressEventArgs('B'));
-        //    //Assert.That(keysTyped)
-        //}
+            Assert.That(keyComb.TimeSpanList[0], Is.EqualTo(new TimeSpan(300000)));
+        }
+
+        [Test]
+        public void PRESSING_TWO_KEYS_ADDS_A_COMBINATION_OBJECT_TO_THE_CURRENT_SESSION_COMBINATION_LIST()
+        {
+            kbRec.Keypressed(this, new KeyPressEventArgs('A'));
+            Thread.Sleep(new TimeSpan(30000000));
+            kbRec.Keypressed(this, new KeyPressEventArgs('B'));
+
+            int combId = HelperFunctions.GetCombinationId('A', 'B');
+
+            Assert.That(CurrentSession.Instance.KeysPressed[combId].TimeSpanList[0].Ticks, Is.EqualTo(30000000).Within(100000));
+        }
+
+
 
         /*
             * --TEST LIST--
-            * List of combinations should contain all possible combinations
-            * 
-            * 
-            * PRESSING TWO KEYS IN SUCCESSION SHOULD RECORD BOTH KEYS AND THE TICKS BETWEEN THEM
             * TWO KEYS PRESSED IN LESS THAN 1.5(?) SECONDS SHOULD NOT RECORD THE DIFFERENCE
             */
     }

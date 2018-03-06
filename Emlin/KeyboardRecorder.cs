@@ -43,6 +43,14 @@ namespace Emlin
 
         }
 
+        private void PopulateListOfInputs()
+        {
+            for (int i = 0; i < numberOfInputs; i++)
+            {
+                listOfInputs[i] = (char)(i + DECIMAL_ASCII_OF_FIRST_CHAR);
+            }
+        }
+
         private void PopulateListOfCombinations()
         {
             int index;
@@ -53,14 +61,6 @@ namespace Emlin
                     index = i * numberOfInputs + n;
                     DictOfCombinations.Add(index, new List<char>() { ListOfInputs[i], ListOfInputs[n] });
                 }
-            }
-        }
-
-        private void PopulateListOfInputs()
-        {
-            for (int i = 0; i < numberOfInputs; i++)
-            {
-                listOfInputs[i] = (char)(i + DECIMAL_ASCII_OF_FIRST_CHAR);
             }
         }
 
@@ -80,7 +80,8 @@ namespace Emlin
             //}
             //timeDifInMillis.Add(timeDif[timeDif.Count - 1] / 10000);
             //dict.Add(e.KeyChar, timeDifInMillis[timeDifInMillis.Count - 1]);
-            //KeysEntered.Add(e.KeyChar);             
+            //KeysEntered.Add(e.KeyChar);        
+            CurrentSession.Instance.KeyWasPressed(e.KeyChar);
         }
 
 
