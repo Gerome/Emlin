@@ -26,11 +26,7 @@ namespace EmlinTests
             dictOfCombinations = kbRec.DictOfCombinations;
         }
 
-        [TearDown]
-        public void Dispose()
-        {
-            kbRec.currentSession.EndSession();
-        }
+        
 
         [Test]
         public void KEYBOARD_RECORDER_SHOULD_CREATE_AN_ARRAY_OF_LIST_OF_INPUTS()
@@ -91,61 +87,7 @@ namespace EmlinTests
         }
 
 
-        [Test]
-        public void PRESSING_TWO_KEYS_ADDS_ONE_COMBINATION_TO_THE_TIMESPAN_LIST()
-        {
-            kbRec.SendKeyToCurrentSession('A', 100);
-            kbRec.SendKeyToCurrentSession('B', 200);
-
-            int combId = HelperFunctions.GetCombinationId('A', 'B');
-
-            Assert.That(kbRec.currentSession.KeysPressed[combId].TimeSpanList.Count, Is.EqualTo(1));
-        }
-
-        [Test]
-        public void CURRENT_SESSION_IS_INACTIVE_BY_DEFAULT()
-        {
-            Assert.That(kbRec.currentSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Inactive));
-        }
-
-        [Test]
-        public void PRESSING_A_KEY_SETS_THE_STATE_OF_THE_SESSION_TO_ACTIVE()
-        {
-            kbRec.SendKeyToCurrentSession('A', 100);
-            Assert.That(kbRec.currentSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Active));
-        }
-
-        [Test]
-        public void PRESSING_2_KEY_SETS_THE_STATE_OF_THE_SESSION_TO_ACTIVE()
-        {
-            kbRec.SendKeyToCurrentSession('A', 100);
-            kbRec.SendKeyToCurrentSession('B', 200);
-            Assert.That(kbRec.currentSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Active));
-        }
-
-        [Test]
-        public void PRESSING_TWO_KEYS_ADDS_A_COMBINATION_OBJECT_TO_THE_CURRENT_SESSION_COMBINATION_LIST()
-        {
-            kbRec.SendKeyToCurrentSession('A', 100);
-            kbRec.SendKeyToCurrentSession('B', 200);
-
-            int combId = HelperFunctions.GetCombinationId('A', 'B');
-
-            Assert.That(kbRec.currentSession.KeysPressed[combId].TimeSpanList[0].Ticks, Is.EqualTo(100));
-        }
         
-        [Test]
-        public void PRESSING_TWO_KEYS_WITH_A_3_SECOND_GAP_FINISHES_THE_SESSION()
-        {
-            int waitInSeconds = 3;
-            kbRec.SendKeyToCurrentSession('A', 0);
-            Thread.Sleep(1000 * waitInSeconds);
-            kbRec.SendKeyToCurrentSession('B', TimeSpan.TicksPerSecond * waitInSeconds);
-
-            int combId = HelperFunctions.GetCombinationId('A', 'B');
-
-            Assert.That(kbRec.currentSession.KeysPressed[combId], Is.Null);
-        }
 
 
 

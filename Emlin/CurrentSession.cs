@@ -10,7 +10,7 @@ namespace Emlin
         private char previousKey;
         private long previousTime;
 
-        private Timer timeAlive = new Timer(1500);
+        private Timer timeAlive = new Timer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
         
 
         private SessionState currentState = SessionState.Inactive;
@@ -24,7 +24,7 @@ namespace Emlin
             
         }
 
-        internal void KeyWasPressed(char keyChar, long timeInTicks)
+        public void KeyWasPressed(char keyChar, long timeInTicks)
         {
             timeAlive.Start();
             if (CurrentState.Equals(SessionState.Inactive))

@@ -10,10 +10,8 @@ namespace Emlin
 {
     public class KeyboardRecorder
     {
-        private int DECIMAL_ASCII_OF_FIRST_CHAR = 32;
-
-        private int numberOfInputs;
-        private int numberOfCombinations;
+        private const int DECIMAL_ASCII_OF_FIRST_CHAR = 32;
+ 
 
         private char[] listOfInputs;
         private Dictionary<int, List<char>> dictOfCombinations;
@@ -23,20 +21,12 @@ namespace Emlin
         public Dictionary<int, List<char>> DictOfCombinations { get => dictOfCombinations; set => dictOfCombinations = value; }
 
         public CurrentSession currentSession = new CurrentSession();
-
-        //List<long> ticks = new List<long>();
-        //List<long> timeDif = new List<long>();
-        //List<long> timeDifInMillis = new List<long>();
-        //Tuple<char, long> dict
+        
         public KeyboardRecorder()
         {
-            numberOfInputs = 128 - 32;
-            numberOfCombinations = numberOfInputs * numberOfInputs;
-            // Number of combinations is the number of inputs squared
-            //numberOfCombinations = numberOfInputs * numberOfInputs;
 
-            ListOfInputs = new char[numberOfInputs];
-            DictOfCombinations = new Dictionary<int, List<char>>();
+            listOfInputs = new char[ConstantValues.NUMBER_OF_INPUTS];
+            dictOfCombinations = new Dictionary<int, List<char>>();
             PopulateListOfInputs();
             PopulateListOfCombinations();
 
@@ -44,7 +34,7 @@ namespace Emlin
 
         private void PopulateListOfInputs()
         {
-            for (int i = 0; i < numberOfInputs; i++)
+            for (int i = 0; i < ConstantValues.NUMBER_OF_INPUTS; i++)
             {
                 listOfInputs[i] = (char)(i + DECIMAL_ASCII_OF_FIRST_CHAR);
             }
@@ -53,12 +43,12 @@ namespace Emlin
         private void PopulateListOfCombinations()
         {
             int index;
-            for (int i = 0; i < numberOfInputs; i++)
+            for (int i = 0; i < ConstantValues.NUMBER_OF_INPUTS; i++)
             {
-                for (int n = 0; n < numberOfInputs; n++)
+                for (int n = 0; n < ConstantValues.NUMBER_OF_INPUTS; n++)
                 {
-                    index = i * numberOfInputs + n;
-                    DictOfCombinations.Add(index, new List<char>() { ListOfInputs[i], ListOfInputs[n] });
+                    index = i * ConstantValues.NUMBER_OF_INPUTS + n;
+                    dictOfCombinations.Add(index, new List<char>() { ListOfInputs[i], ListOfInputs[n] });
                 }
             }
         }

@@ -1,0 +1,7 @@
+﻿
+namespace Emlin
+{
+    class TimeToFileRecorder
+    {
+    }
+}

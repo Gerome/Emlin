@@ -10,5 +10,6 @@ namespace Emlin
     {
         public const int NUMBER_OF_INPUTS = 96;
         public const int NUMBER_OF_COOMBINATIONS = NUMBER_OF_INPUTS * NUMBER_OF_INPUTS;
+        public const int LENGTH_OF_SESSION_IN_MILLIS = 1500;
     }
 }
