@@ -12,22 +12,24 @@ namespace EmlinTests
     {
         char[] listOfInputs;
         Dictionary<int, List<char>> dictOfCombinations;
-        //List<char> listOfKeysEntered;
         KeyboardRecorder kbRec = new KeyboardRecorder();
 
 
         //private int DECIMAL_ASCII_OF_FIRST_CHAR = 32;
         //private int DECIMAL_ASCII_OF_LAST_CHAR  = 128;
-        private const int NUMBER_OF_INPUTS            = 96;
-        private const int NUMBER_OF_COOMBINATIONS     = NUMBER_OF_INPUTS * NUMBER_OF_INPUTS;
 
-        public EmlinKeyboardTests()
-        {
-            
+        
+        [SetUp]
+        public void Init()
+        {    
             listOfInputs = kbRec.ListOfInputs;
             dictOfCombinations = kbRec.DictOfCombinations;
-            //listOfKeysEntered = kbRec.KeysEntered;
-            
+        }
+
+        [TearDown]
+        public void Dispose()
+        {
+            kbRec.currentSession.EndSession();
         }
 
         [Test]
@@ -39,7 +41,7 @@ namespace EmlinTests
         [Test]
         public void LIST_OF_INPUTS_SHOULD_BE_96_CHARACTERS_IN_LENGTH()
         {
-            Assert.That(listOfInputs.Length, Is.EqualTo(NUMBER_OF_INPUTS));
+            Assert.That(listOfInputs.Length, Is.EqualTo(ConstantValues.NUMBER_OF_INPUTS));
         }
 
         [Test]
@@ -51,7 +53,7 @@ namespace EmlinTests
         [Test]
         public void LAST_CHARACTER_IN_LIST_OF_INPUTS_SHOULD_BE_THE_DELETE_CHARACTER()
         {
-            Assert.That(listOfInputs[NUMBER_OF_INPUTS - 1], Is.EqualTo('\u007f'));
+            Assert.That(listOfInputs[ConstantValues.NUMBER_OF_INPUTS - 1], Is.EqualTo('\u007f'));
         }
 
         [Test]
@@ -63,51 +65,92 @@ namespace EmlinTests
         [Test]
         public void LIST_OF_COMBINATIONS_SHOULD_BE_9216_IN_LENGTH()
         {
-            Assert.That(dictOfCombinations.Count, Is.EqualTo(NUMBER_OF_COOMBINATIONS));
+            Assert.That(dictOfCombinations.Count, Is.EqualTo(ConstantValues.NUMBER_OF_COOMBINATIONS));
         }
 
         [Test]
         public void FIRST_VALUE_IN_COMBINATIONS_SHOULD_SPACE_SPACE()
-        {
-            
+        {  
             Assert.That(dictOfCombinations[0], Is.EqualTo(new List<char>() { ' ', ' ' }));
         }
 
         [Test]
         public void LAST_VALUE_IN_COMBINATIONS_SHOULD_SPACE_SPACE()
         {
-            Assert.That(dictOfCombinations[NUMBER_OF_COOMBINATIONS - 1], Is.EqualTo(new List<char>() { '\u007f', '\u007f' }));
+            Assert.That(dictOfCombinations[ConstantValues.NUMBER_OF_COOMBINATIONS - 1], Is.EqualTo(new List<char>() { '\u007f', '\u007f' }));
         }
 
         [Test]
         public void PRESSING_TWO_KEYS_CREATES_COMBINATION_OBJECT()
         {
- 
-
             int combId = HelperFunctions.GetCombinationId('A', 'B');
             KeyCombination keyComb = new KeyCombination(combId);
             keyComb.AddTimespanToList(new TimeSpan(300000));
 
-            Assert.That(keyComb.TimeSpanList[0], Is.EqualTo(new TimeSpan(300000)));
+            Assert.That(keyComb.TimeSpanList[0].Ticks, Is.EqualTo(300000));
+        }
+
+
+        [Test]
+        public void PRESSING_TWO_KEYS_ADDS_ONE_COMBINATION_TO_THE_TIMESPAN_LIST()
+        {
+            kbRec.SendKeyToCurrentSession('A', 100);
+            kbRec.SendKeyToCurrentSession('B', 200);
+
+            int combId = HelperFunctions.GetCombinationId('A', 'B');
+
+            Assert.That(kbRec.currentSession.KeysPressed[combId].TimeSpanList.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void CURRENT_SESSION_IS_INACTIVE_BY_DEFAULT()
+        {
+            Assert.That(kbRec.currentSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Inactive));
+        }
+
+        [Test]
+        public void PRESSING_A_KEY_SETS_THE_STATE_OF_THE_SESSION_TO_ACTIVE()
+        {
+            kbRec.SendKeyToCurrentSession('A', 100);
+            Assert.That(kbRec.currentSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Active));
+        }
+
+        [Test]
+        public void PRESSING_2_KEY_SETS_THE_STATE_OF_THE_SESSION_TO_ACTIVE()
+        {
+            kbRec.SendKeyToCurrentSession('A', 100);
+            kbRec.SendKeyToCurrentSession('B', 200);
+            Assert.That(kbRec.currentSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Active));
         }
 
         [Test]
         public void PRESSING_TWO_KEYS_ADDS_A_COMBINATION_OBJECT_TO_THE_CURRENT_SESSION_COMBINATION_LIST()
         {
-            kbRec.Keypressed(this, new KeyPressEventArgs('A'));
-            Thread.Sleep(new TimeSpan(30000000));
-            kbRec.Keypressed(this, new KeyPressEventArgs('B'));
+            kbRec.SendKeyToCurrentSession('A', 100);
+            kbRec.SendKeyToCurrentSession('B', 200);
 
             int combId = HelperFunctions.GetCombinationId('A', 'B');
 
-            Assert.That(CurrentSession.Instance.KeysPressed[combId].TimeSpanList[0].Ticks, Is.EqualTo(30000000).Within(100000));
+            Assert.That(kbRec.currentSession.KeysPressed[combId].TimeSpanList[0].Ticks, Is.EqualTo(100));
+        }
+        
+        [Test]
+        public void PRESSING_TWO_KEYS_WITH_A_3_SECOND_GAP_FINISHES_THE_SESSION()
+        {
+            int waitInSeconds = 3;
+            kbRec.SendKeyToCurrentSession('A', 0);
+            Thread.Sleep(1000 * waitInSeconds);
+            kbRec.SendKeyToCurrentSession('B', TimeSpan.TicksPerSecond * waitInSeconds);
+
+            int combId = HelperFunctions.GetCombinationId('A', 'B');
+
+            Assert.That(kbRec.currentSession.KeysPressed[combId], Is.Null);
         }
 
 
 
         /*
-            * --TEST LIST--
-            * TWO KEYS PRESSED IN LESS THAN 1.5(?) SECONDS SHOULD NOT RECORD THE DIFFERENCE
-            */
+        * --TEST LIST--
+        */
     }
 }
