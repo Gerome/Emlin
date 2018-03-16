@@ -10,8 +10,6 @@ namespace Emlin
 {
     public class KeyboardRecorder
     {
-        private const int DECIMAL_ASCII_OF_FIRST_CHAR = 32;
- 
 
         private char[] listOfInputs;
         private Dictionary<int, List<char>> dictOfCombinations;
@@ -20,7 +18,7 @@ namespace Emlin
         public char[] ListOfInputs { get => listOfInputs; set => listOfInputs = value; }
         public Dictionary<int, List<char>> DictOfCombinations { get => dictOfCombinations; set => dictOfCombinations = value; }
 
-        public CurrentSession currentSession = new CurrentSession();
+       
         
         public KeyboardRecorder()
         {
@@ -36,7 +34,7 @@ namespace Emlin
         {
             for (int i = 0; i < ConstantValues.NUMBER_OF_INPUTS; i++)
             {
-                listOfInputs[i] = (char)(i + DECIMAL_ASCII_OF_FIRST_CHAR);
+                listOfInputs[i] = (char)(i);
             }
         }
 
@@ -53,18 +51,6 @@ namespace Emlin
             }
         }
 
-        #region public methods
-
-        public void Keypressed(Object o, KeyPressEventArgs e)
-        {
-            SendKeyToCurrentSession(e.KeyChar, DateTime.Now.Ticks);  
-        }
-
-        public void SendKeyToCurrentSession(char keyChar, long ticks)
-        {
-            currentSession.KeyWasPressed(keyChar, ticks);
-        }
-
-        #endregion
+       
     }
 }

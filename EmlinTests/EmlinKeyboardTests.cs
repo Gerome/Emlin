@@ -14,10 +14,6 @@ namespace EmlinTests
         Dictionary<int, List<char>> dictOfCombinations;
         KeyboardRecorder kbRec = new KeyboardRecorder();
 
-
-        //private int DECIMAL_ASCII_OF_FIRST_CHAR = 32;
-        //private int DECIMAL_ASCII_OF_LAST_CHAR  = 128;
-
         
         [SetUp]
         public void Init()
@@ -25,9 +21,7 @@ namespace EmlinTests
             listOfInputs = kbRec.ListOfInputs;
             dictOfCombinations = kbRec.DictOfCombinations;
         }
-
-        
-
+   
         [Test]
         public void KEYBOARD_RECORDER_SHOULD_CREATE_AN_ARRAY_OF_LIST_OF_INPUTS()
         {
@@ -43,7 +37,7 @@ namespace EmlinTests
         [Test]
         public void FIRST_CHARACTER_IN_LIST_OF_INPUTS_SHOULD_BE_THE_SPACE_CHARACTER()
         {
-            Assert.That(listOfInputs[0], Is.EqualTo((char)Keys.Space));
+            Assert.That(listOfInputs[32], Is.EqualTo((char)Keys.Space));
         }
 
         [Test]
@@ -67,7 +61,7 @@ namespace EmlinTests
         [Test]
         public void FIRST_VALUE_IN_COMBINATIONS_SHOULD_SPACE_SPACE()
         {  
-            Assert.That(dictOfCombinations[0], Is.EqualTo(new List<char>() { ' ', ' ' }));
+            Assert.That(dictOfCombinations[4128], Is.EqualTo(new List<char>() { ' ', ' ' }));
         }
 
         [Test]
@@ -85,14 +79,5 @@ namespace EmlinTests
 
             Assert.That(keyComb.TimeSpanList[0].Ticks, Is.EqualTo(300000));
         }
-
-
-        
-
-
-
-        /*
-        * --TEST LIST--
-        */
     }
 }

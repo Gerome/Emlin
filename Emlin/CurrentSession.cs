@@ -9,24 +9,23 @@ namespace Emlin
         private KeyCombination[] keysPressed = new KeyCombination[96 * 96];
         private char previousKey;
         private long previousTime;
-
-        private Timer timeAlive = new Timer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
         
-
         private SessionState currentState = SessionState.Inactive;
         public SessionState CurrentState { get => currentState; }
         public enum SessionState { Active , Inactive };
         public KeyCombination[] KeysPressed { get => keysPressed; set => keysPressed = value; }
 
-        public CurrentSession()
+        private ITimerInterface timer;
+
+        public CurrentSession(ITimerInterface timer)
         {
-            timeAlive.Elapsed += TimerCountdown;
-            
+            this.timer = timer;
+            timer.Elapsed += TimerCountdown;     
         }
 
         public void KeyWasPressed(char keyChar, long timeInTicks)
         {
-            timeAlive.Start();
+            timer.Start();
             if (CurrentState.Equals(SessionState.Inactive))
             {
                 previousKey = keyChar;
@@ -37,9 +36,8 @@ namespace Emlin
             {
                 int combId = HelperFunctions.GetCombinationId(previousKey, keyChar);
 
-                KeyCombination keyComb = KeysPressed[combId];
-
-                if (keyComb == null)
+  
+                if (KeysPressed[combId] == null)
                 {
                     KeysPressed[combId] = new KeyCombination(combId);
                 }
@@ -54,11 +52,13 @@ namespace Emlin
         {
             currentState = SessionState.Inactive;
             keysPressed = new KeyCombination[96 * 96];
-            timeAlive.Enabled = false;
+            timer.Enabled = false;
         }
 
         private void TimerCountdown(object sender, ElapsedEventArgs e)
         {
+            TimeToFileRecorder ttfRec = new TimeToFileRecorder();
+            ttfRec.WriteRecordedDataToFile(keysPressed, ConstantValues.keyboardDataFilepath);
             EndSession();
         }
     }

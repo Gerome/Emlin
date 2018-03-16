@@ -57,6 +57,7 @@
     <Compile Include="EmlinKeyboardTests.cs" />
     <Compile Include="HelperFunctionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimerFake.cs" />
     <Compile Include="TimeToFileRecorderTests.cs" />
   </ItemGroup>
   <ItemGroup>
