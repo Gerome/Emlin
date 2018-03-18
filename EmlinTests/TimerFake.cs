@@ -35,7 +35,7 @@ namespace EmlinTests
 
         public void Start()
         {
-
+            timeElapsed = 0;
         }
 
 

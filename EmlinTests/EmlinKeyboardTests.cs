@@ -1,9 +1,7 @@
 ﻿using NUnit.Framework;
 using Emlin;
 using System.Windows.Forms;
-using System;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace EmlinTests
 {
@@ -70,14 +68,6 @@ namespace EmlinTests
             Assert.That(dictOfCombinations[ConstantValues.NUMBER_OF_COOMBINATIONS - 1], Is.EqualTo(new List<char>() { '\u007f', '\u007f' }));
         }
 
-        [Test]
-        public void PRESSING_TWO_KEYS_CREATES_COMBINATION_OBJECT()
-        {
-            int combId = HelperFunctions.GetCombinationId('A', 'B');
-            KeyCombination keyComb = new KeyCombination(combId);
-            keyComb.AddTimespanToList(new TimeSpan(300000));
-
-            Assert.That(keyComb.TimeSpanList[0].Ticks, Is.EqualTo(300000));
-        }
+       
     }
 }

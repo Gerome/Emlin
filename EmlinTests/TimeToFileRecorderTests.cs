@@ -15,9 +15,13 @@ namespace EmlinTests
         [SetUp]
         public void Init()
         {
-            fileSystem.AddDirectory(@"D:\File\");
-            fileSystem.AddFile(@"KeyboardData.txt", "");
             ttfRecorder = new TimeToFileRecorder(fileSystem);
+        }
+
+        [TearDown]
+        public void Dispose()
+        {
+            fileSystem.File.Delete(@"KeyboardData.txt");
         }
 
         [Test]
@@ -38,16 +42,14 @@ namespace EmlinTests
         [Test]
         public void CALLING_WRITE_TO_FILE_SHOULD_ADD_CALCULATED_ID_AND_TIME_TO_FILE()
         {
-            int firstKeyCombId = HelperFunctions.GetCombinationId('a', '3');
-            int secondKeyCombId = HelperFunctions.GetCombinationId('G', 'B');
 
-            KeyCombination firstKeyComb = new KeyCombination(firstKeyCombId);
-            KeyCombination secondKeyComb = new KeyCombination(secondKeyCombId);
+            KeyCombination firstKeyComb = new KeyCombination(0);
+            KeyCombination secondKeyComb = new KeyCombination(1);
 
-            keyCombinations = new KeyCombination[2];
             firstKeyComb.AddTimespanToList(new TimeSpan(200000));
             secondKeyComb.AddTimespanToList(new TimeSpan(300000));
 
+            keyCombinations = new KeyCombination[2];
             keyCombinations[0] = firstKeyComb;
             keyCombinations[1] = secondKeyComb;
 
@@ -55,16 +57,41 @@ namespace EmlinTests
 
             string textContents = fileSystem.GetFile(@"D:\File\KeyboardData.txt").TextContents;
 
-            Assert.That(textContents, Does.Contain($"{firstKeyCombId}, 200000;\r\n"));
-            Assert.That(textContents, Does.Contain($"{secondKeyCombId}, 300000;\r\n"));
+            Assert.That(textContents, Does.Contain("0, 200000;\r\n"));
+            Assert.That(textContents, Does.Contain("1, 300000;\r\n"));
         }
 
         [Test]
-        public void WRITTING_TO_FILE_SHOULD_CATCH_NULL_KEY_COMBINATION_OBJECTS()
+        public void CALLING_WRITE_TO_FILE_WITH_SAME_COMBINATION_SHOULD_ADD_TIMES_TO_SAME_LINE()
+        {
+
+            KeyCombination keyComb = new KeyCombination(4);
+
+            keyComb.AddTimespanToList(new TimeSpan(200000));
+            keyComb.AddTimespanToList(new TimeSpan(300000));
+
+            keyCombinations = new KeyCombination[1];
+            keyCombinations[0] = keyComb;
+
+            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
+
+            string textContents = fileSystem.GetFile(@"D:\File\KeyboardData.txt").TextContents;
+
+            Assert.That(textContents, Does.Contain("4, 200000, 300000;\r\n"));
+        }
+
+        [Test]
+        public void WRITING_TO_FILE_SHOULD_CATCH_NULL_KEY_COMBINATION_OBJECTS()
         {
             keyCombinations = new KeyCombination[1];
             keyCombinations[0] = null;     
             ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
+        }
+
+        [Test]
+        public void WRITING_TO_A_DIRECTORY_THAT_DOESNT_EXIST_SHOULD_CREATE_THE_DIRECTORY()
+        {
+            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\FileDoesntExist\");
         }
     }
 }

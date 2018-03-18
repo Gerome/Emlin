@@ -19,12 +19,21 @@ namespace Emlin
 
         public void WriteRecordedDataToFile(KeyCombination[] keyCombinations, string filepath)
         {
+            fileSystem.Directory.CreateDirectory(filepath);
+
             string textToWrite = "";
             foreach (KeyCombination keyComb in keyCombinations)
             {
                if (keyComb != null)
                {
-                    textToWrite += String.Format("{0}, {1};", keyComb.CombId, keyComb.TimeSpanList[0].Ticks);
+                    textToWrite += String.Format("{0}", keyComb.CombId);
+
+                    foreach (TimeSpan time in keyComb.TimeSpanList)
+                    {
+                        textToWrite += String.Format(", {0}", time.Ticks);
+                    }
+
+                    textToWrite += ";";
                     textToWrite += Environment.NewLine;
                }
 

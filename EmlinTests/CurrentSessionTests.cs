@@ -64,6 +64,18 @@ namespace EmlinTests
         }
 
         [Test]
+        public void PRESSING_3_KEY_WITH_1_SECOND_DELAY_KEEPS_SESSION_ACTIVE()
+        {
+            PressKey('A');
+            Wait(SecondsToTicks(1));
+            PressKey('B');
+            Wait(SecondsToTicks(1));
+            PressKey('C');
+            Wait(SecondsToTicks(1));
+            Assert.That(testSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Active));
+        }
+
+        [Test]
         public void PRESSING_A_KEY_AND_WAITING_2_SECONDS_SHOWS_THE_SESSION_IS_INACTIVE()
         {
             PressKey('A');
@@ -84,6 +96,21 @@ namespace EmlinTests
             Assert.That(testSession.KeysPressed[combId].TimeSpanList[0].Ticks, Is.EqualTo(100));
         }
 
+        [Test]
+        public void PRESSING_THREE_KEYS_ADDS_A_COMBINATION_OBJECT_TO_THE_CURRENT_SESSION_COMBINATION_LIST()
+        {
+            PressKey('A');
+            Wait(100);
+            PressKey('B');
+            Wait(100);
+            PressKey('C');
+
+            int firstCombId = HelperFunctions.GetCombinationId('A', 'B');
+            int secondCombId = HelperFunctions.GetCombinationId('B', 'C');
+
+            Assert.That(testSession.KeysPressed[firstCombId].TimeSpanList[0].Ticks, Is.EqualTo(100));
+            Assert.That(testSession.KeysPressed[secondCombId].TimeSpanList[0].Ticks, Is.EqualTo(100));
+        }
 
         [Test]
         public void PRESSING_TWO_KEYS_WITH_A_2_SECOND_GAP_FINISHES_THE_SESSION()

@@ -19,7 +19,7 @@ namespace Emlin
         public Form1()
         {
             InitializeComponent();
-            CustomTimer timer = (CustomTimer)new System.Timers.Timer();
+            ITimerInterface timer = new CustomTimer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
 
             currentSession = new CurrentSession(timer);
             this.KeyPress += new KeyPressEventHandler(Keypressed);
