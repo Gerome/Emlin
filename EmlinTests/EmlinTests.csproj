@@ -59,6 +59,7 @@
     <Compile Include="KeyCombinationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimerFake.cs" />
+    <Compile Include="TimeToFileReaderTests.cs" />
     <Compile Include="TimeToFileRecorderTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,6 @@ namespace Emlin
         void Start();
 
         void Stop();
-
-        void AddToElapsed(long timeToWait);
+        
     }
 }

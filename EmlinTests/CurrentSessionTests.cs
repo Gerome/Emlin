@@ -11,7 +11,7 @@ namespace EmlinTests
 {
     class CurrentSessionTests
     {
-        ITimerInterface timerFake;
+        TimerFake timerFake;
 
         CurrentSession testSession;
 
