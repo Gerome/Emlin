@@ -15,7 +15,8 @@ namespace EmlinTests
         [SetUp]
         public void Init()
         {
-            ttfRecorder = new TimeToFileRecorder(fileSystem);
+            ttfRecorder = new TimeToFileRecorder();
+            ttfRecorder.AddFileSystem(fileSystem);
         }
 
         [TearDown]
@@ -36,7 +37,7 @@ namespace EmlinTests
 
             ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
 
-            Assert.That(fileSystem.GetFile(@"D:\File\KeyboardData.txt").TextContents, Does.Contain("0, 300000;\r\n"));
+            Assert.That(fileSystem.GetFile(@"D:\File\KeyboardData.txt").TextContents, Does.Contain("0, 300000\r\n"));
         }
 
         [Test]
@@ -57,8 +58,8 @@ namespace EmlinTests
 
             string textContents = fileSystem.GetFile(@"D:\File\KeyboardData.txt").TextContents;
 
-            Assert.That(textContents, Does.Contain("0, 200000;\r\n"));
-            Assert.That(textContents, Does.Contain("1, 300000;\r\n"));
+            Assert.That(textContents, Does.Contain("0, 200000\r\n"));
+            Assert.That(textContents, Does.Contain("1, 300000\r\n"));
         }
 
         [Test]
@@ -77,7 +78,7 @@ namespace EmlinTests
 
             string textContents = fileSystem.GetFile(@"D:\File\KeyboardData.txt").TextContents;
 
-            Assert.That(textContents, Does.Contain("4, 200000, 300000;\r\n"));
+            Assert.That(textContents, Does.Contain("4, 200000, 300000\r\n"));
         }
 
         [Test]
