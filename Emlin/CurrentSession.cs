@@ -1,25 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 
 namespace Emlin
 {
     public class CurrentSession
     {
-        private KeyCombination[] keysPressed = new KeyCombination[ConstantValues.NUMBER_OF_COOMBINATIONS];
+        private List<KeyCombination> keysPressed = Enumerable.Repeat<KeyCombination>(null, ConstantValues.NUMBER_OF_COOMBINATIONS).ToList();
         private char previousKey;
         private long previousTime;
         
         private SessionState currentState = SessionState.Inactive;
         public SessionState CurrentState { get => currentState; }
         public enum SessionState { Active , Inactive };
-        public KeyCombination[] KeysPressed { get => keysPressed; set => keysPressed = value; }
+
+        public List<KeyCombination> KeysPressed { get => keysPressed; set => keysPressed = value; }
 
         private ITimerInterface timer;
 
         public CurrentSession(ITimerInterface timer)
         {
-            this.timer = timer;
-            timer.Elapsed += TimerCountdown;     
+            this.timer = timer;    
         }
 
         public void KeyWasPressed(char keyChar, long timeInTicks)
@@ -29,6 +31,7 @@ namespace Emlin
             if (CurrentState.Equals(SessionState.Inactive))
             {
                 currentState = SessionState.Active;
+                
             }
             else
             {
@@ -49,24 +52,23 @@ namespace Emlin
             previousTime = timeInTicks;
         }
 
+        public void End()
+        {
+            currentState = SessionState.Inactive;
+            ResetKeysPressedList();
+            timer.Enabled = false;
+        }
+
         private void ResetTimer()
         {
             timer.Stop();
             timer.Start();
         }
 
-        public void EndSession()
+        private void ResetKeysPressedList()
         {
-            currentState = SessionState.Inactive;
-            keysPressed = new KeyCombination[ConstantValues.NUMBER_OF_COOMBINATIONS];
-            timer.Enabled = false;
+            keysPressed = Enumerable.Repeat<KeyCombination>(null, ConstantValues.NUMBER_OF_COOMBINATIONS).ToList();
         }
 
-        private void TimerCountdown(object sender, ElapsedEventArgs e)
-        {
-            TimeToFileRecorder ttfRec = new TimeToFileRecorder();
-            ttfRec.WriteRecordedDataToFile(keysPressed, ConstantValues.KEYBOARD_DATA_FILEPATH);
-            EndSession();
-        }
     }
 }

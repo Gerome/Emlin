@@ -8,16 +8,10 @@ using System.Timers;
 namespace Emlin
 {
     class CustomTimer : Timer, ITimerInterface
-    {
-
+    {     
         public CustomTimer(double interval)
         {
             this.Interval = interval;
-        }
-
-        public void AddToElapsed(long whatever)
-        {
-
-        }
+        }     
     }
 }

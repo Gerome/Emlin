@@ -8,7 +8,7 @@ namespace EmlinTests
 {
     class TimeToFileRecorderTests
     {
-        private KeyCombination[] keyCombinations;
+        private List<KeyCombination> keyCombinations = new List<KeyCombination>();
         private MockFileSystem fileSystem = new MockFileSystem();
         private TimeToFileRecorder ttfRecorder;
 
@@ -28,12 +28,11 @@ namespace EmlinTests
         [Test]
         public void CALLING_WRITE_TO_FILE_SHOULD_ADD_CURRENT_DATA_TO_FILE()
         {
-            KeyCombination keyComb = new KeyCombination(0);
 
-            keyCombinations = new KeyCombination[1];
+            KeyCombination keyComb = new KeyCombination(0);
             keyComb.AddTimespanToList(new TimeSpan(300000));
 
-            keyCombinations[0] = keyComb;
+            keyCombinations.Add(keyComb);  
 
             ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
 
@@ -50,9 +49,8 @@ namespace EmlinTests
             firstKeyComb.AddTimespanToList(new TimeSpan(200000));
             secondKeyComb.AddTimespanToList(new TimeSpan(300000));
 
-            keyCombinations = new KeyCombination[2];
-            keyCombinations[0] = firstKeyComb;
-            keyCombinations[1] = secondKeyComb;
+            keyCombinations.Add(firstKeyComb);
+            keyCombinations.Add(secondKeyComb);
 
             ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
 
@@ -71,8 +69,8 @@ namespace EmlinTests
             keyComb.AddTimespanToList(new TimeSpan(200000));
             keyComb.AddTimespanToList(new TimeSpan(300000));
 
-            keyCombinations = new KeyCombination[1];
-            keyCombinations[0] = keyComb;
+            keyCombinations.Add(keyComb);
+
 
             ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
 
@@ -84,8 +82,7 @@ namespace EmlinTests
         [Test]
         public void WRITING_TO_FILE_SHOULD_CATCH_NULL_KEY_COMBINATION_OBJECTS()
         {
-            keyCombinations = new KeyCombination[1];
-            keyCombinations[0] = null;     
+            keyCombinations.Add(null);     
             ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
         }
 

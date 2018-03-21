@@ -6,7 +6,6 @@ namespace Emlin
 {
     public interface ITimerInterface
     {
-        event ElapsedEventHandler Elapsed;
 
         bool Enabled { get; set; }
 

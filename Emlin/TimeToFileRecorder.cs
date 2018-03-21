@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 
@@ -13,9 +14,10 @@ namespace Emlin
             this.fileSystem = new FileSystem();
         }
 
-        public void WriteRecordedDataToFile(KeyCombination[] keyCombinations, string filepath)
+        public void WriteRecordedDataToFile(List<KeyCombination> keyCombinations, string filepath)
         {
-            fileSystem.Directory.CreateDirectory(filepath);
+            fileSystem.Directory.CreateDirectory(filepath);   
+
 
             string textToWrite = "";
             foreach (KeyCombination keyComb in keyCombinations)
@@ -36,8 +38,7 @@ namespace Emlin
                 {
                     textToWrite += String.Format(", {0}", time.Ticks);
                 }
-
-                //textToWrite += ";";
+               
                 textToWrite += Environment.NewLine;
             }
 

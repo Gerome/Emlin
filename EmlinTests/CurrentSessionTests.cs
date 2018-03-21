@@ -28,7 +28,7 @@ namespace EmlinTests
         [TearDown]
         public void Dispose()
         {
-            testSession.EndSession();
+            testSession.End();
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace EmlinTests
         private void Wait(long timeToWait)
         {
             timeElapsed += timeToWait;
-            timerFake.AddToElapsed(timeToWait);
+            timerFake.AddToElapsed(timeToWait, testSession);
         }
 
         private long SecondsToTicks(int seconds)

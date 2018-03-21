@@ -19,22 +19,31 @@ namespace Emlin
         public Form1()
         {
             InitializeComponent();
-            ITimerInterface timer = new CustomTimer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
+            CustomTimer timer = new CustomTimer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
+            timer.Elapsed += TimerCountdown;
+
+            this.KeyPress += new KeyPressEventHandler(Keypressed);
 
             currentSession = new CurrentSession(timer);
-            this.KeyPress += new KeyPressEventHandler(Keypressed);
         }
 
-        #region public methods
+        #region methods
 
-        public void Keypressed(Object o, KeyPressEventArgs e)
+        private void SendKeyToCurrentSession(char keyChar, long ticks)
+        {
+            currentSession.KeyWasPressed(keyChar, ticks);
+        }
+
+        void Keypressed(Object o, KeyPressEventArgs e)
         {
             SendKeyToCurrentSession(e.KeyChar, DateTime.Now.Ticks);
         }
 
-        public void SendKeyToCurrentSession(char keyChar, long ticks)
+        void TimerCountdown(object sender, ElapsedEventArgs e)
         {
-            currentSession.KeyWasPressed(keyChar, ticks);
+            TimeToFileRecorder ttfRec = new TimeToFileRecorder();
+            ttfRec.WriteRecordedDataToFile(currentSession.KeysPressed, ConstantValues.KEYBOARD_DATA_FILEPATH);
+            currentSession.End();
         }
 
         #endregion
