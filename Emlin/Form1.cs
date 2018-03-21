@@ -29,11 +29,6 @@ namespace Emlin
 
         #region methods
 
-        private void SendKeyToCurrentSession(char keyChar, long ticks)
-        {
-            currentSession.KeyWasPressed(keyChar, ticks);
-        }
-
         void Keypressed(Object o, KeyPressEventArgs e)
         {
             SendKeyToCurrentSession(e.KeyChar, DateTime.Now.Ticks);
@@ -44,6 +39,11 @@ namespace Emlin
             TimeToFileRecorder ttfRec = new TimeToFileRecorder();
             ttfRec.WriteRecordedDataToFile(currentSession.KeysPressed, ConstantValues.KEYBOARD_DATA_FILEPATH);
             currentSession.End();
+        }
+
+        private void SendKeyToCurrentSession(char keyChar, long ticks)
+        {
+            currentSession.KeyWasPressed(keyChar, ticks);
         }
 
         #endregion

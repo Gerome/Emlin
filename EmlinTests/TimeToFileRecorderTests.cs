@@ -17,66 +17,58 @@ namespace EmlinTests
         {
             ttfRecorder = new TimeToFileRecorder();
             ttfRecorder.AddFileSystem(fileSystem);
+
+            SetUpTestData();
+        }
+
+        KeyCombination keyComb;
+        KeyCombination secondKeyComb;
+        string textContents;
+
+        private void SetUpTestData()
+        {
+            keyComb = new KeyCombination(0);
+            keyComb.AddTimespanToList(new TimeSpan(200000));
+            keyComb.AddTimespanToList(new TimeSpan(999999));
+
+            secondKeyComb = new KeyCombination(1);
+            secondKeyComb.AddTimespanToList(new TimeSpan(300000));
+
+            keyCombinations.Add(keyComb);
+            keyCombinations.Add(secondKeyComb);
+
+            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
+
+            textContents = fileSystem.GetFile(@"D:\File\KeyboardData.txt").TextContents;
         }
 
         [TearDown]
         public void Dispose()
         {
-            fileSystem.File.Delete(@"KeyboardData.txt");
+
+            fileSystem.File.WriteAllText(@"D:\File\KeyboardData.txt", String.Empty);
+            textContents = "";
         }
 
         [Test]
         public void CALLING_WRITE_TO_FILE_SHOULD_ADD_CURRENT_DATA_TO_FILE()
         {
-
-            KeyCombination keyComb = new KeyCombination(0);
-            keyComb.AddTimespanToList(new TimeSpan(300000));
-
-            keyCombinations.Add(keyComb);  
-
-            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
-
-            Assert.That(fileSystem.GetFile(@"D:\File\KeyboardData.txt").TextContents, Does.Contain("0, 300000\r\n"));
+           
+            Assert.That(textContents, Does.Contain("0, 200000"));
         }
 
         [Test]
         public void CALLING_WRITE_TO_FILE_SHOULD_ADD_CALCULATED_ID_AND_TIME_TO_FILE()
         {
-
-            KeyCombination firstKeyComb = new KeyCombination(0);
-            KeyCombination secondKeyComb = new KeyCombination(1);
-
-            firstKeyComb.AddTimespanToList(new TimeSpan(200000));
-            secondKeyComb.AddTimespanToList(new TimeSpan(300000));
-
-            keyCombinations.Add(firstKeyComb);
-            keyCombinations.Add(secondKeyComb);
-
-            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
-
-            string textContents = fileSystem.GetFile(@"D:\File\KeyboardData.txt").TextContents;
-
-            Assert.That(textContents, Does.Contain("0, 200000\r\n"));
+          
             Assert.That(textContents, Does.Contain("1, 300000\r\n"));
         }
 
         [Test]
         public void CALLING_WRITE_TO_FILE_WITH_SAME_COMBINATION_SHOULD_ADD_TIMES_TO_SAME_LINE()
         {
-
-            KeyCombination keyComb = new KeyCombination(4);
-
-            keyComb.AddTimespanToList(new TimeSpan(200000));
-            keyComb.AddTimespanToList(new TimeSpan(300000));
-
-            keyCombinations.Add(keyComb);
-
-
-            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
-
-            string textContents = fileSystem.GetFile(@"D:\File\KeyboardData.txt").TextContents;
-
-            Assert.That(textContents, Does.Contain("4, 200000, 300000\r\n"));
+           
+            Assert.That(textContents, Does.Contain("0, 200000, 999999\r\n"));
         }
 
         [Test]
