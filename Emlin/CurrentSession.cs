@@ -7,7 +7,7 @@ namespace Emlin
 {
     public class CurrentSession
     {
-        private List<KeyCombination> keysPressed = Enumerable.Repeat<KeyCombination>(null, ConstantValues.NUMBER_OF_COOMBINATIONS).ToList();
+        private List<KeyCombination> keysPressed = new List<KeyCombination>();
         private char previousKey;
         private long previousTime;
         
@@ -38,14 +38,20 @@ namespace Emlin
                 int combId = HelperFunctions.GetCombinationId(previousKey, keyChar);
 
 
-                if (KeysPressed[combId] == null)
+
+                foreach(KeyCombination keyComb in keysPressed)
                 {
-                    KeysPressed[combId] = new KeyCombination(combId);
+                    
+                    if (keyComb.CombId != combId)
+                    {
+                        continue;
+                    }
+                    
                 }
+                KeysPressed.Add(new KeyCombination(combId));
 
                 long difference = timeInTicks - previousTime;
                 KeysPressed[combId].TimeSpanList.Add(new TimeSpan(difference));
-
             }
 
             previousKey = keyChar;
@@ -67,7 +73,7 @@ namespace Emlin
 
         private void ResetKeysPressedList()
         {
-            keysPressed = Enumerable.Repeat<KeyCombination>(null, ConstantValues.NUMBER_OF_COOMBINATIONS).ToList();
+            keysPressed = new List<KeyCombination>();
         }
 
     }

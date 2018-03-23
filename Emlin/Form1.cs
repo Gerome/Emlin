@@ -36,8 +36,13 @@ namespace Emlin
 
         void TimerCountdown(object sender, ElapsedEventArgs e)
         {
+            TimeToFileReader ttfReader = new TimeToFileReader();
+            List<KeyCombination> keyCombinationsInFile = ttfReader.ReadDataToObject(ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt");
+
+            List<KeyCombination> keyCombinationsToWrite = MergeList.MergeKeyboardCombinationList(keyCombinationsInFile, currentSession.KeysPressed);
+
             TimeToFileRecorder ttfRec = new TimeToFileRecorder();
-            ttfRec.WriteRecordedDataToFile(currentSession.KeysPressed, ConstantValues.KEYBOARD_DATA_FILEPATH);
+            ttfRec.WriteRecordedDataToFile(keyCombinationsToWrite, ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt");
             currentSession.End();
         }
 

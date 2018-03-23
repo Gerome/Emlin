@@ -16,7 +16,10 @@ namespace Emlin
 
         public void WriteRecordedDataToFile(List<KeyCombination> keyCombinations, string filepath)
         {
-            fileSystem.Directory.CreateDirectory(filepath);   
+            if (!File.Exists(filepath))
+            {
+                fileSystem.Directory.CreateDirectory(filepath);
+            }
 
 
             string textToWrite = "";
