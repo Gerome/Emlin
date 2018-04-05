@@ -31,6 +31,7 @@ namespace Emlin
             
             CsvReader csvReader = new CsvReader(streamReader);
 
+
             while (csvReader.Read())
             {
                 string combId = csvReader[0];
@@ -48,6 +49,7 @@ namespace Emlin
                 keyCombinations.Add(keyComb);
             }
 
+            streamReader.Close();
 
             return keyCombinations;
         }

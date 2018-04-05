@@ -16,8 +16,8 @@ namespace EmlinTests
         public void Init()
         {
             ttfRecorder = new TimeToFileRecorder();
+            fileSystem.AddDirectory(@"D:\File");
             ttfRecorder.AddFileSystem(fileSystem);
-
             SetUpTestData();
         }
 
@@ -37,17 +37,9 @@ namespace EmlinTests
             keyCombinations.Add(keyComb);
             keyCombinations.Add(secondKeyComb);
 
-            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
+            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\KeyboardData.txt");
 
             textContents = fileSystem.GetFile(@"D:\File\KeyboardData.txt").TextContents;
-        }
-
-        [TearDown]
-        public void Dispose()
-        {
-
-            fileSystem.File.WriteAllText(@"D:\File\KeyboardData.txt", String.Empty);
-            textContents = "";
         }
 
         [Test]
@@ -59,7 +51,7 @@ namespace EmlinTests
 
         [Test]
         public void CALLING_WRITE_TO_FILE_SHOULD_ADD_CALCULATED_ID_AND_TIME_TO_FILE()
-        {
+         {
           
             Assert.That(textContents, Does.Contain("1, 300000\r\n"));
         }
@@ -75,13 +67,14 @@ namespace EmlinTests
         public void WRITING_TO_FILE_SHOULD_CATCH_NULL_KEY_COMBINATION_OBJECTS()
         {
             keyCombinations.Add(null);     
-            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\");
+            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\File\KeyboardData.txt");
         }
 
         [Test]
         public void WRITING_TO_A_DIRECTORY_THAT_DOESNT_EXIST_SHOULD_CREATE_THE_DIRECTORY()
         {
-            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\FileDoesntExist\");
+            ttfRecorder.WriteRecordedDataToFile(keyCombinations, @"D:\FileDoesntExist");
+            Assert.That(fileSystem.FileExists(@"D:\FileDoesntExist"), Is.True);
         }
     }
 }

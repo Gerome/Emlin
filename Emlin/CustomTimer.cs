@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
+﻿
+using System.Windows.Forms;
 
 namespace Emlin
 {
     class CustomTimer : Timer, ITimerInterface
     {     
-        public CustomTimer(double interval)
+        public CustomTimer(int interval)
         {
             this.Interval = interval;
         }     

@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
-using System.Timers;
 
 namespace Emlin
 {
@@ -20,7 +14,7 @@ namespace Emlin
         {
             InitializeComponent();
             CustomTimer timer = new CustomTimer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
-            timer.Elapsed += TimerCountdown;
+            timer.Tick += TimerCountdown;
 
             this.KeyPress += new KeyPressEventHandler(Keypressed);
 
@@ -34,15 +28,19 @@ namespace Emlin
             SendKeyToCurrentSession(e.KeyChar, DateTime.Now.Ticks);
         }
 
-        void TimerCountdown(object sender, ElapsedEventArgs e)
+        void TimerCountdown(object sender, EventArgs e)
         {
+            string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
+
             TimeToFileReader ttfReader = new TimeToFileReader();
-            List<KeyCombination> keyCombinationsInFile = ttfReader.ReadDataToObject(ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt");
+            List<KeyCombination> keyCombinationsInFile = ttfReader.ReadDataToObject(filepath);
 
             List<KeyCombination> keyCombinationsToWrite = MergeList.MergeKeyboardCombinationList(keyCombinationsInFile, currentSession.KeysPressed);
 
+            File.WriteAllText(filepath, String.Empty);
+
             TimeToFileRecorder ttfRec = new TimeToFileRecorder();
-            ttfRec.WriteRecordedDataToFile(keyCombinationsToWrite, ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt");
+            ttfRec.WriteRecordedDataToFile(keyCombinationsToWrite, filepath);
             currentSession.End();
         }
 

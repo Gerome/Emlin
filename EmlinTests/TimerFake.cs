@@ -16,7 +16,7 @@ namespace EmlinTests
 
         public bool Enabled { get; set; }
 
-        public double Interval { get; set; }
+        public int Interval { get; set; }
 
         public void Dispose()
         {

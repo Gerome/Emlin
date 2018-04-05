@@ -25,13 +25,13 @@ namespace Emlin
             string textToWrite = "";
             foreach (KeyCombination keyComb in keyCombinations)
             {
-                textToWrite += AddKeyCombDataLine(textToWrite, keyComb);
+                AddKeyCombDataLine(ref textToWrite, keyComb);
 
             }
-            fileSystem.File.AppendAllText(filepath + @"\KeyboardData.txt", textToWrite);
+            fileSystem.File.AppendAllText(filepath, textToWrite);
         }
 
-        private static string AddKeyCombDataLine(string textToWrite, KeyCombination keyComb)
+        private static string AddKeyCombDataLine(ref string textToWrite, KeyCombination keyComb)
         {
             if (keyComb != null)
             {

@@ -34,7 +34,7 @@ namespace Emlin
                 else {
                   
 
-                    if (firstList[firstListCounter].CombId <= secondList[secondListCounter].CombId)
+                    if (firstList[firstListCounter].CombId < secondList[secondListCounter].CombId)
                     {
                         returnList.Add(firstList[firstListCounter]);
                         firstListCounter++;
@@ -43,6 +43,19 @@ namespace Emlin
                     {
                         returnList.Add(secondList[secondListCounter]);
                         secondListCounter++;
+                    }
+                    else if(firstList[firstListCounter].CombId == secondList[secondListCounter].CombId)
+                    {
+                        
+                        foreach(TimeSpan ts in secondList[secondListCounter].TimeSpanList)
+                        {
+                            firstList[firstListCounter].AddTimespanToList(ts);
+                        }
+
+                        returnList.Add(firstList[firstListCounter]);
+                        firstListCounter++;
+                        secondListCounter++;
+                        i++;
                     }
                 }
             }

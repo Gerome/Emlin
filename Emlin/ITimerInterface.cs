@@ -9,7 +9,7 @@ namespace Emlin
 
         bool Enabled { get; set; }
 
-        double Interval { get; set; }
+        int Interval { get; set; }
 
         void Dispose();
 

@@ -38,20 +38,24 @@ namespace Emlin
                 int combId = HelperFunctions.GetCombinationId(previousKey, keyChar);
 
 
+                long difference = timeInTicks - previousTime;
 
                 foreach(KeyCombination keyComb in keysPressed)
                 {
                     
-                    if (keyComb.CombId != combId)
+                    if (keyComb.CombId == combId)
                     {
-                        continue;
+                        keyComb.AddTimespanToList(new TimeSpan(difference));
+                        previousKey = keyChar;
+                        previousTime = timeInTicks;
+                        return;              
                     }
-                    
                 }
-                KeysPressed.Add(new KeyCombination(combId));
 
-                long difference = timeInTicks - previousTime;
-                KeysPressed[combId].TimeSpanList.Add(new TimeSpan(difference));
+                KeyCombination keyCombToAdd = new KeyCombination(combId);
+                keyCombToAdd.AddTimespanToList(new TimeSpan(difference));
+                KeysPressed.Add(keyCombToAdd);
+
             }
 
             previousKey = keyChar;

@@ -35,10 +35,9 @@ namespace EmlinTests
         public void PRESSING_TWO_KEYS_ADDS_ONE_COMBINATION_TO_THE_TIMESPAN_LIST()
         {
             PressKey('A');
-            Wait(100);
             PressKey('B');
             int combId = HelperFunctions.GetCombinationId('A', 'B');
-            Assert.That(testSession.KeysPressed[combId].TimeSpanList.Count, Is.EqualTo(1));
+            Assert.That(testSession.KeysPressed[0].TimeSpanList.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -93,7 +92,7 @@ namespace EmlinTests
 
             int combId = HelperFunctions.GetCombinationId('A', 'B');
 
-            Assert.That(testSession.KeysPressed[combId].TimeSpanList[0].Ticks, Is.EqualTo(100));
+            Assert.That(testSession.KeysPressed[0].TimeSpanList[0].Ticks, Is.EqualTo(100));
         }
 
         [Test]
@@ -108,8 +107,8 @@ namespace EmlinTests
             int firstCombId = HelperFunctions.GetCombinationId('A', 'B');
             int secondCombId = HelperFunctions.GetCombinationId('B', 'C');
 
-            Assert.That(testSession.KeysPressed[firstCombId].TimeSpanList[0].Ticks, Is.EqualTo(100));
-            Assert.That(testSession.KeysPressed[secondCombId].TimeSpanList[0].Ticks, Is.EqualTo(100));
+            Assert.That(testSession.KeysPressed[0].TimeSpanList[0].Ticks, Is.EqualTo(100));
+            Assert.That(testSession.KeysPressed[1].TimeSpanList[0].Ticks, Is.EqualTo(100));
         }
 
         [Test]
@@ -120,7 +119,43 @@ namespace EmlinTests
             PressKey('B');
             int combId = HelperFunctions.GetCombinationId('A', 'B');
 
-            Assert.That(testSession.KeysPressed[combId], Is.Null);
+            Assert.That(testSession.KeysPressed, Is.Empty);
+        }
+
+        [Test]
+        public void PRESSING_THREE_OF_THE_SAME_KEY_ADDS_A_COMBINATION_OBJECT_TO_THE_CURRENT_SESSION_COMBINATION_LIST_WITH_TWO_IN_THE_TIMESPAN_LIST()
+        {
+            PressKey(' ');
+            Wait(100);
+            PressKey(' ');
+            Wait(100);
+            PressKey(' ');
+
+            int combId = HelperFunctions.GetCombinationId(' ', ' ');
+
+            Assert.That(testSession.KeysPressed[0].TimeSpanList.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void PRESSING_THREE_COMBINATIONS_CREATES_THREE_OBJECTS()
+        {
+            PressKey(' ');
+            Wait(100);
+            PressKey(' ');
+            Wait(100);
+            PressKey('a');
+            Wait(100);
+            PressKey('a');
+
+            int firstCombId = HelperFunctions.GetCombinationId(' ', ' ');
+            int secondCombId = HelperFunctions.GetCombinationId(' ', 'a');
+            int thirdCombId = HelperFunctions.GetCombinationId('a', 'a');
+
+
+            Assert.That(testSession.KeysPressed.Count, Is.EqualTo(3));
+            Assert.That(testSession.KeysPressed[0].TimeSpanList.Count, Is.EqualTo(1));
+            Assert.That(testSession.KeysPressed[1].TimeSpanList.Count, Is.EqualTo(1));
+            Assert.That(testSession.KeysPressed[2].TimeSpanList.Count, Is.EqualTo(1));
         }
 
         private void PressKey(char charPressed)
