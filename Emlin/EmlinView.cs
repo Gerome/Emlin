@@ -59,10 +59,11 @@ namespace Emlin
             string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
             
             List<KeyCombination> keyCombinationsToWrite = currentSession.KeysPressed;
-            TimeToFileRecorder ttfRec = new TimeToFileRecorder();
+            if (keyCombinationsToWrite.Count == 0) return;
 
             List<KeyCombination> sortedKeyCombinationList = keyCombinationsToWrite.OrderBy(x => x.CombId).ToList();
 
+            TimeToFileRecorder ttfRec = new TimeToFileRecorder();
             ttfRec.CreateDirectoryAndFile(filepath);
             ttfRec.PopulateTextFileIfEmpty(filepath);
             ttfRec.WriteRecordedDataToFile(sortedKeyCombinationList, filepath);
