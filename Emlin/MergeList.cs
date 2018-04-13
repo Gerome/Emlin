@@ -10,54 +10,16 @@ namespace Emlin
     {
         public static List<KeyCombination> MergeKeyboardCombinationList(List<KeyCombination> firstList, List<KeyCombination> secondList)
         {
-            int lengthOfBothLists = firstList.Count + secondList.Count;
+            List<KeyCombination> returnList = new List<KeyCombination>();
 
-            List<KeyCombination> returnList = new List<KeyCombination>(lengthOfBothLists);
-
-            int firstListCounter = 0;
-            int secondListCounter = 0;
-
-            for(int i = 0; i < lengthOfBothLists; i++)
+            foreach(KeyCombination keyComb in firstList)
             {
-                if (firstList.Count <= firstListCounter || secondList.Count <= secondListCounter) {
-                    if (firstList.Count <= firstListCounter)
-                    {
-                        returnList.Add(secondList[secondListCounter]);
-                        secondListCounter++;
-                    }
-                    else if (secondList.Count <= secondListCounter)
-                    {
-                        returnList.Add(firstList[firstListCounter]);
-                        firstListCounter++;
-                    }
-                }
-                else {
-                  
+                returnList.Add(firstList[0]);
+            }
 
-                    if (firstList[firstListCounter].CombId < secondList[secondListCounter].CombId)
-                    {
-                        returnList.Add(firstList[firstListCounter]);
-                        firstListCounter++;
-                    }
-                    else if (firstList[firstListCounter].CombId > secondList[secondListCounter].CombId)
-                    {
-                        returnList.Add(secondList[secondListCounter]);
-                        secondListCounter++;
-                    }
-                    else if(firstList[firstListCounter].CombId == secondList[secondListCounter].CombId)
-                    {
-                        
-                        foreach(TimeSpan ts in secondList[secondListCounter].TimeSpanList)
-                        {
-                            firstList[firstListCounter].AddTimespanToList(ts);
-                        }
-
-                        returnList.Add(firstList[firstListCounter]);
-                        firstListCounter++;
-                        secondListCounter++;
-                        i++;
-                    }
-                }
+            foreach (KeyCombination keyComb in secondList)
+            {
+                returnList.Add(secondList[0]);
             }
 
             return returnList;

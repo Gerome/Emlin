@@ -16,36 +16,73 @@ namespace Emlin
 
         public void WriteRecordedDataToFile(List<KeyCombination> keyCombinations, string filepath)
         {
-            if (!File.Exists(filepath))
+            string[] linesInFile = fileSystem.File.ReadAllLines(filepath);
+            int indexOfCurrentKeyComb = 0;
+            KeyCombination currentKeyComb = keyCombinations[indexOfCurrentKeyComb];
+
+            for (int lineIndex = 0; lineIndex < linesInFile.Length; lineIndex++)
             {
-                fileSystem.Directory.CreateDirectory(filepath);
+                if(lineIndex == currentKeyComb.CombId)
+                {
+                    foreach (TimeSpan ts in currentKeyComb.TimeSpanList)
+                    {
+
+                        linesInFile[lineIndex] += ", " + (ts.TotalMilliseconds).ToString();
+                    }
+
+                    indexOfCurrentKeyComb++;
+
+                    if (indexOfCurrentKeyComb != keyCombinations.Count)
+                    {
+                        currentKeyComb = keyCombinations[indexOfCurrentKeyComb];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
 
-
-            string textToWrite = "";
-            foreach (KeyCombination keyComb in keyCombinations)
-            {
-                AddKeyCombDataLine(ref textToWrite, keyComb);
-
-            }
-            fileSystem.File.AppendAllText(filepath, textToWrite);
+            fileSystem.File.WriteAllText(filepath, string.Empty);
+            fileSystem.File.WriteAllLines(filepath, linesInFile);
         }
 
-        private static string AddKeyCombDataLine(ref string textToWrite, KeyCombination keyComb)
+        public void CreateDirectoryAndFile(string filepath)
         {
-            if (keyComb != null)
-            {
-                textToWrite += String.Format("{0}", keyComb.CombId);
+            string directoryPath = Path.GetDirectoryName(filepath);
 
-                foreach (TimeSpan time in keyComb.TimeSpanList)
-                {
-                    textToWrite += String.Format(", {0}", time.Ticks);
-                }
-               
-                textToWrite += Environment.NewLine;
+            if (!fileSystem.Directory.Exists(directoryPath))
+            {
+                fileSystem.Directory.CreateDirectory(directoryPath);
             }
 
-            return textToWrite;
+            if (!fileSystem.File.Exists(filepath))
+            {
+                fileSystem.File.Create(filepath);
+            }
+            
+        }
+
+        public void PopulateTextFileIfEmpty(string filepath)
+        {
+            bool fileIsEmpty = fileSystem.FileInfo.FromFileName(filepath).Length.Equals(0); 
+
+            if (fileIsEmpty)
+            {
+                PopulateTextFileWithIndex(filepath);
+            }
+        }
+
+        private void PopulateTextFileWithIndex(string filepath)
+        {
+            string stringToWrite = "";
+
+            for (int i = 0; i < ConstantValues.NUMBER_OF_COOMBINATIONS; i++)
+            {
+                stringToWrite += i.ToString() + "\r\n";
+            }
+
+            fileSystem.File.AppendAllText(filepath, stringToWrite);
         }
 
         public void AddFileSystem(IFileSystem fileSystem)

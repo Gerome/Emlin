@@ -25,9 +25,7 @@ namespace EmlinTests
             ttfReader = new TimeToFileReader();
             ttfReader.AddFileSystem(fileSystem);
 
-            keyCombActualList = ttfReader.ReadDataToObject(@"C:\file");
-
-            
+            keyCombActualList = ttfReader.ReadDataToObject(@"C:\file");        
         }
 
         [Test]

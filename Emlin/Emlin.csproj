@@ -56,11 +56,11 @@
     <Compile Include="CustomTimer.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="EmlinView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="EmlinView.Designer.cs">
+      <DependentUpon>EmlinView.cs</DependentUpon>
     </Compile>
     <Compile Include="HelperFunctions.cs" />
     <Compile Include="KeyboardRecorder.cs" />
@@ -71,8 +71,8 @@
     <Compile Include="ITimerInterface.cs" />
     <Compile Include="TimeToFileReader.cs" />
     <Compile Include="TimeToFileRecorder.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="EmlinView.resx">
+      <DependentUpon>EmlinView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

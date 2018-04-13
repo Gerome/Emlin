@@ -8,46 +8,56 @@ namespace EmlinTests
     class MergeListTest
     {
 
-        [Test]
-        public void MERGE_LIST_SHOULD_SORT_THE_TWO_LISTS_AND_RETURN_A_LIST()
+        List<KeyCombination> firstList = new List<KeyCombination>();
+        List<KeyCombination> secondList = new List<KeyCombination>();
+
+        KeyCombination keyComb0 = new KeyCombination(0);
+        KeyCombination keyComb1 = new KeyCombination(1);
+        KeyCombination keyComb2 = new KeyCombination(2);
+
+        List<KeyCombination> returnList;
+
+        [SetUp]
+        public void SetUp()
         {
-            List<KeyCombination> firstList = new List<KeyCombination>();
-            List<KeyCombination> secondList = new List<KeyCombination>();
-
-            firstList.Add(new KeyCombination(0));
-            firstList.Add(new KeyCombination(2));
-
-            secondList.Add(new KeyCombination(1));
-
-            List<KeyCombination> returnList = MergeList.MergeKeyboardCombinationList(firstList, secondList);
-
-            Assert.That(returnList[0].CombId, Is.EqualTo(0));
-            Assert.That(returnList[1].CombId, Is.EqualTo(1));
-            Assert.That(returnList[2].CombId, Is.EqualTo(2));
-
+            returnList = new List<KeyCombination>();
+            firstList = new List<KeyCombination>();
+            secondList = new List<KeyCombination>();
         }
 
+        [Test]
+        public void MERGE_LIST_SHOULD_MERGE_TWO_EMPTY_LISTS()
+        {
+            MergeLists();
+            Assert.That(returnList, Is.Not.Null);
+        }
 
         [Test]
-        public void MERGE_LIST_SHOULD_JOIN_TWO_KEY_COMBINATIONS_WITH_THE_SAME_COMBINATION_ID()
+        public void MERGE_LIST_SHOULD_MERGE_TWO_LIST_WHEN_THE_FIRST_HAS_AN_OBJECT()
         {
-            List<KeyCombination> firstList = new List<KeyCombination>();
-            List<KeyCombination> secondList = new List<KeyCombination>();
+            firstList.Add(keyComb0);
+            MergeLists();
+            Assert.That(returnList[0], Is.EqualTo(keyComb0));
+        }
 
+        [Test]
+        public void MERGE_LIST_SHOULD_MERGE_TWO_LIST_WHEN_THE_SECOND_HAS_AN_OBJECT()
+        {
+            secondList.Add(keyComb1);
+            MergeLists();
+            Assert.That(returnList[0], Is.EqualTo(keyComb1));
+        }
+        
 
-            KeyCombination firstKeyComb = new KeyCombination(0);
-            firstKeyComb.AddTimespanToList(new TimeSpan(20));
+        private void MergeLists()
+        {
+            returnList = MergeList.MergeKeyboardCombinationList(firstList, secondList);
+        }
 
-            KeyCombination secondKeyComb = new KeyCombination(0);
-            secondKeyComb.AddTimespanToList(new TimeSpan(10));
-
-            firstList.Add(firstKeyComb);
-            secondList.Add(secondKeyComb);
-
-            List<KeyCombination> returnList = MergeList.MergeKeyboardCombinationList(firstList, secondList);
-
-            Assert.That(returnList[0].TimeSpanList[0].Ticks, Is.EqualTo(20));
-            Assert.That(returnList[0].TimeSpanList[1].Ticks, Is.EqualTo(10));
+        [Test]
+        [Ignore("Test list")]
+        public void DISABLED_TEST_LIST()
+        {
 
         }
     }
