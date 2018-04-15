@@ -8,7 +8,7 @@ namespace Emlin
 {
     public static class HelperFunctions
     {
-        private static int NUMBER_OF_INPUTS = 96;
+        private static int NUMBER_OF_INPUTS = ConstantValues.NUMBER_OF_INPUTS;
 
         public static int GetCombinationId(char firstChar, char secondChar)
         {
