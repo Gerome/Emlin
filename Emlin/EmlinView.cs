@@ -35,6 +35,8 @@ namespace Emlin
 
         public EmlinView()
         {
+            this.WindowState = FormWindowState.Minimized;
+
             InitializeComponent();
 
             _hookID = SetHook(_proc);

@@ -36,7 +36,6 @@ namespace EmlinTests
         {
             PressKey('A');
             PressKey('B');
-            int combId = HelperFunctions.GetCombinationId('A', 'B');
             Assert.That(testSession.KeysPressed[0].TimeSpanList.Count, Is.EqualTo(1));
         }
 
