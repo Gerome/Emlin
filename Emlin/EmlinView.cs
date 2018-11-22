@@ -15,7 +15,7 @@ namespace Emlin
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private static IntPtr _hookID = IntPtr.Zero;
-        private static LowLevelKeyboardProc _proc = HookCallback;
+        private LowLevelKeyboardProc _proc;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
@@ -30,11 +30,15 @@ namespace Emlin
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
 
+        [DllImport("user32.dll")]
+        public static extern int GetKeyState(int nVirtKey);
 
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         public EmlinView()
         {
+            _proc = this.HookCallback;
+
             this.WindowState = FormWindowState.Minimized;
 
             InitializeComponent();
@@ -52,8 +56,8 @@ namespace Emlin
         #region methods
 
         void Keypressed(Object o, KeyPressEventArgs e)
-         {
-            SendKeyToCurrentSession(e.KeyChar, DateTime.Now.Ticks);
+        {
+            SendKeyToCurrentSession(e.KeyChar, DateTime.Now.Ticks);          
         }
 
         void TimerCountdown(object sender, EventArgs e)
@@ -77,7 +81,7 @@ namespace Emlin
 
         private static void SendKeyToCurrentSession(char keyChar, long ticks)
         {
-            currentSession.KeyWasPressed(keyChar, ticks);
+            currentSession.KeyWasPressed(keyChar, ticks);  
         }
 
         #endregion
@@ -93,15 +97,28 @@ namespace Emlin
             }
         }
 
-        private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+        private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
+            int VK_SHIFT = 0x10;
+            int VK_CAPS = 0X14;
+
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
                 int value = Marshal.ReadInt32(lParam);
                 char key = (char)value;
 
-                SendKeyToCurrentSession(key, DateTime.Now.Ticks);
+                int capsState = GetKeyState(VK_CAPS) & 0x0001;
+
+                if (capsState != 1 && (value >= 65 && value <= 90))
+                {
+                    int shiftState = GetKeyState(VK_SHIFT) & 0x0001;
+
+                    key = Char.ToLower(key);    
+                }
+
+                SendKeyToCurrentSession(key, DateTime.Now.Ticks);   
             }
+
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
 
@@ -120,7 +137,7 @@ namespace Emlin
         {
             Show();
             this.WindowState = FormWindowState.Normal;
-            notifyIcon1.Visible = false;
+            notifyIcon1.Visible = true;
         }
     }
 }
