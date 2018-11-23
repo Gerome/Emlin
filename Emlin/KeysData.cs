@@ -11,11 +11,16 @@ namespace Emlin
         public char FirstChar { get; set; }
         public char SecondChar { get; set; }
 
-        public int CombinationID { get; set; } = 0;
-        public TimeSpan HoldTime { get; set; } = new TimeSpan(0);
-        public TimeSpan FlightTime { get; set; } = new TimeSpan(0);
-        public TimeSpan Digraph1 { get; set; } = new TimeSpan(0);
-        public TimeSpan Digraph2 { get; set; } = new TimeSpan(0);
-        public TimeSpan Digraph3 { get; set; } = new TimeSpan(0);
+        public int CombinationID { get; set; }
+        public TimeSpan HoldTime { get; set; }
+        //public TimeSpan FlightTime { get; set; }
+        //public TimeSpan Digraph1 { get; set; }
+        //public TimeSpan Digraph2 { get; set; }
+        //public TimeSpan Digraph3 { get; set; }
+        
+
+        public KeysData()
+        {
+        }
     }
 }

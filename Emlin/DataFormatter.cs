@@ -5,29 +5,37 @@ using System.Timers;
 
 namespace Emlin
 {
-    public class CurrentSession
+    public class DataFormatter
     {
         private char previousKey;
-        private long previousTime;
         private ITimerInterface timer;
         public enum SessionState { Active , Inactive };
 
         public List<KeysData> DataRecorded { get; set; } = new List<KeysData>();
         public SessionState CurrentState { get; private set; } = SessionState.Inactive;
+
+        private Dictionary<char, long> timeKeyPress = new Dictionary<char, long>();
         
 
-        public CurrentSession(ITimerInterface timer)
+        public DataFormatter(ITimerInterface timer)
         {
             this.timer = timer;    
         }
 
         public void KeyWasPressed(char keyChar, long timeInTicks)
         {
+            if (timeKeyPress.ContainsKey(keyChar))
+            {
+                return;
+            }
+
+            timeKeyPress.Add(keyChar, timeInTicks);
+
             ResetTimer();
 
             if (CurrentState.Equals(SessionState.Inactive))
             {
-                CurrentState = SessionState.Active;     
+                CurrentState = SessionState.Active;       
             }
             else
             {
@@ -41,37 +49,27 @@ namespace Emlin
 
             DataRecorded.Add(keysData);
 
-            //else
-            //{     
-                //    int combId = HelperFunctions.GetCombinationId(previousKey, keyChar);
-
-
-                //    long difference = timeInTicks - previousTime;
-
-                //    foreach(KeyCombination keyComb in KeysPressed)
-                //    {
-
-                //        if (keyComb.CombId == combId)
-                //        {
-                //            keyComb.AddTimespanToList(new TimeSpan(difference));
-                //            previousKey = keyChar;
-                //            previousTime = timeInTicks;
-                //            return;              
-                //        }
-                //    }
-
-                //    KeyCombination keyCombToAdd = new KeyCombination(combId);
-                //    keyCombToAdd.AddTimespanToList(new TimeSpan(difference));
-                //    KeysPressed.Add(keyCombToAdd);
-            //}
-
             previousKey = keyChar;
-            previousTime = timeInTicks;
         }
 
         public void KeyWasReleased(char charReleased, long timeInTicks)
         {
-            DataRecorded.Last().HoldTime = new TimeSpan(timeInTicks - previousTime);
+            KeysData keysData = GetCorrectKeysData(charReleased);      
+            keysData.HoldTime = new TimeSpan(timeInTicks - timeKeyPress[charReleased]);
+            timeKeyPress.Remove(charReleased);
+        }
+
+        private KeysData GetCorrectKeysData(char charReleased)
+        {
+            if (DataRecorded.Last().FirstChar.Equals(charReleased))
+            {
+                return DataRecorded.Last();
+            }
+            else
+            {
+                return DataRecorded[DataRecorded.Count - 2];
+            }
+          
         }
 
         public void End()

@@ -21,7 +21,7 @@ namespace EmlinTests
         public void Dispose()
         { }
 
-        public void AddToElapsed(long newTimeElapsed, CurrentSession testSession)
+        public void AddToElapsed(long newTimeElapsed, DataFormatter testSession)
         {
             timeElapsed += newTimeElapsed;
             if(timeElapsed/TimeSpan.TicksPerMillisecond >= ConstantValues.LENGTH_OF_SESSION_IN_MILLIS)

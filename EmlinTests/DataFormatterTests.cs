@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace EmlinTests
 {
-    class CurrentSessionTests
+    class DataFormatterTests
     {
         TimerFake timerFake;
 
-        CurrentSession testSession;
+        DataFormatter testSession;
 
         long timeElapsed;
 
@@ -17,7 +17,7 @@ namespace EmlinTests
         public void Init()
         {
             timerFake = new TimerFake();
-            testSession = new CurrentSession(timerFake);
+            testSession = new DataFormatter(timerFake);
             timeElapsed = 0;
         }
 
@@ -30,14 +30,14 @@ namespace EmlinTests
         [Test]
         public void CURRENT_SESSION_IS_INACTIVE_BY_DEFAULT()
         {
-            Assert.That(testSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Inactive));
+            Assert.That(testSession.CurrentState, Is.EqualTo(DataFormatter.SessionState.Inactive));
         }
 
         [Test]
         public void PRESSING_A_KEY_SETS_THE_STATE_OF_THE_SESSION_TO_ACTIVE()
         {
             PressKey('A');
-            Assert.That(testSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Active));
+            Assert.That(testSession.CurrentState, Is.EqualTo(DataFormatter.SessionState.Active));
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace EmlinTests
             PressKey('A');
             Wait(200);
             PressKey('B');
-            Assert.That(testSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Active));
+            Assert.That(testSession.CurrentState, Is.EqualTo(DataFormatter.SessionState.Active));
         }
 
         [Test]
@@ -58,16 +58,16 @@ namespace EmlinTests
             Wait(SecondsToTicks(1));
             PressKey('C');
             Wait(SecondsToTicks(1));
-            Assert.That(testSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Active));
+            Assert.That(testSession.CurrentState, Is.EqualTo(DataFormatter.SessionState.Active));
         }
 
         [Test]
         public void PRESSING_A_KEY_AND_WAITING_2_SECONDS_SHOWS_THE_SESSION_IS_INACTIVE()
         {
             PressKey('A');
-            Assert.That(testSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Active));
+            Assert.That(testSession.CurrentState, Is.EqualTo(DataFormatter.SessionState.Active));
             Wait(SecondsToTicks(2));
-            Assert.That(testSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Inactive));
+            Assert.That(testSession.CurrentState, Is.EqualTo(DataFormatter.SessionState.Inactive));
         }
         
         [Test]
@@ -84,15 +84,45 @@ namespace EmlinTests
         public void Pressing_and_Releasing_2_keys_should_record_the_Hold_Time_of_each()
         {
             PressKey('a');
-            ReleaseKey('a');
-
             Wait(100);
+            ReleaseKey('a');
 
             PressKey('b');
             Wait(200);
             ReleaseKey('b');
 
+            Assert.That(testSession.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(100));
             Assert.That(testSession.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(200));
+        }
+
+        [Test]
+        public void Pressing_and_Releasing_the_same_2_keys_should_record_the_Hold_Time_of_each()
+        {
+            PressKey('a');
+            Wait(100);
+            ReleaseKey('a');
+
+            PressKey('a');
+            Wait(200);
+            ReleaseKey('a');
+
+            Assert.That(testSession.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(100));
+            Assert.That(testSession.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(200));
+        }
+
+        [Test]
+        public void Pressing_and_Releasing_2_keys_intermediately_should_still_record_the_Hold_Time_of_each()
+        {
+            PressKey('a');
+            Wait(50);
+            PressKey('b');
+            Wait(100);
+            ReleaseKey('a');
+            Wait(200);
+            ReleaseKey('b');
+
+            Assert.That(testSession.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(150));
+            Assert.That(testSession.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(300));
         }
 
         [Test]
@@ -105,10 +135,32 @@ namespace EmlinTests
             Assert.That(testSession.DataRecorded[0].CombinationID, Is.EqualTo(combId));
         }
 
+        [Test]
+        public void Pressing_3_keys_should_record_the_combination_IDs()
+        {
+            PressKey('a');
+            PressKey('b');
+            PressKey('c');
+            int combId = HelperFunctions.GetCombinationId('a', 'b');
+            Assert.That(testSession.DataRecorded[0].CombinationID, Is.EqualTo(combId));
+
+            combId = HelperFunctions.GetCombinationId('b', 'c');
+            Assert.That(testSession.DataRecorded[1].CombinationID, Is.EqualTo(combId));
+        }
+
+        [Test]
+        public void Holding_down_a_key_should_not_crash_the_program()
+        {
+            PressKey('a');
+            PressKey('a');
+            PressKey('a');
+            PressKey('a');
+            PressKey('a');
+            PressKey('a');
+        }
+
         /*
          * Test list
-         * Combination ID
-         *  pressing a key and pressing a second key should record the comb id
          * 
          * Hold time
          *  pressing and releasing 2 key should record the hold time of each

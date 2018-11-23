@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstantValues.cs" />
-    <Compile Include="CurrentSession.cs" />
+    <Compile Include="DataFormatter.cs" />
     <Compile Include="CustomTimer.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -68,7 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ITimerInterface.cs" />
     <Compile Include="TimeToFileReader.cs" />
-    <Compile Include="TimeToFileRecorder.cs" />
+    <Compile Include="DataToFileWriter.cs" />
     <EmbeddedResource Include="EmlinView.resx">
       <DependentUpon>EmlinView.cs</DependentUpon>
     </EmbeddedResource>

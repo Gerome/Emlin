@@ -10,10 +10,11 @@ namespace Emlin
 {
     public partial class EmlinView : Form
     {
-        private static CurrentSession currentSession;
+        private static DataFormatter currentSession;
 
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
+        private const int WM_KEYUP = 0x0101;
         private static IntPtr _hookID = IntPtr.Zero;
         private LowLevelKeyboardProc _proc;
 
@@ -50,14 +51,14 @@ namespace Emlin
 
             this.KeyPress += new KeyPressEventHandler(Keypressed);
 
-            currentSession = new CurrentSession(timer);
+            currentSession = new DataFormatter(timer);
         }
 
         #region methods
 
         void Keypressed(Object o, KeyPressEventArgs e)
         {
-            SendKeyToCurrentSession(e.KeyChar, DateTime.Now.Ticks);          
+            SendKeyPressToCurrentSession(e.KeyChar, DateTime.Now.Ticks);          
         }
 
         void TimerCountdown(object sender, EventArgs e)
@@ -79,9 +80,14 @@ namespace Emlin
             //currentSession.End();
         }
 
-        private static void SendKeyToCurrentSession(char keyChar, long ticks)
+        private static void SendKeyPressToCurrentSession(char keyChar, long ticks)
         {
             currentSession.KeyWasPressed(keyChar, ticks);  
+        }
+
+        private static void SendKeyReleaseToCurrentSession(char keyChar, long ticks)
+        {
+            currentSession.KeyWasReleased(keyChar, ticks);
         }
 
         #endregion
@@ -102,7 +108,7 @@ namespace Emlin
             int VK_SHIFT = 0x10;
             int VK_CAPS = 0X14;
 
-            if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+            if (nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_KEYUP))
             {
                 int value = Marshal.ReadInt32(lParam);
                 char key = (char)value;
@@ -116,7 +122,17 @@ namespace Emlin
                     key = char.ToLower(key);    
                 }
 
-                SendKeyToCurrentSession(key, DateTime.Now.Ticks);   
+                if (wParam == (IntPtr)WM_KEYDOWN)
+                {
+                    SendKeyPressToCurrentSession(key, DateTime.Now.Ticks);
+                    label1.Text = "Key press";
+                }
+                else
+                {
+                    label1.Text = "Key release";
+
+                    SendKeyReleaseToCurrentSession(key, DateTime.Now.Ticks);
+                }
             }
 
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
