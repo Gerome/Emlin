@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Emlin
@@ -63,21 +64,19 @@ namespace Emlin
 
         void TimerCountdown(object sender, EventArgs e)
         {
-            //string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
+            string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
             
-            //List<KeyCombination> keyCombinationsToWrite = currentSession.KeysPressed;
+            List<KeysData> dataToWriteToFile = currentSession.DataRecorded;
 
-            //if (keyCombinationsToWrite.Count != 0)
-            //{
-            //    List<KeyCombination> sortedKeyCombinationList = keyCombinationsToWrite.OrderBy(x => x.CombId).ToList();
+            if (dataToWriteToFile.Count != 0)
+            {        
+                DataToFileWriter dtfw = new DataToFileWriter();
+                dtfw.CreateDirectoryAndFile(filepath);
+                
+                dtfw.WriteRecordedDataToFile(dataToWriteToFile, filepath);
+            }
 
-            //    TimeToFileRecorder ttfRec = new TimeToFileRecorder();
-            //    ttfRec.CreateDirectoryAndFile(filepath);
-            //    ttfRec.PopulateTextFileIfEmpty(filepath);
-            //    ttfRec.WriteRecordedDataToFile(sortedKeyCombinationList, filepath);
-            //}
-
-            //currentSession.End();
+            currentSession.End();
         }
 
         private static void SendKeyPressToCurrentSession(char keyChar, long ticks)

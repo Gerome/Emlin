@@ -91,14 +91,12 @@ namespace EmlinTests
         }
 
 
-
-
         private KeysData NewKeysData(int combID, int Ht)
         {
             return new KeysData
             {
                 CombinationID = combID,
-                HoldTime = new TimeSpan(Ht)
+                HoldTime = TimeSpan.FromMilliseconds(Ht)
             };
         }
     }

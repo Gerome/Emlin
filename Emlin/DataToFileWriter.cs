@@ -24,6 +24,8 @@ namespace Emlin
             }
 
             fileSystem.File.WriteAllText(filepath, textToWrite);
+            
+
 
             //string[] linesInFile = fileSystem.File.ReadAllLines(filepath);
             //int indexOfCurrentKeyComb = 0;
@@ -59,7 +61,7 @@ namespace Emlin
         private string GetFormattedDataLine(KeysData data)
         {
             return data.CombinationID.ToString() + ","
-                + data.HoldTime.Ticks.ToString() 
+                + data.HoldTime.Milliseconds.ToString() 
                 + Environment.NewLine;
         }
 
@@ -67,15 +69,14 @@ namespace Emlin
         {
             string directoryPath = Path.GetDirectoryName(filepath);
 
+            
+
             if (!fileSystem.Directory.Exists(directoryPath))
             {
                 fileSystem.Directory.CreateDirectory(directoryPath);
             }
 
-            if (!fileSystem.File.Exists(filepath))
-            {
-                fileSystem.File.Create(filepath);
-            }
+            using (Stream sr = fileSystem.File.Create(filepath)) { }
 
         }
 

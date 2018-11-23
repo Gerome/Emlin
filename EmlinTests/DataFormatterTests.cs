@@ -159,6 +159,14 @@ namespace EmlinTests
             PressKey('a');
         }
 
+        [Test]
+        public void Holding_down_a_key_means_session_should_not_end()
+        {
+            PressKey('a');
+            Wait(15000);
+            Assert.That(testSession.CurrentState, Is.EqualTo(DataFormatter.SessionState.Active));
+        }
+
         /*
          * Test list
          * 
