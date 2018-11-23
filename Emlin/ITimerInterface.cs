@@ -1,12 +1,7 @@
-﻿
-using System;
-using System.Timers;
-
-namespace Emlin
+﻿namespace Emlin
 {
     public interface ITimerInterface
     {
-
         bool Enabled { get; set; }
 
         int Interval { get; set; }
@@ -15,7 +10,6 @@ namespace Emlin
 
         void Start();
 
-        void Stop();
-        
+        void Stop();      
     }
 }

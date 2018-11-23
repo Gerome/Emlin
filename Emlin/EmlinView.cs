@@ -62,21 +62,21 @@ namespace Emlin
 
         void TimerCountdown(object sender, EventArgs e)
         {
-            string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
+            //string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
             
-            List<KeyCombination> keyCombinationsToWrite = currentSession.KeysPressed;
+            //List<KeyCombination> keyCombinationsToWrite = currentSession.KeysPressed;
 
-            if (keyCombinationsToWrite.Count != 0)
-            {
-                List<KeyCombination> sortedKeyCombinationList = keyCombinationsToWrite.OrderBy(x => x.CombId).ToList();
+            //if (keyCombinationsToWrite.Count != 0)
+            //{
+            //    List<KeyCombination> sortedKeyCombinationList = keyCombinationsToWrite.OrderBy(x => x.CombId).ToList();
 
-                TimeToFileRecorder ttfRec = new TimeToFileRecorder();
-                ttfRec.CreateDirectoryAndFile(filepath);
-                ttfRec.PopulateTextFileIfEmpty(filepath);
-                ttfRec.WriteRecordedDataToFile(sortedKeyCombinationList, filepath);
-            }
+            //    TimeToFileRecorder ttfRec = new TimeToFileRecorder();
+            //    ttfRec.CreateDirectoryAndFile(filepath);
+            //    ttfRec.PopulateTextFileIfEmpty(filepath);
+            //    ttfRec.WriteRecordedDataToFile(sortedKeyCombinationList, filepath);
+            //}
 
-            currentSession.End();
+            //currentSession.End();
         }
 
         private static void SendKeyToCurrentSession(char keyChar, long ticks)
@@ -113,7 +113,7 @@ namespace Emlin
                 {
                     int shiftState = GetKeyState(VK_SHIFT) & 0x0001;
 
-                    key = Char.ToLower(key);    
+                    key = char.ToLower(key);    
                 }
 
                 SendKeyToCurrentSession(key, DateTime.Now.Ticks);   

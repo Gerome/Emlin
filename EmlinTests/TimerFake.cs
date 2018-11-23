@@ -19,9 +19,7 @@ namespace EmlinTests
         public int Interval { get; set; }
 
         public void Dispose()
-        {
-
-        }
+        { }
 
         public void AddToElapsed(long newTimeElapsed, CurrentSession testSession)
         {

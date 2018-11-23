@@ -7,17 +7,14 @@ namespace Emlin
 {
     public class CurrentSession
     {
-        private List<KeyCombination> keysPressed = new List<KeyCombination>();
         private char previousKey;
         private long previousTime;
-        
-        private SessionState currentState = SessionState.Inactive;
-        public SessionState CurrentState { get => currentState; }
+        private ITimerInterface timer;
         public enum SessionState { Active , Inactive };
 
-        public List<KeyCombination> KeysPressed { get => keysPressed; set => keysPressed = value; }
-
-        private ITimerInterface timer;
+        public List<KeysData> DataRecorded { get; set; } = new List<KeysData>();
+        public SessionState CurrentState { get; private set; } = SessionState.Inactive;
+        
 
         public CurrentSession(ITimerInterface timer)
         {
@@ -26,46 +23,61 @@ namespace Emlin
 
         public void KeyWasPressed(char keyChar, long timeInTicks)
         {
-            ResetTimer();     
+            ResetTimer();
 
             if (CurrentState.Equals(SessionState.Inactive))
             {
-                currentState = SessionState.Active;
-                
+                CurrentState = SessionState.Active;     
             }
             else
             {
-                int combId = HelperFunctions.GetCombinationId(previousKey, keyChar);
-
-
-                long difference = timeInTicks - previousTime;
-
-                foreach(KeyCombination keyComb in keysPressed)
-                {
-                    
-                    if (keyComb.CombId == combId)
-                    {
-                        keyComb.AddTimespanToList(new TimeSpan(difference));
-                        previousKey = keyChar;
-                        previousTime = timeInTicks;
-                        return;              
-                    }
-                }
-
-                KeyCombination keyCombToAdd = new KeyCombination(combId);
-                keyCombToAdd.AddTimespanToList(new TimeSpan(difference));
-                KeysPressed.Add(keyCombToAdd);
-
+                DataRecorded.Last().CombinationID = HelperFunctions.GetCombinationId(previousKey, keyChar);
             }
+
+            KeysData keysData = new KeysData
+            {
+                FirstChar = keyChar
+            };
+
+            DataRecorded.Add(keysData);
+
+            //else
+            //{     
+                //    int combId = HelperFunctions.GetCombinationId(previousKey, keyChar);
+
+
+                //    long difference = timeInTicks - previousTime;
+
+                //    foreach(KeyCombination keyComb in KeysPressed)
+                //    {
+
+                //        if (keyComb.CombId == combId)
+                //        {
+                //            keyComb.AddTimespanToList(new TimeSpan(difference));
+                //            previousKey = keyChar;
+                //            previousTime = timeInTicks;
+                //            return;              
+                //        }
+                //    }
+
+                //    KeyCombination keyCombToAdd = new KeyCombination(combId);
+                //    keyCombToAdd.AddTimespanToList(new TimeSpan(difference));
+                //    KeysPressed.Add(keyCombToAdd);
+            //}
 
             previousKey = keyChar;
             previousTime = timeInTicks;
         }
 
+        public void KeyWasReleased(char charReleased, long timeInTicks)
+        {
+            DataRecorded.Last().HoldTime = new TimeSpan(timeInTicks - previousTime);
+        }
+
         public void End()
         {
-            currentState = SessionState.Inactive;
-            ResetKeysPressedList();
+            CurrentState = SessionState.Inactive;
+            //ResetKeysPressedList();
             timer.Enabled = false;
         }
 
@@ -75,10 +87,9 @@ namespace Emlin
             timer.Start();
         }
 
-        private void ResetKeysPressedList()
-        {
-            keysPressed = new List<KeyCombination>();
-        }
-
+        //private void ResetKeysPressedList()
+        //{
+        //    KeysPressed = new List<KeyCombination>();
+        //}
     }
 }

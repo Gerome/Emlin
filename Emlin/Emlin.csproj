@@ -63,9 +63,7 @@
       <DependentUpon>EmlinView.cs</DependentUpon>
     </Compile>
     <Compile Include="HelperFunctions.cs" />
-    <Compile Include="KeyboardRecorder.cs" />
-    <Compile Include="KeyCombination.cs" />
-    <Compile Include="MergeList.cs" />
+    <Compile Include="KeysData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ITimerInterface.cs" />

@@ -1,11 +1,7 @@
 ﻿using Emlin;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EmlinTests
 {
@@ -29,14 +25,6 @@ namespace EmlinTests
         public void Dispose()
         {
             testSession.End();
-        }
-
-        [Test]
-        public void PRESSING_TWO_KEYS_ADDS_ONE_COMBINATION_TO_THE_TIMESPAN_LIST()
-        {
-            PressKey('A');
-            PressKey('B');
-            Assert.That(testSession.KeysPressed[0].TimeSpanList.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -81,81 +69,60 @@ namespace EmlinTests
             Wait(SecondsToTicks(2));
             Assert.That(testSession.CurrentState, Is.EqualTo(CurrentSession.SessionState.Inactive));
         }
-
+        
         [Test]
-        public void PRESSING_TWO_KEYS_ADDS_A_COMBINATION_OBJECT_TO_THE_CURRENT_SESSION_COMBINATION_LIST()
+        public void Pressing_and_Releasing_a_key_should_record_the_Hold_Time()
         {
-            PressKey('A');
-            Wait(100);
-            PressKey('B');
-
-            int combId = HelperFunctions.GetCombinationId('A', 'B');
-
-            Assert.That(testSession.KeysPressed[0].TimeSpanList[0].Ticks, Is.EqualTo(100));
-        }
-
-        [Test]
-        public void PRESSING_THREE_KEYS_ADDS_A_COMBINATION_OBJECT_TO_THE_CURRENT_SESSION_COMBINATION_LIST()
-        {
-            PressKey('A');
-            Wait(100);
-            PressKey('B');
-            Wait(100);
-            PressKey('C');
-
-            int firstCombId = HelperFunctions.GetCombinationId('A', 'B');
-            int secondCombId = HelperFunctions.GetCombinationId('B', 'C');
-
-            Assert.That(testSession.KeysPressed[0].TimeSpanList[0].Ticks, Is.EqualTo(100));
-            Assert.That(testSession.KeysPressed[1].TimeSpanList[0].Ticks, Is.EqualTo(100));
-        }
-
-        [Test]
-        public void PRESSING_TWO_KEYS_WITH_A_2_SECOND_GAP_FINISHES_THE_SESSION()
-        {
-            PressKey('A');
-            Wait(SecondsToTicks(2));
-            PressKey('B');
-            int combId = HelperFunctions.GetCombinationId('A', 'B');
-
-            Assert.That(testSession.KeysPressed, Is.Empty);
-        }
-
-        [Test]
-        public void PRESSING_THREE_OF_THE_SAME_KEY_ADDS_A_COMBINATION_OBJECT_TO_THE_CURRENT_SESSION_COMBINATION_LIST_WITH_TWO_IN_THE_TIMESPAN_LIST()
-        {
-            PressKey(' ');
-            Wait(100);
-            PressKey(' ');
-            Wait(100);
-            PressKey(' ');
-
-            int combId = HelperFunctions.GetCombinationId(' ', ' ');
-
-            Assert.That(testSession.KeysPressed[0].TimeSpanList.Count, Is.EqualTo(2));
-        }
-
-        [Test]
-        public void PRESSING_THREE_COMBINATIONS_CREATES_THREE_OBJECTS()
-        {
-            PressKey(' ');
-            Wait(100);
-            PressKey(' ');
-            Wait(100);
             PressKey('a');
             Wait(100);
-            PressKey('a');
+            ReleaseKey('a');
 
-            int firstCombId = HelperFunctions.GetCombinationId(' ', ' ');
-            int secondCombId = HelperFunctions.GetCombinationId(' ', 'a');
-            int thirdCombId = HelperFunctions.GetCombinationId('a', 'a');
-
-
-            Assert.That(testSession.KeysPressed.Count, Is.EqualTo(3));
-            Assert.That(testSession.KeysPressed[0].TimeSpanList.Count, Is.EqualTo(1));
-            Assert.That(testSession.KeysPressed[1].TimeSpanList.Count, Is.EqualTo(1));
-            Assert.That(testSession.KeysPressed[2].TimeSpanList.Count, Is.EqualTo(1));
+            Assert.That(testSession.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(100));
         }
+
+        [Test]
+        public void Pressing_and_Releasing_2_keys_should_record_the_Hold_Time_of_each()
+        {
+            PressKey('a');
+            ReleaseKey('a');
+
+            Wait(100);
+
+            PressKey('b');
+            Wait(200);
+            ReleaseKey('b');
+
+            Assert.That(testSession.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(200));
+        }
+
+        [Test]
+        public void Pressing_a_key_and_another_should_record_the_combination_ID()
+        {
+            PressKey('a');
+            PressKey('b');
+            int combId = HelperFunctions.GetCombinationId('a', 'b');
+
+            Assert.That(testSession.DataRecorded[0].CombinationID, Is.EqualTo(combId));
+        }
+
+        /*
+         * Test list
+         * Combination ID
+         *  pressing a key and pressing a second key should record the comb id
+         * 
+         * Hold time
+         *  pressing and releasing 2 key should record the hold time of each
+         *  
+         * Flight time
+         *  releasing a key and pressing another should record the flight time
+         *  pressing a key, pressing another and releasing should record a negative flight time
+         *  
+         * Digraph
+         *  pressing a key and pressing another should record the Di1
+         *  releasing a key and releasing another should record the Di2
+         *  pressing a key and releasing another should record the Di3
+         */
+
 
         private void PressKey(char charPressed)
         {
@@ -166,6 +133,11 @@ namespace EmlinTests
         {
             timeElapsed += timeToWait;
             timerFake.AddToElapsed(timeToWait, testSession);
+        }
+
+        private void ReleaseKey(char charReleased)
+        {
+            testSession.KeyWasReleased(charReleased, timeElapsed);
         }
 
         private long SecondsToTicks(int seconds)
