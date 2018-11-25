@@ -8,13 +8,15 @@ namespace Emlin
     public class DataFormatter
     {
         private char previousKey;
+        private long timeOfPreviousRelease;
+        private long timeOfPreviousPress;
         private ITimerInterface timer;
         public enum SessionState { Active , Inactive };
 
         public List<KeysData> DataRecorded { get; set; } = new List<KeysData>();
         public SessionState CurrentState { get; private set; } = SessionState.Inactive;
 
-        private Dictionary<char, long> timeKeyPress = new Dictionary<char, long>();
+        private Dictionary<char, long> keysCurrentlyHeld = new Dictionary<char, long>();
         
 
         public DataFormatter(ITimerInterface timer)
@@ -24,52 +26,65 @@ namespace Emlin
 
         public void KeyWasPressed(char keyChar, long timeInTicks)
         {
-            if (timeKeyPress.ContainsKey(keyChar))
+            if (keysCurrentlyHeld.ContainsKey(keyChar))
             {
                 return;
             }
 
-            timeKeyPress.Add(keyChar, timeInTicks);
+            keysCurrentlyHeld.Add(keyChar, timeInTicks);
 
             ResetTimer();
 
             if (CurrentState.Equals(SessionState.Inactive))
             {
-                CurrentState = SessionState.Active;       
+                CurrentState = SessionState.Active;
             }
             else
             {
                 DataRecorded.Last().CombinationID = HelperFunctions.GetCombinationId(previousKey, keyChar);
+                DataRecorded.Last().SecondChar = keyChar;
+                DataRecorded.Last().FlightTime = new TimeSpan(timeInTicks - timeOfPreviousRelease);            
             }
 
-            KeysData keysData = new KeysData
-            {
-                FirstChar = keyChar
-            };
-
-            DataRecorded.Add(keysData);
+            DataRecorded.Add(
+                new KeysData
+                {
+                    FirstChar = keyChar
+                });
 
             previousKey = keyChar;
+            timeOfPreviousPress = timeInTicks;
         }
+
 
         public void KeyWasReleased(char charReleased, long timeInTicks)
         {
-            KeysData keysData = GetCorrectKeysData(charReleased);      
-            keysData.HoldTime = new TimeSpan(timeInTicks - timeKeyPress[charReleased]);
-            timeKeyPress.Remove(charReleased);
+            KeysData keysData = GetCorrectKeysData(charReleased);
+
+            RecordOnReleaseData(charReleased, timeInTicks, keysData);
+
+            keysCurrentlyHeld.Remove(charReleased);
+            timeOfPreviousRelease = timeInTicks;
         }
 
-        private KeysData GetCorrectKeysData(char charReleased)
+        private void RecordOnReleaseData(char charReleased, long timeInTicks, KeysData keysData)
         {
-            if (DataRecorded.Last().FirstChar.Equals(charReleased))
+            keysData.HoldTime = new TimeSpan(timeInTicks - keysCurrentlyHeld[charReleased]);
+
+            if (NextKeyAlreadyPressed(keysData))
             {
-                return DataRecorded.Last();
+                keysData.FlightTime = new TimeSpan(keysData.FlightTime.Ticks - timeInTicks);
             }
-            else
-            {
-                return DataRecorded[DataRecorded.Count - 2];
-            }
-          
+        }
+
+        private bool NextKeyAlreadyPressed(KeysData keysData)
+        {
+            return previousKey != keysData.FirstChar;
+        }
+
+        private KeysData GetCorrectKeysData(char character)
+        {
+            return DataRecorded.Last(x => x.FirstChar == character);       
         }
 
         public void End()
