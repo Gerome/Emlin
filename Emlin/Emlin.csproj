@@ -62,6 +62,12 @@
     <Compile Include="EmlinView.Designer.cs">
       <DependentUpon>EmlinView.cs</DependentUpon>
     </Compile>
+    <Compile Include="DevWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DevWindow.Designer.cs">
+      <DependentUpon>DevWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="HelperFunctions.cs" />
     <Compile Include="KeysData.cs" />
     <Compile Include="Program.cs" />
@@ -69,6 +75,9 @@
     <Compile Include="ITimerInterface.cs" />
     <Compile Include="TimeToFileReader.cs" />
     <Compile Include="DataToFileWriter.cs" />
+    <EmbeddedResource Include="DevWindow.resx">
+      <DependentUpon>DevWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EmlinView.resx">
       <DependentUpon>EmlinView.cs</DependentUpon>
     </EmbeddedResource>

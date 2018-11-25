@@ -26,8 +26,6 @@ namespace Emlin
 
         public void KeyWasPressed(char charPressed, long timeInTicks)
         {
-            Console.WriteLine(charPressed.ToString() + " pressed at " + (timeInTicks/TimeSpan.TicksPerMillisecond).ToString());
-
             if (keysCurrentlyHeld.ContainsKey(charPressed))
             {
                 return;
@@ -61,9 +59,6 @@ namespace Emlin
 
         public void KeyWasReleased(char charReleased, long timeInTicks)
         {
-            Console.WriteLine(charReleased.ToString() + " released at " + (timeInTicks / TimeSpan.TicksPerMillisecond).ToString());
-
-
             KeysData keysData = GetCorrectKeysData(charReleased);
 
             RecordOnReleaseData(charReleased, timeInTicks, keysData);

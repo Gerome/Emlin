@@ -1,6 +1,6 @@
 ﻿namespace Emlin
 {
-    partial class EmlinView
+    partial class DevWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -28,34 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmlinView));
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DevWindow));
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // notifyIcon1
+            // textBox1
             // 
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "notifyIcon1";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+            this.textBox1.Location = new System.Drawing.Point(12, 12);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(260, 341);
+            this.textBox1.TabIndex = 0;
             // 
-            // EmlinView
+            // DevWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(284, 365);
+            this.Controls.Add(this.textBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "EmlinView";
-            this.Text = "Emlin";
-            this.Resize += new System.EventHandler(this.EmlinView_Resize);
+            this.Name = "DevWindow";
+            this.Text = "DevWindow";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        public System.Windows.Forms.TextBox textBox1;
     }
 }
-

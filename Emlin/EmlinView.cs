@@ -11,7 +11,7 @@ namespace Emlin
 {
     public partial class EmlinView : Form
     {
-        private static DataFormatter currentSession;
+        private static DataFormatter dataFormatter;
 
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
@@ -37,6 +37,8 @@ namespace Emlin
 
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
+        DevWindow devWindow = new DevWindow();
+
         public EmlinView()
         {
             _proc = this.HookCallback;
@@ -49,24 +51,22 @@ namespace Emlin
 
             CustomTimer timer = new CustomTimer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
             timer.Tick += TimerCountdown;
+            
 
-            this.KeyPress += new KeyPressEventHandler(Keypressed);
+            dataFormatter = new DataFormatter(timer);
 
-            currentSession = new DataFormatter(timer);
+#if DEBUG
+            devWindow.Show();
+#endif
         }
 
-        #region methods
-
-        void Keypressed(Object o, KeyPressEventArgs e)
-        {
-            SendKeyPressToCurrentSession(e.KeyChar, DateTime.Now.Ticks);          
-        }
+#region methods
 
         void TimerCountdown(object sender, EventArgs e)
         {
             string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
             
-            List<KeysData> dataToWriteToFile = currentSession.DataRecorded;
+            List<KeysData> dataToWriteToFile = dataFormatter.DataRecorded;
 
             if (dataToWriteToFile.Count != 0)
             {        
@@ -76,17 +76,28 @@ namespace Emlin
                 dtfw.WriteRecordedDataToFile(dataToWriteToFile, filepath);
             }
 
-            currentSession.End();
+            dataFormatter.End();
         }
 
-        private static void SendKeyPressToCurrentSession(char keyChar, long ticks)
+        private void SendKeyPressToCurrentSession(char charPressed, long timeInTicks)
         {
-            currentSession.KeyWasPressed(keyChar, ticks);  
+            devWindow.textBox1.AppendText(charPressed.ToString() + " pressed at " + (new TimeSpan(timeInTicks).Milliseconds).ToString() + Environment.NewLine);
+            dataFormatter.KeyWasPressed(charPressed, timeInTicks);  
         }
 
-        private static void SendKeyReleaseToCurrentSession(char keyChar, long ticks)
+        private void SendKeyReleaseToCurrentSession(char charReleased, long timeInTicks)
         {
-            currentSession.KeyWasReleased(keyChar, ticks);
+            devWindow.textBox1.AppendText(charReleased.ToString() + " released at " + (new TimeSpan(timeInTicks).Milliseconds).ToString() + Environment.NewLine);
+            if (!OnlyKeyUpEvent(charReleased))
+            {
+                dataFormatter.KeyWasReleased(charReleased, timeInTicks);
+            }
+        }
+
+        private bool OnlyKeyUpEvent(char charReleased)
+        {
+            return charReleased == 164
+                || charReleased == 165;
         }
 
         #endregion
@@ -124,12 +135,9 @@ namespace Emlin
                 if (wParam == (IntPtr)WM_KEYDOWN)
                 {
                     SendKeyPressToCurrentSession(key, DateTime.Now.Ticks);
-                    label1.Text = "Key press";
                 }
                 else
                 {
-                    label1.Text = "Key release";
-
                     SendKeyReleaseToCurrentSession(key, DateTime.Now.Ticks);
                 }
             }
@@ -137,7 +145,7 @@ namespace Emlin
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
 
-        #endregion
+#endregion
 
         private void EmlinView_Resize(object sender, EventArgs e)
         {
