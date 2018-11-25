@@ -24,14 +24,16 @@ namespace Emlin
             this.timer = timer;    
         }
 
-        public void KeyWasPressed(char keyChar, long timeInTicks)
+        public void KeyWasPressed(char charPressed, long timeInTicks)
         {
-            if (keysCurrentlyHeld.ContainsKey(keyChar))
+            Console.WriteLine(charPressed.ToString() + " pressed at " + (timeInTicks/TimeSpan.TicksPerMillisecond).ToString());
+
+            if (keysCurrentlyHeld.ContainsKey(charPressed))
             {
                 return;
             }
 
-            keysCurrentlyHeld.Add(keyChar, timeInTicks);
+            keysCurrentlyHeld.Add(charPressed, timeInTicks);
 
             ResetTimer();
 
@@ -41,24 +43,27 @@ namespace Emlin
             }
             else
             {
-                DataRecorded.Last().CombinationID = HelperFunctions.GetCombinationId(previousKey, keyChar);
-                DataRecorded.Last().SecondChar = keyChar;
+                DataRecorded.Last().CombinationID = HelperFunctions.GetCombinationId(previousKey, charPressed);
+                DataRecorded.Last().SecondChar = charPressed;
                 DataRecorded.Last().FlightTime = new TimeSpan(timeInTicks - timeOfPreviousRelease);            
             }
 
             DataRecorded.Add(
                 new KeysData
                 {
-                    FirstChar = keyChar
+                    FirstChar = charPressed
                 });
 
-            previousKey = keyChar;
+            previousKey = charPressed;
             timeOfPreviousPress = timeInTicks;
         }
 
 
         public void KeyWasReleased(char charReleased, long timeInTicks)
         {
+            Console.WriteLine(charReleased.ToString() + " released at " + (timeInTicks / TimeSpan.TicksPerMillisecond).ToString());
+
+
             KeysData keysData = GetCorrectKeysData(charReleased);
 
             RecordOnReleaseData(charReleased, timeInTicks, keysData);
@@ -90,7 +95,6 @@ namespace Emlin
         public void End()
         {
             CurrentState = SessionState.Inactive;
-            //ResetKeysPressedList();
             timer.Enabled = false;
         }
 
@@ -99,10 +103,5 @@ namespace Emlin
             timer.Stop();
             timer.Start();
         }
-
-        //private void ResetKeysPressedList()
-        //{
-        //    KeysPressed = new List<KeyCombination>();
-        //}
     }
 }

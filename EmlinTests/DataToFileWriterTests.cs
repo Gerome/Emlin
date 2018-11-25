@@ -86,18 +86,45 @@ namespace EmlinTests
             keysData.Add(NewKeysData(1, 200));
             WriteDataToFile();
 
-            Assert.That(textContents, Contains.Substring("0,100\r\n"));
-            Assert.That(textContents, Contains.Substring("1,200\r\n"));
+            Assert.That(textContents, Contains.Substring("0,100"));
+            Assert.That(textContents, Contains.Substring("1,200"));
         }
 
+        [Test]
+        public void Write_data_recorder_should_add_a_single_flight_time_to_the_text_file()
+        {
+            PrepareFileForWriting();
+            keysData.Add(NewKeysData(0, 0, 100));
+            WriteDataToFile();
 
-        private KeysData NewKeysData(int combID, int Ht)
+            Assert.That(textContents, Contains.Substring("0,0,100"));
+        }
+
+        [Test]
+        public void Write_data_recorder_should_add_multiple_flight_time_to_the_text_file()
+        {
+            PrepareFileForWriting();
+            keysData.Add(NewKeysData(0, 0, 100));
+            keysData.Add(NewKeysData(1, 0, 260));
+            WriteDataToFile();
+
+            Assert.That(textContents, Contains.Substring("0,0,100"));
+            Assert.That(textContents, Contains.Substring("1,0,260"));
+        }
+
+        private KeysData NewKeysData(int combID, int Ht, int Ft)
         {
             return new KeysData
             {
                 CombinationID = combID,
-                HoldTime = TimeSpan.FromMilliseconds(Ht)
+                HoldTime = TimeSpan.FromMilliseconds(Ht),
+                FlightTime = TimeSpan.FromMilliseconds(Ft)
             };
+        }
+
+        private KeysData NewKeysData(int combID, int Ht)
+        {
+            return NewKeysData(combID,Ht,0);
         }
     }
 }

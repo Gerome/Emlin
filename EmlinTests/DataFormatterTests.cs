@@ -280,6 +280,17 @@ namespace EmlinTests
         }
 
 
+        public void Data_recorded_is_cleared_once_the_timer_counts_down()
+        {
+            PressKey('c');
+            Wait(15);
+            ReleaseKey('c');
+            PressKey('c');
+
+            Wait(SecondsToTicks(5));
+            Assert.That(testFormattter.DataRecorded, Is.Empty);
+        }
+
         /*
          * Test list
          *   

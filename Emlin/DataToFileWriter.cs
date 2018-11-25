@@ -61,7 +61,8 @@ namespace Emlin
         private string GetFormattedDataLine(KeysData data)
         {
             return data.CombinationID.ToString() + ","
-                + data.HoldTime.Milliseconds.ToString() 
+                + data.HoldTime.Milliseconds.ToString() + ","
+                + data.FlightTime.Milliseconds.ToString()
                 + Environment.NewLine;
         }
 
