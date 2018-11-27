@@ -93,35 +93,19 @@ namespace EmlinTests
         [Test]
         public void Pressing_and_Releasing_the_same_2_keys_should_record_the_Hold_Time_of_each()
         {
-            Wait(100);
-            PressKey('a');
-            Wait(100);
-            ReleaseKey('a');
-
-            PressKey('a');
-            Wait(200);
-            ReleaseKey('a');
+            PressRelease_A();
+            PressRelease_A();
 
             Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(100));
-            Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(200));
+            Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(100));
         }
 
         [Test]
         public void Pressing_and_Releasing_2_keys_intermediately_should_still_record_the_Hold_Time_of_each()
         {
-            Wait(100);
-            PressKey('a');
-            Wait(50);
+            Press_A_B_Release_A_B();
 
-            PressKey('b');
-            Wait(100);
-
-            ReleaseKey('a');
-            Wait(200);
-
-            ReleaseKey('b');
-
-            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(150));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(250));
             Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(300));
         }
 
@@ -148,18 +132,12 @@ namespace EmlinTests
         [Test]
         public void Holding_down_a_key_should_record_the_hold_time()
         {
-            Wait(100);
-            PressKey('a');
-            Wait(100);
-            PressKey('a');
-            Wait(100);
-            PressKey('a');
-            Wait(100);
-            PressKey('a');
-            Wait(100);
-            ReleaseKey('a');
+            Press_A();
+            Press_A();
+            Press_A();
+            Release_A();
 
-            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(400));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(200));
         }
 
         [Test]
@@ -198,29 +176,17 @@ namespace EmlinTests
         [Test]
         public void Pressing_two_keys_then_releasing_one_should_record_a_negative_flight_time()
         {
-            Wait(100);
-            PressKey('a');
-            Wait(50);
-            PressKey('b');
-            Wait(25);
-            ReleaseKey('a');
+            Press_A_B_Release_A_B();
 
-            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-25));
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-100));
         }
 
         [Test]
         public void Pressing_two_keys_then_releasing_the_second_first_should_record_a_negative_flight_time()
         {
-            Wait(100);
-            PressKey('a');
-            Wait(50);
-            PressKey('b');
-            Wait(25);
-            ReleaseKey('b');
-            Wait(25);
-            ReleaseKey('a');
+            Press_A_B_Release_B_A();
 
-            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-50));
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-300));
         }
 
         [Test]
@@ -303,45 +269,73 @@ namespace EmlinTests
 
         private void PressRelease_A_and_B()
         {
+            // 0ms
             PressRelease_A();
+            // 150ms
             PressRelease_B();
+            // 500ms
+        }
+
+        private void Press_A_B_Release_A_B()
+        {
+            // 0ms
+            Press_A();
+            // 50ms
+            Press_B();
+            // 200ms
+            Release_A();
+            // 300ms
+            Release_B();
+            // 500ms
+        }
+
+        private void Press_A_B_Release_B_A()
+        {
+            // 0ms
+            Press_A();
+            // 50ms
+            Press_B();
+            // 200ms
+            Release_B();
+            // 400ms
+            Release_A();
+            // 500ms
         }
 
         private void PressRelease_A()
         {
-            PressA();
-            ReleaseA();
-        }
-
-        private void PressRelease_B()
-        {
-            PressB();
-            ReleaseB();
+            Press_A();
+            Release_A();
         }
         #region Press Release
-        private void ReleaseA()
-        {
-            Wait(100);
-            ReleaseKey('a');
-        }
-
-        private void PressA()
+        private void Press_A()
         {
             Wait(50);
             PressKey('a');
         }
 
-
-        private void ReleaseB()
+        private void Release_A()
         {
-            Wait(200);
-            ReleaseKey('b');
+            Wait(100);
+            ReleaseKey('a');
         }
 
-        private void PressB()
+        private void PressRelease_B()
+        {
+            Press_B();
+            Release_B();
+        }
+
+        private void Press_B()
         {
             Wait(150);
             PressKey('b');
+        }
+
+        private void Release_B()
+        {
+            Wait(200);
+            ReleaseKey('b');
         }
 
         private void PressKey(char charPressed)
