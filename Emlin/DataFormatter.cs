@@ -44,6 +44,7 @@ namespace Emlin
                 DataRecorded.Last().CombinationID = HelperFunctions.GetCombinationId(previousKey, charPressed);
                 DataRecorded.Last().SecondChar = charPressed;
                 DataRecorded.Last().FlightTime = new TimeSpan(timeInTicks - timeOfPreviousRelease);            
+                DataRecorded.Last().Digraph1 = new TimeSpan(timeInTicks - timeOfPreviousPress);
             }
 
             DataRecorded.Add(
@@ -91,6 +92,7 @@ namespace Emlin
         {
             CurrentState = SessionState.Inactive;
             timer.Enabled = false;
+            DataRecorded = new List<KeysData>();
         }
 
         private void ResetTimer()

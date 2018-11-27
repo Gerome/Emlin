@@ -7,13 +7,13 @@ namespace EmlinTests
     class HelperFunctionsTests
     {
         [Test]
-        public static void GET_COMBINATION_ID_SHOULD_RETURN_THE_ID_OF_THE_COMBINATION()
+        public static void Get_combination_id_should_return_the_id_of_the_combination()
         {
             Assert.That(HelperFunctions.GetCombinationId(' ',' '), Is.EqualTo(4128));
         }
 
         [Test]
-        public static void PASSING_DELETE_TWICE_SHOULD_RETURN_THE_CORRECT_ID()
+        public static void Passing_delete_twice_should_return_the_correct_id()
         {
             Assert.That(HelperFunctions.GetCombinationId((char)127, (char)127), Is.EqualTo(16383));
         }

@@ -237,17 +237,17 @@ namespace EmlinTests
         public void Holding_three_keys_and_releasing_in_order_record_Hold_and_Flight_time_correctly()
         {
             Wait(10);
-            PressKey('a');
+            PressKey('a');   // 10
             Wait(10);
-            PressKey('b');
+            PressKey('b');   // 20
             Wait(15);
-            PressKey('c');
+            PressKey('c');   // 35
             Wait(15);
-            ReleaseKey('a');
+            ReleaseKey('a'); // 50
             Wait(25);
-            ReleaseKey('b');
+            ReleaseKey('b'); // 75
             Wait(30);
-            ReleaseKey('c');
+            ReleaseKey('c'); // 105
 
             Assert.That(testFormattter.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(40));
             Assert.That(testFormattter.DataRecorded[0].FlightTime.Ticks, Is.EqualTo(-30));
@@ -259,18 +259,18 @@ namespace EmlinTests
         [Test]
         public void Holding_three_keys_and_releasing_not_ain_order_record_Hold_and_Flight_time_correctly()
         {
+            Wait(10);      
+            PressKey('a');   // 10
             Wait(10);
-            PressKey('a');
-            Wait(10);
-            PressKey('b');
+            PressKey('b');   // 20
             Wait(15);
-            PressKey('c');
+            PressKey('c');   // 35
             Wait(15);
-            ReleaseKey('c');
+            ReleaseKey('c'); // 50
             Wait(25);
-            ReleaseKey('b');
+            ReleaseKey('b'); // 75
             Wait(30);
-            ReleaseKey('a');
+            ReleaseKey('a'); // 105
 
             Assert.That(testFormattter.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(95));
             Assert.That(testFormattter.DataRecorded[0].FlightTime.Ticks, Is.EqualTo(-85));
@@ -279,7 +279,7 @@ namespace EmlinTests
             Assert.That(testFormattter.DataRecorded[1].FlightTime.Ticks, Is.EqualTo(-40));
         }
 
-
+        [Test]
         public void Data_recorded_is_cleared_once_the_timer_counts_down()
         {
             PressKey('c');
@@ -291,11 +291,21 @@ namespace EmlinTests
             Assert.That(testFormattter.DataRecorded, Is.Empty);
         }
 
+        [Test]
+        public void Pressing_a_key_and_pressing_another_should_record_the_Digraph1()
+        {
+            PressKey('a');
+            ReleaseKey('a');
+            Wait(15);
+            PressKey('b');
+
+            Assert.That(testFormattter.DataRecorded[0].Digraph1.Ticks, Is.EqualTo(15));
+        }
+
         /*
          * Test list
          *   
-         * Flight time
-         * 
+         * Flight tim
          *  
          * Digraph
          *  pressing a key and pressing another should record the Di1

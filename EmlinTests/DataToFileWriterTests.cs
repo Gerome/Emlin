@@ -48,28 +48,28 @@ namespace EmlinTests
         }
 
         [Test]
-        public void PREPARE_FILE_FOR_WRITING_SHOULD_CREATE_THE_DIRECTORY_ITS_WRITING_TO_IF_IT_DOESNT_EXIST()
+        public void Prepare_file_for_writing_should_create_the_directory_its_writing_to_if_it_doesnt_exist()
         {
             PrepareFileForWriting();
             Assert.That(fileSystem.Directory.Exists(@"D:\Directory"), Is.True);
         }
 
         [Test]
-        public void PREPARE_FILE_FOR_WRITING_SHOULD_NOT_CREATE_THE_DIRECTORY_WITH_THE_SAME_NAME_AS_THE_FILE()
+        public void Prepare_file_for_writing_should_not_create_the_directory_with_the_same_name_as_the_file()
         {
             PrepareFileForWriting();
             Assert.That(fileSystem.Directory.Exists(@"D:\Directory\File.txt"), Is.False);
         }
 
         [Test]
-        public void PREPARE_FILE_FOR_WRITING_SHOULD_CREATE_THE_FILE_ITS_WRITING_TO_IF_IT_DOESNT_EXIST()
+        public void Prepare_file_for_writing_should_create_the_file_its_writing_to_if_it_doesnt_exist()
         {
             PrepareFileForWriting();
             Assert.That(fileSystem.File.Exists(@"D:\Directory\File.txt"), Is.True);
         }
 
         [Test]
-        public void WRITE_DATA_RECORDER_SHOULD_ADD_A_SINGLE_HOLDTIME_TO_THE_TEXT_FILE()
+        public void Write_data_recorder_should_add_a_single_holdtime_to_the_text_file()
         {
             PrepareFileForWriting();
             keysData.Add(NewKeysData(0, 100));
@@ -79,7 +79,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void WRITE_DATA_RECORDER_SHOULD_ADD_A_MULTIPLE_HOLDTIME_TO_THE_TEXT_FILE()
+        public void Write_data_recorder_should_add_a_multiple_holdtime_to_the_text_file()
         {
             PrepareFileForWriting();
             keysData.Add(NewKeysData(0, 100));
