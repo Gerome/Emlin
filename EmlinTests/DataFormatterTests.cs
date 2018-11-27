@@ -73,29 +73,22 @@ namespace EmlinTests
         [Test]
         public void Pressing_and_Releasing_a_key_should_record_the_Hold_Time()
         {
-            Wait(100);
-            PressKey('a');
-            Wait(100);
-            ReleaseKey('a');
+            PressRelease_A();
 
-            Assert.That(testFormattter.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(100));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(100));
         }
+
 
         [Test]
         public void Pressing_and_Releasing_2_keys_should_record_the_Hold_Time_of_each()
         {
-            Wait(100);
-            PressKey('a');
-            Wait(100);
-            ReleaseKey('a');
+            PressRelease_A_and_B();
 
-            PressKey('b');
-            Wait(200);
-            ReleaseKey('b');
-
-            Assert.That(testFormattter.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(100));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(100));
             Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(200));
         }
+
+       
 
         [Test]
         public void Pressing_and_Releasing_the_same_2_keys_should_record_the_Hold_Time_of_each()
@@ -109,7 +102,7 @@ namespace EmlinTests
             Wait(200);
             ReleaseKey('a');
 
-            Assert.That(testFormattter.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(100));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(100));
             Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(200));
         }
 
@@ -128,7 +121,7 @@ namespace EmlinTests
 
             ReleaseKey('b');
 
-            Assert.That(testFormattter.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(150));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(150));
             Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(300));
         }
 
@@ -166,7 +159,7 @@ namespace EmlinTests
             Wait(100);
             ReleaseKey('a');
 
-            Assert.That(testFormattter.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(400));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(400));
         }
 
         [Test]
@@ -176,7 +169,7 @@ namespace EmlinTests
             PressKey('b');
             int combId = HelperFunctions.GetCombinationId('a', 'b');
 
-            Assert.That(testFormattter.DataRecorded[0].CombinationID, Is.EqualTo(combId));
+            Assert.That(testFormattter.DataRecorded.First().CombinationID, Is.EqualTo(combId));
         }
 
         [Test]
@@ -186,7 +179,7 @@ namespace EmlinTests
             PressKey('b');
             PressKey('c');
             int combId = HelperFunctions.GetCombinationId('a', 'b');
-            Assert.That(testFormattter.DataRecorded[0].CombinationID, Is.EqualTo(combId));
+            Assert.That(testFormattter.DataRecorded.First().CombinationID, Is.EqualTo(combId));
 
             combId = HelperFunctions.GetCombinationId('b', 'c');
             Assert.That(testFormattter.DataRecorded[1].CombinationID, Is.EqualTo(combId));
@@ -195,14 +188,11 @@ namespace EmlinTests
         [Test]
         public void Releasing_a_key_and_pressing_another_should_record_the_flight_time()
         {
-            Wait(100);
-            PressKey('a');
-            Wait(100);
-            ReleaseKey('a');
+            PressRelease_A();
             Wait(50);
             PressKey('b');
 
-            Assert.That(testFormattter.DataRecorded[0].FlightTime.Ticks, Is.EqualTo(50));
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(50));
         }
 
         [Test]
@@ -215,7 +205,7 @@ namespace EmlinTests
             Wait(25);
             ReleaseKey('a');
 
-            Assert.That(testFormattter.DataRecorded[0].FlightTime.Ticks, Is.EqualTo(-25));
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-25));
         }
 
         [Test]
@@ -230,7 +220,7 @@ namespace EmlinTests
             Wait(25);
             ReleaseKey('a');
 
-            Assert.That(testFormattter.DataRecorded[0].FlightTime.Ticks, Is.EqualTo(-50));
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-50));
         }
 
         [Test]
@@ -249,8 +239,8 @@ namespace EmlinTests
             Wait(30);
             ReleaseKey('c'); // 105
 
-            Assert.That(testFormattter.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(40));
-            Assert.That(testFormattter.DataRecorded[0].FlightTime.Ticks, Is.EqualTo(-30));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(40));
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-30));
 
             Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(55));
             Assert.That(testFormattter.DataRecorded[1].FlightTime.Ticks, Is.EqualTo(-40));
@@ -272,8 +262,8 @@ namespace EmlinTests
             Wait(30);
             ReleaseKey('a'); // 105
 
-            Assert.That(testFormattter.DataRecorded[0].HoldTime.Ticks, Is.EqualTo(95));
-            Assert.That(testFormattter.DataRecorded[0].FlightTime.Ticks, Is.EqualTo(-85));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(95));
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-85));
 
             Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(55));
             Assert.That(testFormattter.DataRecorded[1].FlightTime.Ticks, Is.EqualTo(-40));
@@ -282,10 +272,8 @@ namespace EmlinTests
         [Test]
         public void Data_recorded_is_cleared_once_the_timer_counts_down()
         {
-            PressKey('c');
-            Wait(15);
-            ReleaseKey('c');
-            PressKey('c');
+            PressRelease_A();
+            PressKey('b');
 
             Wait(SecondsToTicks(5));
             Assert.That(testFormattter.DataRecorded, Is.Empty);
@@ -294,12 +282,10 @@ namespace EmlinTests
         [Test]
         public void Pressing_a_key_and_pressing_another_should_record_the_Digraph1()
         {
-            PressKey('a');
-            ReleaseKey('a');
-            Wait(15);
+            PressRelease_A();
             PressKey('b');
 
-            Assert.That(testFormattter.DataRecorded[0].Digraph1.Ticks, Is.EqualTo(15));
+            Assert.That(testFormattter.DataRecorded.First().Digraph1.Ticks, Is.EqualTo(100));
         }
 
         /*
@@ -314,20 +300,65 @@ namespace EmlinTests
          */
 
         #region helper functions
+
+        private void PressRelease_A_and_B()
+        {
+            PressRelease_A();
+            PressRelease_B();
+        }
+
+        private void PressRelease_A()
+        {
+            PressA();
+            ReleaseA();
+        }
+
+        private void PressRelease_B()
+        {
+            PressB();
+            ReleaseB();
+        }
+        #region Press Release
+        private void ReleaseA()
+        {
+            Wait(100);
+            ReleaseKey('a');
+        }
+
+        private void PressA()
+        {
+            Wait(50);
+            PressKey('a');
+        }
+
+
+        private void ReleaseB()
+        {
+            Wait(200);
+            ReleaseKey('b');
+        }
+
+        private void PressB()
+        {
+            Wait(150);
+            PressKey('b');
+        }
+
         private void PressKey(char charPressed)
         {
             testFormattter.KeyWasPressed(charPressed, timeElapsed);
         }
 
+        private void ReleaseKey(char charReleased)
+        {
+            testFormattter.KeyWasReleased(charReleased, timeElapsed);
+        }
+        #endregion
+
         private void Wait(long timeToWait)
         {
             timeElapsed += timeToWait;
             timerFake.AddToElapsed(timeToWait, testFormattter);
-        }
-
-        private void ReleaseKey(char charReleased)
-        {
-            testFormattter.KeyWasReleased(charReleased, timeElapsed);
         }
 
         private long SecondsToTicks(int seconds)
