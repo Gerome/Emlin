@@ -62,7 +62,9 @@ namespace Emlin
         {
             return data.CombinationID.ToString() + ","
                 + data.HoldTime.Milliseconds.ToString() + ","
-                + data.FlightTime.Milliseconds.ToString()
+                + data.FlightTime.Milliseconds.ToString() + ','
+                + data.Digraph1.Milliseconds.ToString() + ','
+                + data.Digraph2.Milliseconds.ToString()
                 + Environment.NewLine;
         }
 

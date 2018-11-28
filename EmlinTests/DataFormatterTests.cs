@@ -213,7 +213,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Holding_three_keys_and_releasing_not_ain_order_record_Hold_and_Flight_time_correctly()
+        public void Holding_three_keys_and_releasing_not_in_order_record_Hold_and_Flight_time_correctly()
         {
             Wait(10);      
             PressKey('a');   // 10
@@ -245,6 +245,7 @@ namespace EmlinTests
             Assert.That(testFormattter.DataRecorded, Is.Empty);
         }
 
+        // Impossible to have a negative Digraph1
         [Test]
         public void Pressing_a_key_and_pressing_another_should_record_the_Digraph1()
         {
@@ -254,14 +255,95 @@ namespace EmlinTests
             Assert.That(testFormattter.DataRecorded.First().Digraph1.Ticks, Is.EqualTo(100));
         }
 
+        [Test]
+        public void Holding_three_keys_and_releasing_in_order_record_Digraph1_time_correctly()
+        {
+            Wait(10);
+            PressKey('a');   // 10
+            Wait(10);
+            PressKey('b');   // 20
+            Wait(15);
+            PressKey('c');   // 35
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph1.Ticks, Is.EqualTo(10));
+            Assert.That(testFormattter.DataRecorded[1].Digraph1.Ticks, Is.EqualTo(15));
+        }
+
+        [Test]
+        public void Pressing_a_key_and_releasing_should_record_the_Digraph2_as_0()
+        {
+            PressRelease_A();
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Pressing_a_key_and_pressing_another_should_record_the_Digraph2()
+        {
+            PressRelease_A_and_B();
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(350)); 
+        }
+
+        [Test]
+        public void Pressing_two_keys_and_releasing_the_first_should_record_the_Digraph2()
+        {
+            Press_A_B_Release_A_B();
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(200));
+        }
+
+        [Test]
+        public void Pressing_two_keys_and_releasing_the_second_first_should_record_a_negative_Digaph2()
+        {
+            Press_A_B_Release_B_A();
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(-100));
+        }
+
+        [Test]
+        public void Holding_three_keys_and_releasing_in_order_record_Digraph2_time_correctly()
+        {
+            Wait(10);
+            PressKey('a');   // 10
+            Wait(10);
+            PressKey('b');   // 20
+            Wait(15);
+            PressKey('c');   // 35
+            Wait(15);
+            ReleaseKey('a'); // 50
+            Wait(25);
+            ReleaseKey('b'); // 75
+            Wait(30);
+            ReleaseKey('c'); // 105
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(25));
+            Assert.That(testFormattter.DataRecorded[1].Digraph2.Ticks, Is.EqualTo(30));
+        }
+
+        [Test]
+        public void Holding_three_keys_and_releasing_not_in_order_record_the_Digraph2_correctly()
+        {
+            Wait(10);
+            PressKey('a');   // 10
+            Wait(10);
+            PressKey('b');   // 20
+            Wait(15);
+            PressKey('c');   // 35
+            Wait(15);
+            ReleaseKey('c'); // 50
+            Wait(25);
+            ReleaseKey('b'); // 75
+            Wait(30);
+            ReleaseKey('a'); // 105
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(-30));
+            Assert.That(testFormattter.DataRecorded[1].Digraph2.Ticks, Is.EqualTo(-25));
+        }
+
         /*
          * Test list
          *   
-         * Flight tim
-         *  
-         * Digraph
-         *  pressing a key and pressing another should record the Di1
-         *  releasing a key and releasing another should record the Di2
          *  pressing a key and releasing another should record the Di3
          */
 

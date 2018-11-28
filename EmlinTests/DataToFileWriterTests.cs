@@ -12,8 +12,7 @@ namespace EmlinTests
         private MockFileSystem fileSystem;
         private DataToFileWriter ttfRecorder;
         private string textContents;
-
-        string newLine = "\r\n";
+        
 
         [SetUp]
         public void SetUp()
@@ -22,12 +21,6 @@ namespace EmlinTests
             fileSystem = new MockFileSystem();
             ttfRecorder = new DataToFileWriter();
             ttfRecorder.AddFileSystem(fileSystem);
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-
         }
 
         private void PrepareFileForWriting()
@@ -101,7 +94,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Write_data_recorder_should_add_multiple_flight_time_to_the_text_file()
+        public void Write_data_recorder_should_add_multiple_flight_times_to_the_text_file()
         {
             PrepareFileForWriting();
             keysData.Add(NewKeysData(0, 0, 100));
@@ -112,14 +105,72 @@ namespace EmlinTests
             Assert.That(textContents, Contains.Substring("1,0,260"));
         }
 
-        private KeysData NewKeysData(int combID, int Ht, int Ft)
+        [Test]
+        public void Write_data_recorder_should_add_a_single_digraph1_time_to_the_text_file()
+        {
+            PrepareFileForWriting();
+            keysData.Add(NewKeysData(0, 0, 100, 200));
+            WriteDataToFile();
+
+            Assert.That(textContents, Contains.Substring("0,0,100,200"));
+        }
+
+        [Test]
+        public void Write_data_recorder_should_add_multiple_digraph1_times_to_the_text_file()
+        {
+            PrepareFileForWriting();
+            keysData.Add(NewKeysData(0, 0, 100, 200));
+            keysData.Add(NewKeysData(1, 666, 666, 42));
+            WriteDataToFile();
+
+            Assert.That(textContents, Contains.Substring("0,0,100,200"));
+            Assert.That(textContents, Contains.Substring("1,666,666,42"));
+        }
+
+        [Test]
+        public void Write_data_recorder_should_add_a_single_digraph2_time_to_the_text_file()
+        {
+            PrepareFileForWriting();
+            keysData.Add(NewKeysData(0, 0, 100, 200, 300));
+            WriteDataToFile();
+
+            Assert.That(textContents, Contains.Substring("0,0,100,200,300"));
+        }
+
+
+        [Test]
+        public void Write_data_recorder_should_add_multiple_digraph2_times_to_the_text_file()
+        {
+            PrepareFileForWriting();
+            keysData.Add(NewKeysData(0, 0, 100, 200, 300));
+            keysData.Add(NewKeysData(1, 666, 666, 42, 96));
+            WriteDataToFile();
+
+            Assert.That(textContents, Contains.Substring("0,0,100,200,300"));
+            Assert.That(textContents, Contains.Substring("1,666,666,42,96"));
+        }
+
+        private KeysData NewKeysData(int combID, int Ht, int Ft, int D1, int D2)
         {
             return new KeysData
             {
                 CombinationID = combID,
                 HoldTime = TimeSpan.FromMilliseconds(Ht),
-                FlightTime = TimeSpan.FromMilliseconds(Ft)
+                FlightTime = TimeSpan.FromMilliseconds(Ft),
+                Digraph1 = TimeSpan.FromMilliseconds(D1),
+                Digraph2 = TimeSpan.FromMilliseconds(D2)
             };
+        }
+
+        private KeysData NewKeysData(int combID, int Ht, int Ft, int D1)
+        {
+            return NewKeysData(combID, Ht, Ft, D1, 0);
+        }
+
+        private KeysData NewKeysData(int combID, int Ht, int Ft)
+        {
+            
+            return NewKeysData(combID, Ht, Ft, 0);
         }
 
         private KeysData NewKeysData(int combID, int Ht)

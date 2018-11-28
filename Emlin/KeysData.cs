@@ -15,7 +15,7 @@ namespace Emlin
         public TimeSpan HoldTime { get; set; }
         public TimeSpan FlightTime { get; set; }
         public TimeSpan Digraph1 { get; set; }
-        //public TimeSpan Digraph2 { get; set; }
+        public TimeSpan Digraph2 { get; set; }
         //public TimeSpan Digraph3 { get; set; }
 
     }

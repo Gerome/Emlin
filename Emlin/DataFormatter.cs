@@ -10,6 +10,8 @@ namespace Emlin
         private char previousKey;
         private long timeOfPreviousRelease;
         private long timeOfPreviousPress;
+        KeysData lastKeyReleased;
+
         private ITimerInterface timer;
         public enum SessionState { Active , Inactive };
 
@@ -55,6 +57,7 @@ namespace Emlin
 
             previousKey = charPressed;
             timeOfPreviousPress = timeInTicks;
+            
         }
 
 
@@ -66,6 +69,7 @@ namespace Emlin
 
             keysCurrentlyHeld.Remove(charReleased);
             timeOfPreviousRelease = timeInTicks;
+            lastKeyReleased = keysData;
         }
 
         private void RecordOnReleaseData(char charReleased, long timeInTicks, KeysData keysData)
@@ -75,6 +79,18 @@ namespace Emlin
             if (NextKeyAlreadyPressed(keysData))
             {
                 keysData.FlightTime = new TimeSpan(keysData.FlightTime.Ticks - timeInTicks);
+            }
+
+            if (lastKeyReleased != null)
+            {
+                if(lastKeyReleased.FirstChar == keysData.SecondChar)
+                {
+                    keysData.Digraph2 = new TimeSpan(timeOfPreviousRelease - timeInTicks);
+                }
+                else
+                {
+                    lastKeyReleased.Digraph2 = new TimeSpan(timeInTicks - timeOfPreviousRelease);
+                }
             }
         }
 
