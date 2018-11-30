@@ -341,6 +341,23 @@ namespace EmlinTests
             Assert.That(testFormattter.DataRecorded[1].Digraph2.Ticks, Is.EqualTo(-25));
         }
 
+
+        [Test]
+        public void Pressing_and_releasing_two_keys_should_record_the_digraph3_time()
+        {
+            Press_A_B_Release_A_B();
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(450));
+        }
+
+        [Test]
+        public void Pressing_two_keys_and_releasing_the_second_first_should_record_a_the_correct_Digaph3()
+        {
+            Press_A_B_Release_B_A();
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(350));
+        }
+
         /*
          * Test list
          *   

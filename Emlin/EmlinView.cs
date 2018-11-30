@@ -58,12 +58,13 @@ namespace Emlin
 #endif
         }
 
-#region methods
+
 
         void TimerCountdown(object sender, EventArgs e)
         {
             string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
-            
+
+            dataFormatter.RemoveLastDataItem();
             List<KeysData> dataToWriteToFile = dataFormatter.DataRecorded;
 
             if (dataToWriteToFile.Count != 0)
@@ -98,7 +99,6 @@ namespace Emlin
                 || charReleased == 165;
         }
 
-        #endregion
 
         #region hook methods
 

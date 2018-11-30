@@ -22,40 +22,12 @@ namespace Emlin
             {
                 textToWrite += GetFormattedDataLine(data);         
             }
-
-            fileSystem.File.WriteAllText(filepath, textToWrite);
             
 
-
-            //string[] linesInFile = fileSystem.File.ReadAllLines(filepath);
-            //int indexOfCurrentKeyComb = 0;
-            //KeyCombination currentKeyComb = keyCombinations[indexOfCurrentKeyComb];
-
-            //for (int lineIndex = 0; lineIndex < linesInFile.Length; lineIndex++)
-            //{
-            //    if (lineIndex == currentKeyComb.CombId)
-            //    {
-            //        foreach (TimeSpan ts in currentKeyComb.TimeSpanList)
-            //        {
-
-            //            linesInFile[lineIndex] += ", " + (ts.TotalMilliseconds).ToString();
-            //        }
-
-            //        indexOfCurrentKeyComb++;
-
-            //        if (indexOfCurrentKeyComb != keyCombinations.Count)
-            //        {
-            //            currentKeyComb = keyCombinations[indexOfCurrentKeyComb];
-            //        }
-            //        else
-            //        {
-            //            break;
-            //        }
-            //    }
-            //}
-
-            //fileSystem.File.WriteAllText(filepath, string.Empty);
-            //fileSystem.File.WriteAllLines(filepath, linesInFile);
+            using (StreamWriter sw = fileSystem.File.AppendText(filepath))
+            {
+                sw.Write(textToWrite);
+            }
         }
 
         private string GetFormattedDataLine(KeysData data)
@@ -64,7 +36,8 @@ namespace Emlin
                 + data.HoldTime.Milliseconds.ToString() + ","
                 + data.FlightTime.Milliseconds.ToString() + ','
                 + data.Digraph1.Milliseconds.ToString() + ','
-                + data.Digraph2.Milliseconds.ToString()
+                + data.Digraph2.Milliseconds.ToString() + ','
+                + data.Digraph3.Milliseconds.ToString()
                 + Environment.NewLine;
         }
 
@@ -79,7 +52,7 @@ namespace Emlin
                 fileSystem.Directory.CreateDirectory(directoryPath);
             }
 
-            using (Stream sr = fileSystem.File.Create(filepath)) { }
+            using (StreamWriter sw = fileSystem.File.AppendText(filepath)) { }
 
         }
 

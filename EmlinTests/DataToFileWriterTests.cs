@@ -150,7 +150,30 @@ namespace EmlinTests
             Assert.That(textContents, Contains.Substring("1,666,666,42,96"));
         }
 
-        private KeysData NewKeysData(int combID, int Ht, int Ft, int D1, int D2)
+        [Test]
+        public void Write_data_recorder_should_add_a_single_digraph3_time_to_the_text_file()
+        {
+            PrepareFileForWriting();
+            keysData.Add(NewKeysData(0, 0, 100, 200, 300, 400));
+            WriteDataToFile();
+
+            Assert.That(textContents, Contains.Substring("0,0,100,200,300,400"));
+        }
+
+
+        [Test]
+        public void Write_data_recorder_should_add_multiple_digraph3_times_to_the_text_file()
+        {
+            PrepareFileForWriting();
+            keysData.Add(NewKeysData(0, 0, 100, 200, 300, 400));
+            keysData.Add(NewKeysData(1, 666, 666, 42, 96, 192));
+            WriteDataToFile();
+
+            Assert.That(textContents, Contains.Substring("0,0,100,200,300,400"));
+            Assert.That(textContents, Contains.Substring("1,666,666,42,96,192"));
+        }
+
+        private KeysData NewKeysData(int combID, int Ht, int Ft, int D1, int D2, int D3)
         {
             return new KeysData
             {
@@ -158,8 +181,14 @@ namespace EmlinTests
                 HoldTime = TimeSpan.FromMilliseconds(Ht),
                 FlightTime = TimeSpan.FromMilliseconds(Ft),
                 Digraph1 = TimeSpan.FromMilliseconds(D1),
-                Digraph2 = TimeSpan.FromMilliseconds(D2)
+                Digraph2 = TimeSpan.FromMilliseconds(D2),
+                Digraph3 = TimeSpan.FromMilliseconds(D3)
             };
+        }
+
+        private KeysData NewKeysData(int combID, int Ht, int Ft, int D1, int D2)
+        {
+            return NewKeysData(combID, Ht, Ft, D1, D2, 0);
         }
 
         private KeysData NewKeysData(int combID, int Ht, int Ft, int D1)

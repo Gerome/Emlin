@@ -7,15 +7,15 @@ namespace Emlin
 {
     public class DataFormatter
     {
-        private char previousKey;
+        private char lastKeyPress;
         private long timeOfPreviousRelease;
         private long timeOfPreviousPress;
-        KeysData lastKeyReleased;
+        KeysData previousKeysData;
 
         private ITimerInterface timer;
         public enum SessionState { Active , Inactive };
 
-        public List<KeysData> DataRecorded { get; set; } = new List<KeysData>();
+        public List<KeysData> DataRecorded { get; private set; } = new List<KeysData>();
         public SessionState CurrentState { get; private set; } = SessionState.Inactive;
 
         private Dictionary<char, long> keysCurrentlyHeld = new Dictionary<char, long>();
@@ -43,7 +43,7 @@ namespace Emlin
             }
             else
             {
-                DataRecorded.Last().CombinationID = HelperFunctions.GetCombinationId(previousKey, charPressed);
+                DataRecorded.Last().CombinationID = HelperFunctions.GetCombinationId(lastKeyPress, charPressed);
                 DataRecorded.Last().SecondChar = charPressed;
                 DataRecorded.Last().FlightTime = new TimeSpan(timeInTicks - timeOfPreviousRelease);            
                 DataRecorded.Last().Digraph1 = new TimeSpan(timeInTicks - timeOfPreviousPress);
@@ -55,9 +55,8 @@ namespace Emlin
                     FirstChar = charPressed
                 });
 
-            previousKey = charPressed;
             timeOfPreviousPress = timeInTicks;
-            
+            lastKeyPress = charPressed;          
         }
 
 
@@ -69,7 +68,7 @@ namespace Emlin
 
             keysCurrentlyHeld.Remove(charReleased);
             timeOfPreviousRelease = timeInTicks;
-            lastKeyReleased = keysData;
+            previousKeysData = keysData;
         }
 
         private void RecordOnReleaseData(char charReleased, long timeInTicks, KeysData keysData)
@@ -81,22 +80,25 @@ namespace Emlin
                 keysData.FlightTime = new TimeSpan(keysData.FlightTime.Ticks - timeInTicks);
             }
 
-            if (lastKeyReleased != null)
+            if (previousKeysData != null)
             {
-                if(lastKeyReleased.FirstChar == keysData.SecondChar)
+                if(previousKeysData.FirstChar == keysData.SecondChar) // This happens when the second key of the key combination is released first
                 {
                     keysData.Digraph2 = new TimeSpan(timeOfPreviousRelease - timeInTicks);
+                    keysData.Digraph3 = keysData.HoldTime + keysData.Digraph2;
                 }
                 else
                 {
-                    lastKeyReleased.Digraph2 = new TimeSpan(timeInTicks - timeOfPreviousRelease);
+                    previousKeysData.Digraph2 = new TimeSpan(timeInTicks - timeOfPreviousRelease);
+                    previousKeysData.Digraph3 = previousKeysData.HoldTime + previousKeysData.Digraph2;
                 }
             }
+
         }
 
         private bool NextKeyAlreadyPressed(KeysData keysData)
         {
-            return previousKey != keysData.FirstChar;
+            return lastKeyPress != keysData.FirstChar;
         }
 
         private KeysData GetCorrectKeysData(char character)
@@ -109,6 +111,11 @@ namespace Emlin
             CurrentState = SessionState.Inactive;
             timer.Enabled = false;
             DataRecorded = new List<KeysData>();
+        }
+
+        public void RemoveLastDataItem()
+        {     
+            DataRecorded.Remove(DataRecorded.Last());   
         }
 
         private void ResetTimer()
