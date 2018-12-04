@@ -17,5 +17,7 @@ namespace Emlin
 
             return (firstId * NUMBER_OF_INPUTS + secondId);
         }
+
+        
     }
 }

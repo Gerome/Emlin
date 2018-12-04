@@ -69,6 +69,7 @@
       <DependentUpon>DevWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="HelperFunctions.cs" />
+    <Compile Include="KeyPressRelease.cs" />
     <Compile Include="KeysData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

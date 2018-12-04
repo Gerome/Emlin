@@ -173,6 +173,27 @@ namespace EmlinTests
             Assert.That(textContents, Contains.Substring("1,666,666,42,96,192"));
         }
 
+        [Test]
+        public void Write_data_recorder_should_write_a_time_long_than_a_second_to_the_text_file()
+        {
+            PrepareFileForWriting();
+            keysData.Add(NewKeysData(0, 2000));
+            WriteDataToFile();
+
+            Assert.That(textContents, Contains.Substring("0,2000"));
+        }
+
+        [Test]
+        public void Write_data_recorder_should_handle_negative_values()
+        {
+            PrepareFileForWriting();
+            keysData.Add(NewKeysData(0, 0, -2000));
+            WriteDataToFile();
+
+            Assert.That(textContents, Contains.Substring("0,0,-2000"));
+        }
+
+
         private KeysData NewKeysData(int combID, int Ht, int Ft, int D1, int D2, int D3)
         {
             return new KeysData

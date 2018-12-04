@@ -26,22 +26,22 @@ namespace EmlinTests
         {
             testFormattter.End();
         }
-
+        
         [Test]
-        public void Current_session_is_inactive_by_default()
+        public void Sess_Current_session_is_inactive_by_default()
         {
             Assert.That(testFormattter.CurrentState, Is.EqualTo(DataFormatter.SessionState.Inactive));
         }
 
         [Test]
-        public void Pressing_a_key_sets_the_state_of_the_session_to_active()
+        public void Sess_Pressing_a_key_sets_the_state_of_the_session_to_active()
         {
             PressKey('A');
             Assert.That(testFormattter.CurrentState, Is.EqualTo(DataFormatter.SessionState.Active));
         }
 
         [Test]
-        public void Pressing_2_key_sets_the_state_of_the_session_to_active()
+        public void Sess_Pressing_2_key_sets_the_state_of_the_session_to_active()
         {
             PressKey('A');
             Wait(200);
@@ -50,7 +50,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_3_key_with_1_second_delay_keeps_session_active()
+        public void Sess_Pressing_3_key_with_1_second_delay_keeps_session_active()
         {
             PressKey('A');
             Wait(SecondsToTicks(1));
@@ -62,16 +62,26 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_a_key_and_waiting_2_seconds_shows_the_session_is_inactive()
+        public void Sess_Pressing_a_key_and_waiting_2_seconds_shows_the_session_is_inactive()
         {
             PressKey('A');
             Assert.That(testFormattter.CurrentState, Is.EqualTo(DataFormatter.SessionState.Active));
             Wait(SecondsToTicks(2));
             Assert.That(testFormattter.CurrentState, Is.EqualTo(DataFormatter.SessionState.Inactive));
         }
-        
+
         [Test]
-        public void Pressing_and_Releasing_a_key_should_record_the_Hold_Time()
+        public void Sess_Holding_a_key_and_waiting_2_seconds_shows_the_session_is_still_active()
+        {
+            PressKey('A');
+            Wait(SecondsToTicks(1));
+            PressKey('A');
+            Wait(SecondsToTicks(1));
+            Assert.That(testFormattter.CurrentState, Is.EqualTo(DataFormatter.SessionState.Active));
+        }
+
+        [Test]
+        public void Ht_Pressing_and_Releasing_a_key_should_record_the_Hold_Time()
         {
             PressRelease_A();
 
@@ -80,7 +90,7 @@ namespace EmlinTests
 
 
         [Test]
-        public void Pressing_and_Releasing_2_keys_should_record_the_Hold_Time_of_each()
+        public void Ht_Pressing_and_Releasing_2_keys_should_record_the_Hold_Time_of_each()
         {
             PressRelease_A_and_B();
 
@@ -91,7 +101,7 @@ namespace EmlinTests
        
 
         [Test]
-        public void Pressing_and_Releasing_the_same_2_keys_should_record_the_Hold_Time_of_each()
+        public void Ht_Pressing_and_Releasing_the_same_2_keys_should_record_the_Hold_Time_of_each()
         {
             PressRelease_A();
             PressRelease_A();
@@ -101,7 +111,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_and_Releasing_2_keys_intermediately_should_still_record_the_Hold_Time_of_each()
+        public void Ht_Pressing_and_Releasing_2_keys_intermediately_should_still_record_the_Hold_Time_of_each()
         {
             Press_A_B_Release_A_B();
 
@@ -110,7 +120,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Holding_down_a_key_should_not_crash_the_program()
+        public void Crash_Holding_down_a_key_should_not_crash_the_program()
         {
             PressKey('a');
             PressKey('a');
@@ -121,7 +131,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Holding_down_multiple_keys_should_not_crash_the_program()
+        public void Crash_Holding_down_multiple_keys_should_not_crash_the_program()
         {
             PressKey('a');
             PressKey('b');
@@ -130,7 +140,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Holding_down_a_key_should_record_the_hold_time()
+        public void Ht_Holding_down_a_key_should_record_the_hold_time()
         {
             Press_A();
             Press_A();
@@ -141,7 +151,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_a_key_and_another_should_record_the_combination_ID()
+        public void Id_Pressing_a_key_and_another_should_record_the_combination_ID()
         {
             PressKey('a');
             PressKey('b');
@@ -151,7 +161,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_3_keys_should_record_the_combination_IDs()
+        public void Id_Pressing_3_keys_should_record_the_combination_IDs()
         {
             PressKey('a');
             PressKey('b');
@@ -164,7 +174,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Releasing_a_key_and_pressing_another_should_record_the_flight_time()
+        public void Ft_Releasing_a_key_and_pressing_another_should_record_the_flight_time()
         {
             PressRelease_A();
             Wait(50);
@@ -174,7 +184,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_two_keys_then_releasing_one_should_record_a_negative_flight_time()
+        public void Ft_Pressing_two_keys_then_releasing_one_should_record_a_negative_flight_time()
         {
             Press_A_B_Release_A_B();
 
@@ -182,7 +192,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_two_keys_then_releasing_the_second_first_should_record_a_negative_flight_time()
+        public void Ft_Pressing_two_keys_then_releasing_the_second_first_should_record_a_negative_flight_time()
         {
             Press_A_B_Release_B_A();
 
@@ -190,7 +200,26 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Holding_three_keys_and_releasing_in_order_record_Hold_and_Flight_time_correctly()
+        public void Ft_should_record_the_flight_time_correctly()
+        {
+            PressKey('a');
+            Wait(10);
+            PressKey('b');
+            Wait(15);
+            ReleaseKey('a');
+            Wait(20);
+            PressKey('c');
+            Wait(25);
+            ReleaseKey('b');
+            Wait(30);
+            ReleaseKey('c');
+
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-15));
+            Assert.That(testFormattter.DataRecorded[1].FlightTime.Ticks, Is.EqualTo(-25));
+        }
+
+        [Test]
+        public void Ht_Ft_Holding_three_keys_and_releasing_in_order_record_Hold_and_Flight_time_correctly()
         {
             Wait(10);
             PressKey('a');   // 10
@@ -213,7 +242,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Holding_three_keys_and_releasing_not_in_order_record_Hold_and_Flight_time_correctly()
+        public void Ht_Ft_Holding_three_keys_and_releasing_not_in_order_record_Hold_and_Flight_time_correctly()
         {
             Wait(10);      
             PressKey('a');   // 10
@@ -247,7 +276,7 @@ namespace EmlinTests
 
         // Impossible to have a negative Digraph1
         [Test]
-        public void Pressing_a_key_and_pressing_another_should_record_the_Digraph1()
+        public void Di1_Pressing_a_key_and_pressing_another_should_record_the_Digraph1()
         {
             PressRelease_A();
             PressKey('b');
@@ -256,7 +285,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Holding_three_keys_and_releasing_in_order_record_Digraph1_time_correctly()
+        public void Di1_Holding_three_keys_and_releasing_in_order_record_Digraph1_time_correctly()
         {
             Wait(10);
             PressKey('a');   // 10
@@ -270,7 +299,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_a_key_and_releasing_should_record_the_Digraph2_as_0()
+        public void Di2_Pressing_a_key_and_releasing_should_record_the_Digraph2_as_0()
         {
             PressRelease_A();
 
@@ -278,7 +307,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_a_key_and_pressing_another_should_record_the_Digraph2()
+        public void Di2_Pressing_a_key_and_pressing_another_should_record_the_Digraph2()
         {
             PressRelease_A_and_B();
 
@@ -286,7 +315,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_two_keys_and_releasing_the_first_should_record_the_Digraph2()
+        public void Di2_Pressing_two_keys_and_releasing_the_first_should_record_the_Digraph2()
         {
             Press_A_B_Release_A_B();
 
@@ -294,7 +323,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_two_keys_and_releasing_the_second_first_should_record_a_negative_Digaph2()
+        public void Di2_Pressing_two_keys_and_releasing_the_second_first_should_record_a_negative_Digaph2()
         {
             Press_A_B_Release_B_A();
 
@@ -302,7 +331,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Holding_three_keys_and_releasing_in_order_record_Digraph2_time_correctly()
+        public void Di2_Holding_three_keys_and_releasing_in_order_record_Digraph2_time_correctly()
         {
             Wait(10);
             PressKey('a');   // 10
@@ -322,7 +351,7 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Holding_three_keys_and_releasing_not_in_order_record_the_Digraph2_correctly()
+        public void Di2_Holding_three_keys_and_releasing_not_in_order_record_the_Digraph2_correctly()
         {
             Wait(10);
             PressKey('a');   // 10
@@ -341,9 +370,9 @@ namespace EmlinTests
             Assert.That(testFormattter.DataRecorded[1].Digraph2.Ticks, Is.EqualTo(-25));
         }
 
-
+        
         [Test]
-        public void Pressing_and_releasing_two_keys_should_record_the_digraph3_time()
+        public void Di3_Pressing_and_releasing_two_keys_should_record_the_digraph3_time()
         {
             Press_A_B_Release_A_B();
 
@@ -351,18 +380,198 @@ namespace EmlinTests
         }
 
         [Test]
-        public void Pressing_two_keys_and_releasing_the_second_first_should_record_a_the_correct_Digaph3()
+        public void Di3_Pressing_and_releasing_multiple_two_keys_should_record_the_digraph3_time()
+        {
+            Press_A_B_Release_A_B();
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+
+            Press_A_B_Release_A_B();
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+
+            Press_A_B_Release_A_B();
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(450));
+            Assert.That(testFormattter.DataRecorded[2].Digraph3.Ticks, Is.EqualTo(450));
+        }
+
+
+        [Test]
+        public void Di3_Pressing_two_keys_and_releasing_the_second_first_should_record_a_the_correct_Digaph3()
         {
             Press_A_B_Release_B_A();
 
             Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(350));
         }
 
+        
+        [Test]
+        public void Di3_Holding_three_keys_and_releasing_not_in_order_record_the_Digraph3_correctly()
+        {
+            PressKey('a');   // 0
+            Wait(10);
+            PressKey('b');   // 10
+            Wait(15);
+            PressKey('c');   // 25
+            Wait(20);
+            ReleaseKey('b'); // 45
+            Wait(25);
+            ReleaseKey('a'); // 70
+            Wait(30);
+            ReleaseKey('c'); // 100
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(45));
+            Assert.That(testFormattter.DataRecorded[1].Digraph3.Ticks, Is.EqualTo(90));
+        }
+
+        [Test]
+        public void All_Specific_key_comb_should_record_all_correctly()
+        {
+            PressKey('a'); // 0
+            Wait(10);
+            PressKey('b'); // 10
+            Wait(15);
+            PressKey('c'); // 25
+            Wait(20);
+            ReleaseKey('b'); // 45
+            Wait(25);
+            ReleaseKey('c'); // 70
+            Wait(30);
+            ReleaseKey('a'); // 100
+
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(100));
+            Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(35));
+
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-90));
+            Assert.That(testFormattter.DataRecorded[1].FlightTime.Ticks, Is.EqualTo(-20));
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph1.Ticks, Is.EqualTo(10));
+            Assert.That(testFormattter.DataRecorded[1].Digraph1.Ticks, Is.EqualTo(15));
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(-55));
+            Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(45));
+
+            Assert.That(testFormattter.DataRecorded[1].Digraph2.Ticks, Is.EqualTo(25));
+            Assert.That(testFormattter.DataRecorded[1].Digraph3.Ticks, Is.EqualTo(60));
+        }
+
+        [Test]
+        public void Di2_Di3_Intermitent_chars_of_same_char()
+        {
+            PressKey('a');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+
+            Wait(10);
+            PressKey('b');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+
+            Wait(15);
+            ReleaseKey('a');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+
+            Wait(20);
+            PressKey('a');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+
+            Wait(25);
+            ReleaseKey('b');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+
+            Wait(30);
+            ReleaseKey('a');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+
+
+
+            Assert.That(testFormattter.DataRecorded[1].Digraph2.Ticks, Is.EqualTo(30));
+            Assert.That(testFormattter.DataRecorded[1].Digraph3.Ticks, Is.EqualTo(90)); 
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(45));
+            Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(70));
+        }
+
+        [Test]
+        public void Di2_Di3_Intermitent_chars_of_same_char_inbetween()
+        {
+            PressKey('a');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Wait(10);
+            PressKey('b');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+            Wait(15);
+            ReleaseKey('b');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+            Wait(20);
+            PressKey('b');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+            Wait(25);
+            ReleaseKey('b');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+            Wait(30);
+            ReleaseKey('a');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-90));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(100));
+            Assert.That(testFormattter.DataRecorded.First().Digraph1.Ticks, Is.EqualTo(10));
+
+            Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(15));
+            Assert.That(testFormattter.DataRecorded[1].FlightTime.Ticks, Is.EqualTo(20));
+            Assert.That(testFormattter.DataRecorded[1].Digraph1.Ticks, Is.EqualTo(35));
+            Assert.That(testFormattter.DataRecorded[1].Digraph2.Ticks, Is.EqualTo(45));
+            Assert.That(testFormattter.DataRecorded[1].Digraph3.Ticks, Is.EqualTo(60));
+
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(-75));
+            Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(25));
+        }
+
+        [Test]
+        public void Di2_Di3_Same_char_multiple_times()
+        {
+            PressKey('h');
+            Wait(10);
+            ReleaseKey('h');
+            Wait(10);
+            PressKey('h');
+            Wait(5);
+            ReleaseKey('h');
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(15));
+            Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(25));
+        }
+
+
         /*
          * Test list
          *   
          *  pressing a key and releasing another should record the Di3
          */
+
+        [Test]
+        public void Remover_Should_remove_the_a_and_b()
+        {
+            PressKey('a');
+            PressKey('b');
+            PressKey('c');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+            ReleaseKey('a');
+            ReleaseKey('b');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+            ReleaseKey('c');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Remover_Should_remove_the_a_and_b_ABCCBA()
+        {
+            PressKey('a');
+            PressKey('b');
+            PressKey('c');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+            ReleaseKey('c');
+            ReleaseKey('b');
+            ReleaseKey('a');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+        }
 
         #region helper functions
 
@@ -403,8 +612,8 @@ namespace EmlinTests
 
         private void PressRelease_A()
         {
-            Press_A();
-            Release_A();
+            Press_A(); // 50
+            Release_A(); // 150
         }
         #region Press Release
         private void Press_A()

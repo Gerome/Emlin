@@ -17,5 +17,7 @@ namespace EmlinTests
         {
             Assert.That(HelperFunctions.GetCombinationId((char)127, (char)127), Is.EqualTo(16383));
         }
+
+     
     }
 }

@@ -76,17 +76,19 @@ namespace Emlin
             }
 
             dataFormatter.End();
+            devWindow.textBox1.AppendText("Data written to file." + Environment.NewLine);
+
         }
 
         private void SendKeyPressToCurrentSession(char charPressed, long timeInTicks)
         {
-            devWindow.textBox1.AppendText(charPressed.ToString() + " pressed at " + (new TimeSpan(timeInTicks).Milliseconds).ToString() + Environment.NewLine);
+            devWindow.textBox1.AppendText(charPressed.ToString() + " pressed at " + new TimeSpan(timeInTicks).TotalMilliseconds.ToString() + Environment.NewLine);
             dataFormatter.KeyWasPressed(charPressed, timeInTicks);  
         }
 
         private void SendKeyReleaseToCurrentSession(char charReleased, long timeInTicks)
         {
-            devWindow.textBox1.AppendText(charReleased.ToString() + " released at " + (new TimeSpan(timeInTicks).Milliseconds).ToString() + Environment.NewLine);
+            devWindow.textBox1.AppendText(charReleased.ToString() + " released at " + new TimeSpan(timeInTicks).TotalMilliseconds.ToString() + Environment.NewLine);
             if (!OnlyKeyUpEvent(charReleased))
             {
                 dataFormatter.KeyWasReleased(charReleased, timeInTicks);

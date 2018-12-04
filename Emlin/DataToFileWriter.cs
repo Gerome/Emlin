@@ -32,12 +32,12 @@ namespace Emlin
 
         private string GetFormattedDataLine(KeysData data)
         {
-            return data.CombinationID.ToString() + ","
-                + data.HoldTime.Milliseconds.ToString() + ","
-                + data.FlightTime.Milliseconds.ToString() + ','
-                + data.Digraph1.Milliseconds.ToString() + ','
-                + data.Digraph2.Milliseconds.ToString() + ','
-                + data.Digraph3.Milliseconds.ToString()
+            return data.CombinationID.ToString() + "," 
+                + data.HoldTime.TotalMilliseconds.ToString() + ","
+                + data.FlightTime.TotalMilliseconds.ToString() + ','
+                + data.Digraph1.TotalMilliseconds.ToString() + ','
+                + data.Digraph2.TotalMilliseconds.ToString() + ','
+                + data.Digraph3.TotalMilliseconds.ToString()
                 + Environment.NewLine;
         }
 
