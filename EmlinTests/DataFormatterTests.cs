@@ -145,7 +145,9 @@ namespace EmlinTests
             Press_A();
             Press_A();
             Press_A();
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
             Release_A();
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
 
             Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(200));
         }
@@ -498,22 +500,35 @@ namespace EmlinTests
             Wait(10);
             PressKey('b');
             Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+            Assert.That(testFormattter.keysPressedAndReleased[1].TimePressedInTicks, Is.EqualTo(10));
             Wait(15);
             ReleaseKey('b');
             Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+            Assert.That(testFormattter.keysPressedAndReleased[1].TimeReleasedInTicks, Is.EqualTo(25));
             Wait(20);
             PressKey('b');
             Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+            Assert.That(testFormattter.keysPressedAndReleased[2].TimePressedInTicks, Is.EqualTo(45));
             Wait(25);
             ReleaseKey('b');
             Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+            Assert.That(testFormattter.keysPressedAndReleased[2].TimeReleasedInTicks, Is.EqualTo(70));
+            PressKey('b');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(4));
+            Assert.That(testFormattter.keysPressedAndReleased[3].TimePressedInTicks, Is.EqualTo(70));
+            Wait(25);
+            ReleaseKey('b');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+            //Assert.That(testFormattter.keysPressedAndReleased[2].TimeReleasedInTicks, Is.EqualTo(95));
             Wait(30);
             ReleaseKey('a');
             Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
 
-            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-90));
-            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(100));
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-115));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(125));
             Assert.That(testFormattter.DataRecorded.First().Digraph1.Ticks, Is.EqualTo(10));
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(-100));
+            Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(25));
 
             Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(15));
             Assert.That(testFormattter.DataRecorded[1].FlightTime.Ticks, Is.EqualTo(20));
@@ -521,8 +536,6 @@ namespace EmlinTests
             Assert.That(testFormattter.DataRecorded[1].Digraph2.Ticks, Is.EqualTo(45));
             Assert.That(testFormattter.DataRecorded[1].Digraph3.Ticks, Is.EqualTo(60));
 
-            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(-75));
-            Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(25));
         }
 
         [Test]
@@ -533,8 +546,10 @@ namespace EmlinTests
             ReleaseKey('h');
             Wait(10);
             PressKey('h');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
             Wait(5);
             ReleaseKey('h');
+            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
             Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(15));
             Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(25));
         }
@@ -571,6 +586,24 @@ namespace EmlinTests
             ReleaseKey('b');
             ReleaseKey('a');
             Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Remover_Should_remove_the_correct_instance_of_C()
+        {
+            PressKey(' ');
+            Wait(10);
+            PressKey('u');
+            Wait(10);
+            ReleaseKey('u');
+            Wait(10);
+            PressKey('c');
+            Wait(10);
+            PressKey('l');
+            Wait(10);
+            ReleaseKey('c');
+            Wait(10);
+            ReleaseKey('l');
         }
 
         #region helper functions

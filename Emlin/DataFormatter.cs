@@ -45,7 +45,6 @@ namespace Emlin
 
             keysCurrentlyHeld.Add(charPressed, timeInTicks);
 
-            keysPressedAndReleased.Add(new KeyPressRelease(charPressed, timeInTicks));
 
 
             if (CurrentState.Equals(SessionState.Inactive))
@@ -61,13 +60,17 @@ namespace Emlin
 
                 if (!NextKeyAlreadyPressed(DataRecorded.Last()))
                 {
-                    DataRecorded.Last().FlightTime = TimeSpan.FromTicks(timeInTicks - timeOfPreviousRelease);
+                    DataRecorded.Last().FlightTime = TimeSpan.FromTicks(timeInTicks - keysPressedAndReleased.Last().TimeReleasedInTicks);
+
                 }
 
                 DataRecorded.Last().Digraph1 = TimeSpan.FromTicks(timeInTicks - timeOfPreviousPress);
 
                 DataRecorded.Last().WaitingForEvents.Remove(KeysData.WaitingForEvent.ESecondKeyPress);
             }
+
+            keysPressedAndReleased.Add(new KeyPressRelease(charPressed, timeInTicks));
+
 
             KeysData keysData = new KeysData
             {
@@ -112,49 +115,70 @@ namespace Emlin
         public void KeyIsRequiredForAnyCombinations(char charReleased)
         {
             List<char> charsToRemove = new List<char>();
-
+            Dictionary<char, int[]> charsToRemoveInDict = new Dictionary<char, int[]>();
             foreach(KeyPressRelease kpr in keysPressedAndReleased)
             {
-                int numberOfRemovalsRequired = TheresKeysDataThatHasThisChar(kpr.Character, keysPressedAndReleased);
+                int[] numberOfRemovalsRequired = TheresKeysDataThatHasThisChar(kpr.Character, keysPressedAndReleased);
 
-                for(int i = 0; i < numberOfRemovalsRequired;i++)
+                for(int i = 0; i < numberOfRemovalsRequired.Count();i++)
                 {
                     charsToRemove.Add(kpr.Character);
                 }
 
+                if (numberOfRemovalsRequired.Count() > 0)
+                {
+                    charsToRemoveInDict.Add(kpr.Character, numberOfRemovalsRequired);
+                }
             }
 
-            foreach (char characterToRemove in charsToRemove)
+            foreach (KeyValuePair<char, int[]> characterToRemove in charsToRemoveInDict)
             {
-                charsReleased.Remove(characterToRemove);
-                keysPressedAndReleased.Remove(keysPressedAndReleased.First(x => x.Character == characterToRemove));
+                 foreach(int sx in characterToRemove.Value)
+                {
+                    keysPressedAndReleased.Remove(keysPressedAndReleased[sx]);
+                }
             }
         }
 
-        private int TheresKeysDataThatHasThisChar(char character, List<KeyPressRelease> keysPressedAndReleased)
+        private int[] TheresKeysDataThatHasThisChar(char character, List<KeyPressRelease> keysPressedAndReleased)
         {
             int keysUsingCharacter = UnprocessedData.Count(x => (x.FirstChar == character || x.SecondChar == character) && x.WaitingForEvents.Count != 0);
             int numberOfThisCharacterInKPR = keysPressedAndReleased.Count(x => x.Character == character);
-            List<KeysData> allKeyDatasForRemoval = UnprocessedData.FindAll(x => (x.FirstChar == character || x.SecondChar == character) && x.WaitingForEvents.Count == 0);
+            List<KeysData> allKeyDatasForRemoval = UnprocessedData.FindAll(x => (x.FirstChar == character || x.SecondChar == character) && x.WaitingForEvents.Count == 0 && !PreviousKeysDataHasReleasedFirstKey(x, UnprocessedData));
+
             int keysThatCouldBeRemoved = allKeyDatasForRemoval.Count();
 
-            if (keysUsingCharacter == numberOfThisCharacterInKPR && keysUsingCharacter == keysThatCouldBeRemoved )
+            if ((keysUsingCharacter/numberOfThisCharacterInKPR) == numberOfThisCharacterInKPR && keysThatCouldBeRemoved >= numberOfThisCharacterInKPR)
             {
-                return 0;
+                return new int[]{ };
             }
             else
             {
                 
                 int returnValue = allKeyDatasForRemoval.Count;
 
-                foreach(KeysData tempKeys in allKeyDatasForRemoval)
+                int[] indexesToReturn = UnprocessedData.Select((value, index) => (value.FirstChar == character) && value.WaitingForEvents.Count == 0 && !PreviousKeysDataHasReleasedFirstKey(value, UnprocessedData) ? index : -1).Where(index => index != -1).ToArray();
+                foreach (KeysData tempKeys in allKeyDatasForRemoval)
                 {
                     UnprocessedData.Remove(tempKeys);
                 }
 
-                //returnValue = (returnValue>0)? returnValue-1: returnValue;
-                return returnValue;
+                return indexesToReturn;
             }
+        }
+
+        private bool PreviousKeysDataHasReleasedFirstKey(KeysData keysData, List<KeysData> unprocessedData)
+        {
+            KeysData previousKeysData;
+            int indexOfCurrentKeysData = unprocessedData.FindIndex(x => x == keysData);
+
+            if (indexOfCurrentKeysData == 0)
+            {
+                return false;
+            }
+
+            previousKeysData = unprocessedData[indexOfCurrentKeysData - 1];
+            return previousKeysData.WaitingForEvents.Contains(KeysData.WaitingForEvent.EFirstKeyRelease);
         }
 
         private void RecordOnReleaseData(char charReleased, long timeInTicks, KeysData keysData)
@@ -200,7 +224,7 @@ namespace Emlin
 
                     if (previousReleaseKeysData.FirstChar == keysData.SecondChar)
                     {
-                        KeyPressRelease secondKeyReleasedFirst = keysPressedAndReleased.Last(x => x.Character == keysData.SecondChar);
+                        KeyPressRelease secondKeyReleasedFirst = keysPressedAndReleased.LastOrDefault(x => x.Character == keysData.SecondChar);
                         keysData.Digraph2 = TimeSpan.FromTicks(secondKeyReleasedFirst.TimeReleasedInTicks - timeInTicks);
                         keysData.Digraph3 = GetDigraph3(keysData);
                     }
@@ -244,8 +268,9 @@ namespace Emlin
             timeOfPreviousRelease = 0;
             timeOfPreviousPress = 0;
             previousReleaseKeysData = null;
-            CurrentState = SessionState.Inactive;
             timer.Enabled = false;
+            CurrentState = SessionState.Inactive;
+            UnprocessedData = new List<KeysData>();
             DataRecorded = new List<KeysData>();
             timeSinceLastAction = 0;
             keysPressedAndReleased = new List<KeyPressRelease>();
