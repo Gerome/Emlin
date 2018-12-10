@@ -145,9 +145,9 @@ namespace EmlinTests
             Press_A();
             Press_A();
             Press_A();
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
             Release_A();
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
 
             Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(200));
         }
@@ -385,13 +385,13 @@ namespace EmlinTests
         public void Di3_Pressing_and_releasing_multiple_two_keys_should_record_the_digraph3_time()
         {
             Press_A_B_Release_A_B();
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
 
             Press_A_B_Release_A_B();
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
 
             Press_A_B_Release_A_B();
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
 
 
             Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(450));
@@ -462,27 +462,27 @@ namespace EmlinTests
         public void Di2_Di3_Intermitent_chars_of_same_char()
         {
             PressKey('a');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
 
             Wait(10);
             PressKey('b');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(2));
 
             Wait(15);
             ReleaseKey('a');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(2));
 
             Wait(20);
             PressKey('a');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(3));
 
             Wait(25);
             ReleaseKey('b');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(2));
 
             Wait(30);
             ReleaseKey('a');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
 
 
 
@@ -496,33 +496,33 @@ namespace EmlinTests
         public void Di2_Di3_Intermitent_chars_of_same_char_inbetween()
         {
             PressKey('a');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
             Wait(10);
             PressKey('b');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
-            Assert.That(testFormattter.keysPressedAndReleased[1].TimePressedInTicks, Is.EqualTo(10));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(2));
+            Assert.That(testFormattter.KeysPressedAndReleased[1].TimePressedInTicks, Is.EqualTo(10));
             Wait(15);
             ReleaseKey('b');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
-            Assert.That(testFormattter.keysPressedAndReleased[1].TimeReleasedInTicks, Is.EqualTo(25));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(2));
+            Assert.That(testFormattter.KeysPressedAndReleased[1].TimeReleasedInTicks, Is.EqualTo(25));
             Wait(20);
             PressKey('b');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
-            Assert.That(testFormattter.keysPressedAndReleased[2].TimePressedInTicks, Is.EqualTo(45));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(3));
+            Assert.That(testFormattter.KeysPressedAndReleased[2].TimePressedInTicks, Is.EqualTo(45));
             Wait(25);
             ReleaseKey('b');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
-            Assert.That(testFormattter.keysPressedAndReleased[2].TimeReleasedInTicks, Is.EqualTo(70));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(3));
+            Assert.That(testFormattter.KeysPressedAndReleased[2].TimeReleasedInTicks, Is.EqualTo(70));
             PressKey('b');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(4));
-            Assert.That(testFormattter.keysPressedAndReleased[3].TimePressedInTicks, Is.EqualTo(70));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(4));
+            Assert.That(testFormattter.KeysPressedAndReleased[3].TimePressedInTicks, Is.EqualTo(70));
             Wait(25);
             ReleaseKey('b');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(3));
             //Assert.That(testFormattter.keysPressedAndReleased[2].TimeReleasedInTicks, Is.EqualTo(95));
             Wait(30);
             ReleaseKey('a');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
 
             Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-115));
             Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(125));
@@ -546,10 +546,10 @@ namespace EmlinTests
             ReleaseKey('h');
             Wait(10);
             PressKey('h');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(2));
             Wait(5);
             ReleaseKey('h');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
             Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(15));
             Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(25));
         }
@@ -567,12 +567,12 @@ namespace EmlinTests
             PressKey('a');
             PressKey('b');
             PressKey('c');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(3));
             ReleaseKey('a');
             ReleaseKey('b');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(2));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(2));
             ReleaseKey('c');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -581,11 +581,11 @@ namespace EmlinTests
             PressKey('a');
             PressKey('b');
             PressKey('c');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(3));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(3));
             ReleaseKey('c');
             ReleaseKey('b');
             ReleaseKey('a');
-            Assert.That(testFormattter.keysPressedAndReleased.Count, Is.EqualTo(1));
+            Assert.That(testFormattter.KeysPressedAndReleased.Count, Is.EqualTo(1));
         }
 
         [Test]

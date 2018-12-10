@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Emlin
+﻿namespace Emlin
 {
     public static class HelperFunctions
     {
@@ -17,7 +11,5 @@ namespace Emlin
 
             return (firstId * NUMBER_OF_INPUTS + secondId);
         }
-
-        
     }
 }

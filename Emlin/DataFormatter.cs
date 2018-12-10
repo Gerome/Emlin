@@ -10,7 +10,7 @@ namespace Emlin
         private char lastKeyPress;
         private long timeOfPreviousRelease;
         private long timeOfPreviousPress;
-        KeysData previousReleaseKeysData;
+        private KeysData previousReleaseKeysData;
 
         private ITimerInterface timer;
         public enum SessionState { Active, Inactive };
@@ -19,7 +19,7 @@ namespace Emlin
         public List<KeysData> UnprocessedData { get; private set; } = new List<KeysData>();
         public SessionState CurrentState { get; private set; } = SessionState.Inactive;
 
-        public List<KeyPressRelease> keysPressedAndReleased = new List<KeyPressRelease>();
+        public List<KeyPressRelease> KeysPressedAndReleased = new List<KeyPressRelease>();
 
         private Dictionary<char, long> keysCurrentlyHeld = new Dictionary<char, long>();
 
@@ -60,7 +60,7 @@ namespace Emlin
 
                 if (!NextKeyAlreadyPressed(DataRecorded.Last()))
                 {
-                    DataRecorded.Last().FlightTime = TimeSpan.FromTicks(timeInTicks - keysPressedAndReleased.Last().TimeReleasedInTicks);
+                    DataRecorded.Last().FlightTime = TimeSpan.FromTicks(timeInTicks - KeysPressedAndReleased.Last().TimeReleasedInTicks);
 
                 }
 
@@ -69,7 +69,7 @@ namespace Emlin
                 DataRecorded.Last().WaitingForEvents.Remove(KeysData.WaitingForEvent.ESecondKeyPress);
             }
 
-            keysPressedAndReleased.Add(new KeyPressRelease(charPressed, timeInTicks));
+            KeysPressedAndReleased.Add(new KeyPressRelease(charPressed, timeInTicks));
 
 
             KeysData keysData = new KeysData
@@ -96,7 +96,7 @@ namespace Emlin
             Console.WriteLine("ReleaseKey(\'" + charReleased.ToString() + "\');");
             timeSinceLastAction = timeInTicks;
 
-            KeyPressRelease keyReleased = keysPressedAndReleased.LastOrDefault(x => x.Character == charReleased);
+            KeyPressRelease keyReleased = KeysPressedAndReleased.LastOrDefault(x => x.Character == charReleased);
 
             if(keyReleased != null)
             {
@@ -124,9 +124,9 @@ namespace Emlin
         {
             List<char> charsToRemove = new List<char>();
             Dictionary<char, int[]> charsToRemoveInDict = new Dictionary<char, int[]>();
-            foreach(KeyPressRelease kpr in keysPressedAndReleased)
+            foreach(KeyPressRelease kpr in KeysPressedAndReleased)
             {
-                int[] numberOfRemovalsRequired = TheresKeysDataThatHasThisChar(kpr.Character, keysPressedAndReleased);
+                int[] numberOfRemovalsRequired = TheresKeysDataThatHasThisChar(kpr.Character, KeysPressedAndReleased);
 
                 for(int i = 0; i < numberOfRemovalsRequired.Count();i++)
                 {
@@ -143,7 +143,7 @@ namespace Emlin
             {
                 foreach(int sx in characterToRemove.Value)
                 {
-                    keysPressedAndReleased.Remove(keysPressedAndReleased[sx]);
+                    KeysPressedAndReleased.Remove(KeysPressedAndReleased[sx]);
                 }
             }
         }
@@ -198,7 +198,7 @@ namespace Emlin
 
             if (NextKeyAlreadyPressed(keysData))
             {
-                KeyPressRelease keyReleased = keysPressedAndReleased.FirstOrDefault(x => x.Character == keysData.SecondChar);
+                KeyPressRelease keyReleased = KeysPressedAndReleased.FirstOrDefault(x => x.Character == keysData.SecondChar);
                 if (keyReleased != null)
                 {
                     keysData.FlightTime = TimeSpan.FromTicks(keyReleased.TimePressedInTicks - timeInTicks);
@@ -215,7 +215,7 @@ namespace Emlin
             {
                 if (KeysDataWhereSecondCharIs(charReleased) == null)
                 {
-                    KeyPressRelease secondKeyReleasedFirst = keysPressedAndReleased[keysPressedAndReleased.FindIndex(x => x.Character == keysData.FirstChar) + 1];
+                    KeyPressRelease secondKeyReleasedFirst = KeysPressedAndReleased[KeysPressedAndReleased.FindIndex(x => x.Character == keysData.FirstChar) + 1];
 
                     RemoveUnnecesarryKeys(charReleased);
 
@@ -236,7 +236,7 @@ namespace Emlin
 
                     if (previousReleaseKeysData.FirstChar == keysData.SecondChar)
                     {
-                        KeyPressRelease secondKeyReleasedFirst = keysPressedAndReleased.FirstOrDefault(x => x.Character == keysData.SecondChar);
+                        KeyPressRelease secondKeyReleasedFirst = KeysPressedAndReleased.FirstOrDefault(x => x.Character == keysData.SecondChar);
 
                         if (secondKeyReleasedFirst != null)
                         {
@@ -250,7 +250,7 @@ namespace Emlin
 
         private TimeSpan GetDigraph2(long timeInTicks, KeysData keysData)
         {
-            KeyPressRelease keyReleased = keysPressedAndReleased.FirstOrDefault(x => x.Character == keysData.FirstChar);
+            KeyPressRelease keyReleased = KeysPressedAndReleased.FirstOrDefault(x => x.Character == keysData.FirstChar);
             if(keyReleased != null)
             {
                 return TimeSpan.FromTicks(timeInTicks - keyReleased.TimeReleasedInTicks);
@@ -280,7 +280,7 @@ namespace Emlin
 
         private long ReleaseOfLastKey(char charReleased)
         {
-            return keysPressedAndReleased.Last(x => x.Character == charReleased).TimePressedInTicks;
+            return KeysPressedAndReleased.Last(x => x.Character == charReleased).TimePressedInTicks;
         }
 
         public void End()
@@ -294,7 +294,7 @@ namespace Emlin
             UnprocessedData = new List<KeysData>();
             DataRecorded = new List<KeysData>();
             timeSinceLastAction = 0;
-            keysPressedAndReleased = new List<KeyPressRelease>();
+            KeysPressedAndReleased = new List<KeyPressRelease>();
         }
 
 

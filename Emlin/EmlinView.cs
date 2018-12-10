@@ -42,15 +42,14 @@ namespace Emlin
         public EmlinView()
         {
             _proc = this.HookCallback;         
-
-            InitializeComponent();
-
             _hookID = SetHook(_proc);
 
-            CustomTimer timer = new CustomTimer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
-            timer.Tick += TimerCountdown;
-            
+            DotNetEnv.Env.Load(Directory.GetCurrentDirectory()+"/keys.env");
+            string aString = DotNetEnv.Env.GetString("Key");
+            InitializeComponent();
 
+            CustomTimer timer = new CustomTimer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
+            timer.Tick += TimerCountdown;        
             dataFormatter = new DataFormatter(timer);
 
 #if DEBUG
