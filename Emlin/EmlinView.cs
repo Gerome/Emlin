@@ -13,6 +13,8 @@ namespace Emlin
     {
         private static DataFormatter dataFormatter;
 
+
+        #region lower level stuff
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private const int WM_KEYUP = 0x0101;
@@ -37,11 +39,12 @@ namespace Emlin
 
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
+        #endregion
         DevWindow devWindow = new DevWindow();
 
         public EmlinView()
         {
-            _proc = this.HookCallback;         
+            _proc = HookCallback;         
             _hookID = SetHook(_proc);
 
             DotNetEnv.Env.Load(Directory.GetCurrentDirectory()+"/keys.env");
