@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -67,18 +69,29 @@ namespace Emlin
             List<KeysData> dataToWriteToFile = dataFormatter.DataRecorded;
 
             if (dataToWriteToFile.Count != 0)
-            {        
-                DataToFileWriter dtfw = new DataToFileWriter();
-                dtfw.CreateDirectoryAndFile(filepath);
-
-                IEncryptor encryptor = new Encryptor();
-
-                dtfw.WriteRecordedDataToFile(dataToWriteToFile, filepath, encryptor);
+            {
+                WriteEncryptedDataToFile(filepath, dataToWriteToFile);
             }
 
             dataFormatter.End();
             devWindow.textBox1.AppendText("Data written to file." + Environment.NewLine);
 
+        }
+
+        private static void WriteEncryptedDataToFile(string filepath, List<KeysData> dataToWriteToFile)
+        {
+            DataToFileWriter dtfw = new DataToFileWriter();
+            dtfw.CreateDirectoryAndFile(filepath);
+            dtfw.WriteRecordedDataToFile(dataToWriteToFile, filepath, new Encryptor());
+        }
+
+        private static string GetDecryptedString()
+        {
+            IEncryptor decryptor = new Encryptor();
+            string lastLine = File.ReadLines(@"C:\Users\Gerome\AppData\Roaming\Emlin\KeyboardData.txt").Last();
+            string ivString = lastLine.Split(' ')[0];
+            decryptor.endec.IV = Convert.FromBase64String(ivString);
+            return decryptor.Decrypted(lastLine.Split(' ')[1]);
         }
 
         private void SendKeyPressToCurrentSession(char charPressed, long timeInTicks)

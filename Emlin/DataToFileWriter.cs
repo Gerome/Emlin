@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
-using System.Security.Cryptography;
 
 namespace Emlin
 {
@@ -18,24 +17,32 @@ namespace Emlin
 
         public void WriteRecordedDataToFile(List<KeysData> listOfKeysData, string filepath, IEncryptor encryptor)
         {
-            string textToWrite = "";
+            List<string> textToWrite = new List<string>();
 
             foreach(KeysData data in listOfKeysData)
             {
-                textToWrite += GetFormattedDataLine(data);         
+                textToWrite.Add(GetFormattedDataLine(data));         
             }
 
-           
-
-            string encryptedString = encryptor.Encrypt(textToWrite);
-
+          
             using (StreamWriter sw = fileSystem.File.AppendText(filepath))
             {
-                sw.Write(encryptedString);
-                sw.Write(encryptor.Decrypted(encryptedString));
+                foreach(string line in textToWrite)
+                {
+#if DEBUG
+                    sw.Write(line);
+#else
+                    WriteEncryptorIV(encryptor, sw);
+                    string encryptedLine = encryptor.Encrypt(line);
+                    sw.Write(encryptedLine + Environment.NewLine);
+#endif
+                }
             }
+        }
 
-
+        private static void WriteEncryptorIV(IEncryptor encryptor, StreamWriter sw)
+        {
+            sw.Write(Convert.ToBase64String(encryptor.endec.IV) + " ");
         }
 
         private string GetFormattedDataLine(KeysData data)

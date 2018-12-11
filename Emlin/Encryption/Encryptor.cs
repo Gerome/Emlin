@@ -7,7 +7,7 @@ namespace Emlin.Encryption
 {
     public class Encryptor : IEncryptor
     {
-        private AesCryptoServiceProvider endec;
+        public AesCryptoServiceProvider endec {get; private set;}
 
         public Encryptor()
         {
@@ -19,11 +19,11 @@ namespace Emlin.Encryption
                 Mode = CipherMode.CBC
             };
             endec.Key = GetKey();
-            endec.GenerateIV();
         }
 
         public string Encrypt(string decrypted)
         {
+            endec.GenerateIV();
             byte[] textbytes = Encoding.ASCII.GetBytes(decrypted);
             ICryptoTransform icrypt = endec.CreateEncryptor(endec.Key, endec.IV);
             byte[] enc = icrypt.TransformFinalBlock(textbytes, 0, textbytes.Length);
