@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Emlin.Encryption;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
+using System.Security.Cryptography;
 
 namespace Emlin
 {
@@ -11,10 +13,10 @@ namespace Emlin
 
         public DataToFileWriter()
         {
-            this.fileSystem = new FileSystem();
+            fileSystem = new FileSystem();
         }
 
-        public void WriteRecordedDataToFile(List<KeysData> listOfKeysData, string filepath)
+        public void WriteRecordedDataToFile(List<KeysData> listOfKeysData, string filepath, IEncryptor encryptor)
         {
             string textToWrite = "";
 
@@ -22,12 +24,18 @@ namespace Emlin
             {
                 textToWrite += GetFormattedDataLine(data);         
             }
-            
+
+           
+
+            string encryptedString = encryptor.Encrypt(textToWrite);
 
             using (StreamWriter sw = fileSystem.File.AppendText(filepath))
             {
-                sw.Write(textToWrite);
+                sw.Write(encryptedString);
+                sw.Write(encryptor.Decrypted(encryptedString));
             }
+
+
         }
 
         private string GetFormattedDataLine(KeysData data)

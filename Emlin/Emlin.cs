@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Emlin.Encryption;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace Emlin
 {
-    public partial class EmlinView : Form
+    public partial class Emlin : Form
     {
         private static DataFormatter dataFormatter;
 
@@ -42,13 +40,12 @@ namespace Emlin
         #endregion
         DevWindow devWindow = new DevWindow();
 
-        public EmlinView()
+        public Emlin()
         {
             _proc = HookCallback;         
             _hookID = SetHook(_proc);
 
-            DotNetEnv.Env.Load(Directory.GetCurrentDirectory()+"/keys.env");
-            string aString = DotNetEnv.Env.GetString("Key");
+            
             InitializeComponent();
 
             CustomTimer timer = new CustomTimer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
@@ -62,7 +59,7 @@ namespace Emlin
 
 
 
-        void TimerCountdown(object sender, EventArgs e)
+        private void TimerCountdown(object sender, EventArgs e)
         {
             string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
 
@@ -73,8 +70,10 @@ namespace Emlin
             {        
                 DataToFileWriter dtfw = new DataToFileWriter();
                 dtfw.CreateDirectoryAndFile(filepath);
-                
-                dtfw.WriteRecordedDataToFile(dataToWriteToFile, filepath);
+
+                IEncryptor encryptor = new Encryptor();
+
+                dtfw.WriteRecordedDataToFile(dataToWriteToFile, filepath, encryptor);
             }
 
             dataFormatter.End();
@@ -151,11 +150,11 @@ namespace Emlin
 
         private void EmlinView_Resize(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized)
-            {
-                Hide();
-                notifyIcon1.Visible = true;
-            }
+            //if (this.WindowState == FormWindowState.Minimized)
+            //{
+            //    Hide();
+            //    notifyIcon1.Visible = true;
+            //}
         }
 
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)

@@ -1,4 +1,5 @@
 ﻿using Emlin;
+using Emlin.Encryption;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace EmlinTests
         private MockFileSystem fileSystem;
         private DataToFileWriter ttfRecorder;
         private string textContents;
+        private IEncryptor encryptorFake;
         
 
         [SetUp]
@@ -21,6 +23,7 @@ namespace EmlinTests
             fileSystem = new MockFileSystem();
             ttfRecorder = new DataToFileWriter();
             ttfRecorder.AddFileSystem(fileSystem);
+            encryptorFake = new EncryptorFake();
         }
 
         private void PrepareFileForWriting()
@@ -36,7 +39,7 @@ namespace EmlinTests
 
         private void WriteDataToFile()
         {
-            ttfRecorder.WriteRecordedDataToFile(keysData, @"D:\Directory\File.txt");
+            ttfRecorder.WriteRecordedDataToFile(keysData, @"D:\Directory\File.txt", encryptorFake);
             textContents = GetContentsOfTextFile();
         }
 

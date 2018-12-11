@@ -11,7 +11,7 @@ namespace Emlin
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new EmlinView());
+            Application.Run(new Emlin());
         }
     }
 }

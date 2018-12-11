@@ -115,11 +115,11 @@
     <Compile Include="CustomTimer.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="EmlinView.cs">
+    <Compile Include="Emlin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EmlinView.Designer.cs">
-      <DependentUpon>EmlinView.cs</DependentUpon>
+    <Compile Include="Emlin.Designer.cs">
+      <DependentUpon>Emlin.cs</DependentUpon>
     </Compile>
     <Compile Include="DevWindow.cs">
       <SubType>Form</SubType>
@@ -127,6 +127,8 @@
     <Compile Include="DevWindow.Designer.cs">
       <DependentUpon>DevWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Encryption\Encryptor.cs" />
+    <Compile Include="Encryption\IEncryptor.cs" />
     <Compile Include="HelperFunctions.cs" />
     <Compile Include="KeyPressRelease.cs" />
     <Compile Include="KeysData.cs" />
@@ -137,8 +139,8 @@
     <EmbeddedResource Include="DevWindow.resx">
       <DependentUpon>DevWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EmlinView.resx">
-      <DependentUpon>EmlinView.cs</DependentUpon>
+    <EmbeddedResource Include="Emlin.resx">
+      <DependentUpon>Emlin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
