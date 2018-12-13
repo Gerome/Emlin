@@ -217,12 +217,12 @@ namespace Emlin
                 {
                     KeyPressRelease secondKeyReleasedFirst = KeysPressedAndReleased[KeysPressedAndReleased.FindIndex(x => x.Character == keysData.FirstChar) + 1];
 
-                    RemoveUnnecesarryKeys(charReleased);
 
 
                     keysData.Digraph2 = TimeSpan.FromTicks(secondKeyReleasedFirst.TimeReleasedInTicks - timeInTicks);
                     keysData.Digraph3 = GetDigraph3(keysData);
 
+                    RemoveUnnecesarryKeys(charReleased);
                 }
                 else // This happens when the second key of the key combination is released first
                 {
@@ -232,9 +232,8 @@ namespace Emlin
                     previousKeyData.Digraph3 = GetDigraph3(previousKeyData);
 
                     previousKeyData.WaitingForEvents.Remove(KeysData.WaitingForEvent.ESecondKeyRelease);
-                    RemoveUnnecesarryKeys(charReleased);
 
-                    if (previousReleaseKeysData.FirstChar == keysData.SecondChar)
+                    if (keysData.FirstChar == previousKeyData.SecondChar)
                     {
                         KeyPressRelease secondKeyReleasedFirst = KeysPressedAndReleased.FirstOrDefault(x => x.Character == keysData.SecondChar);
 
@@ -244,6 +243,7 @@ namespace Emlin
                             keysData.Digraph3 = GetDigraph3(keysData);
                         }
                     }
+                    RemoveUnnecesarryKeys(charReleased);
                 }
             }
         }

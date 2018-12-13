@@ -42,17 +42,17 @@ namespace Emlin
 
         private static void WriteEncryptorIV(IEncryptor encryptor, StreamWriter sw)
         {
-            sw.Write(Convert.ToBase64String(encryptor.endec.IV) + " ");
+            sw.Write(Convert.ToBase64String(encryptor.Endec.IV) + " ");
         }
 
         private string GetFormattedDataLine(KeysData data)
         {
             return data.CombinationID.ToString() + "," 
-                + data.HoldTime.TotalMilliseconds.ToString() + ","
-                + data.FlightTime.TotalMilliseconds.ToString() + ','
-                + data.Digraph1.TotalMilliseconds.ToString() + ','
-                + data.Digraph2.TotalMilliseconds.ToString() + ','
-                + data.Digraph3.TotalMilliseconds.ToString()
+                + ((int)data.HoldTime.TotalMilliseconds).ToString() + ","
+                + ((int)data.FlightTime.TotalMilliseconds).ToString() + ','
+                + ((int)data.Digraph1.TotalMilliseconds).ToString() + ','
+                + ((int)data.Digraph2.TotalMilliseconds).ToString() + ','
+                + ((int)data.Digraph3.TotalMilliseconds).ToString()
                 + Environment.NewLine;
         }
 

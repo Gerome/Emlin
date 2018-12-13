@@ -458,6 +458,97 @@ namespace EmlinTests
             Assert.That(testFormattter.DataRecorded[1].Digraph3.Ticks, Is.EqualTo(60));
         }
 
+
+        [Test]
+        public void All_test()
+        {
+            PressKey('a');
+            Wait(1);
+            PressKey('b');
+            Wait(2);
+            PressKey('c');
+            Wait(3);
+            PressKey('d');
+            Wait(4);
+
+            ReleaseKey('d');
+            Wait(5);
+            ReleaseKey('a');
+            Wait(6);
+            ReleaseKey('b');
+            Wait(7);
+            ReleaseKey('c');
+            Wait(8);
+
+            Assert.That(testFormattter.DataRecorded.First().FlightTime.Ticks, Is.EqualTo(-14));
+            Assert.That(testFormattter.DataRecorded.First().HoldTime.Ticks, Is.EqualTo(15));
+            Assert.That(testFormattter.DataRecorded.First().Digraph1.Ticks, Is.EqualTo(1));
+            Assert.That(testFormattter.DataRecorded.First().Digraph2.Ticks, Is.EqualTo(6));
+            Assert.That(testFormattter.DataRecorded.First().Digraph3.Ticks, Is.EqualTo(21));
+
+            Assert.That(testFormattter.DataRecorded[1].FlightTime.Ticks, Is.EqualTo(-18));
+            Assert.That(testFormattter.DataRecorded[1].HoldTime.Ticks, Is.EqualTo(20));
+            Assert.That(testFormattter.DataRecorded[1].Digraph1.Ticks, Is.EqualTo(2));
+            Assert.That(testFormattter.DataRecorded[1].Digraph2.Ticks, Is.EqualTo(7));
+            Assert.That(testFormattter.DataRecorded[1].Digraph3.Ticks, Is.EqualTo(27));
+
+            Assert.That(testFormattter.DataRecorded[2].FlightTime.Ticks, Is.EqualTo(-22));
+            Assert.That(testFormattter.DataRecorded[2].HoldTime.Ticks, Is.EqualTo(25));
+            Assert.That(testFormattter.DataRecorded[2].Digraph1.Ticks, Is.EqualTo(3));
+            Assert.That(testFormattter.DataRecorded[2].Digraph2.Ticks, Is.EqualTo(-18));
+            Assert.That(testFormattter.DataRecorded[2].Digraph3.Ticks, Is.EqualTo(7));
+
+           
+
+            PressKey('d');
+            Wait(9);
+            PressKey('a');
+            Wait(1);
+            PressKey('b');
+            Wait(2);
+            PressKey('c');
+            Wait(3);
+
+            ReleaseKey('b');
+            Wait(4);
+            ReleaseKey('d');
+            Wait(5);
+            ReleaseKey('c');
+            Wait(6);
+            ReleaseKey('a');
+            Wait(7);
+
+            Assert.That(testFormattter.DataRecorded[3].FlightTime.Ticks, Is.EqualTo(26));
+            Assert.That(testFormattter.DataRecorded[3].HoldTime.Ticks, Is.EqualTo(4));
+            Assert.That(testFormattter.DataRecorded[3].Digraph1.Ticks, Is.EqualTo(30));
+            Assert.That(testFormattter.DataRecorded[3].Digraph2.Ticks, Is.EqualTo(45));
+            Assert.That(testFormattter.DataRecorded[3].Digraph3.Ticks, Is.EqualTo(49));
+
+            Assert.That(testFormattter.DataRecorded[4].FlightTime.Ticks, Is.EqualTo(-10));
+            Assert.That(testFormattter.DataRecorded[4].HoldTime.Ticks, Is.EqualTo(19));
+            Assert.That(testFormattter.DataRecorded[4].Digraph1.Ticks, Is.EqualTo(9));
+            Assert.That(testFormattter.DataRecorded[4].Digraph2.Ticks, Is.EqualTo(11));
+            Assert.That(testFormattter.DataRecorded[4].Digraph3.Ticks, Is.EqualTo(30));
+
+            Assert.That(testFormattter.DataRecorded[5].FlightTime.Ticks, Is.EqualTo(-20));
+            Assert.That(testFormattter.DataRecorded[5].HoldTime.Ticks, Is.EqualTo(21));
+            Assert.That(testFormattter.DataRecorded[5].Digraph1.Ticks, Is.EqualTo(1));
+            Assert.That(testFormattter.DataRecorded[5].Digraph2.Ticks, Is.EqualTo(-15));
+            Assert.That(testFormattter.DataRecorded[5].Digraph3.Ticks, Is.EqualTo(6));
+
+            Assert.That(testFormattter.DataRecorded[6].FlightTime.Ticks, Is.EqualTo(-3));
+            Assert.That(testFormattter.DataRecorded[6].HoldTime.Ticks, Is.EqualTo(5));
+            Assert.That(testFormattter.DataRecorded[6].Digraph1.Ticks, Is.EqualTo(2));
+            Assert.That(testFormattter.DataRecorded[6].Digraph2.Ticks, Is.EqualTo(9));
+            Assert.That(testFormattter.DataRecorded[6].Digraph3.Ticks, Is.EqualTo(14));
+
+            Assert.That(testFormattter.DataRecorded[7].FlightTime.Ticks, Is.EqualTo(0));
+            Assert.That(testFormattter.DataRecorded[7].HoldTime.Ticks, Is.EqualTo(12));
+            Assert.That(testFormattter.DataRecorded[7].Digraph1.Ticks, Is.EqualTo(0));
+            Assert.That(testFormattter.DataRecorded[7].Digraph2.Ticks, Is.EqualTo(0));
+            Assert.That(testFormattter.DataRecorded[7].Digraph3.Ticks, Is.EqualTo(0));
+        }
+
         [Test]
         public void Di2_Di3_Intermitent_chars_of_same_char()
         {

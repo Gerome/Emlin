@@ -7,25 +7,25 @@ namespace Emlin.Encryption
 {
     public class Encryptor : IEncryptor
     {
-        public AesCryptoServiceProvider endec {get; private set;}
+        public AesCryptoServiceProvider Endec {get; private set;}
 
         public Encryptor()
         {
-            endec = new AesCryptoServiceProvider()
+            Endec = new AesCryptoServiceProvider()
             {
                 BlockSize = 128,
                 KeySize = 256,
                 Padding = PaddingMode.PKCS7,
                 Mode = CipherMode.CBC
             };
-            endec.Key = GetKey();
+            Endec.Key = GetKey();
         }
 
         public string Encrypt(string decrypted)
         {
-            endec.GenerateIV();
+            Endec.GenerateIV();
             byte[] textbytes = Encoding.ASCII.GetBytes(decrypted);
-            ICryptoTransform icrypt = endec.CreateEncryptor(endec.Key, endec.IV);
+            ICryptoTransform icrypt = Endec.CreateEncryptor(Endec.Key, Endec.IV);
             byte[] enc = icrypt.TransformFinalBlock(textbytes, 0, textbytes.Length);
             icrypt.Dispose();
             return Convert.ToBase64String(enc);
@@ -34,7 +34,7 @@ namespace Emlin.Encryption
         public string Decrypted(string encrypted)
         {
             byte[] textbytes = Convert.FromBase64String(encrypted);
-            ICryptoTransform icrypt = endec.CreateDecryptor(endec.Key, endec.IV);
+            ICryptoTransform icrypt = Endec.CreateDecryptor(Endec.Key, Endec.IV);
             byte[] enc = icrypt.TransformFinalBlock(textbytes, 0, textbytes.Length);
             icrypt.Dispose();
             return Encoding.ASCII.GetString(enc);

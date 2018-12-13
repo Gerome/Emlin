@@ -4,7 +4,7 @@ namespace Emlin.Encryption
 {
     public interface IEncryptor
     {
-        AesCryptoServiceProvider endec { get; }
+        AesCryptoServiceProvider Endec { get; }
 
         string Encrypt(string decrypted);
         string Decrypted(string encrypted);

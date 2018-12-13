@@ -75,7 +75,6 @@ namespace Emlin
 
             dataFormatter.End();
             devWindow.textBox1.AppendText("Data written to file." + Environment.NewLine);
-
         }
 
         private static void WriteEncryptedDataToFile(string filepath, List<KeysData> dataToWriteToFile)
@@ -90,7 +89,7 @@ namespace Emlin
             IEncryptor decryptor = new Encryptor();
             string lastLine = File.ReadLines(@"C:\Users\Gerome\AppData\Roaming\Emlin\KeyboardData.txt").Last();
             string ivString = lastLine.Split(' ')[0];
-            decryptor.endec.IV = Convert.FromBase64String(ivString);
+            decryptor.Endec.IV = Convert.FromBase64String(ivString);
             return decryptor.Decrypted(lastLine.Split(' ')[1]);
         }
 
