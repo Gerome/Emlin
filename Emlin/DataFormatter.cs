@@ -233,16 +233,15 @@ namespace Emlin
 
                     previousKeyData.WaitingForEvents.Remove(KeysData.WaitingForEvent.ESecondKeyRelease);
 
-                    if (keysData.FirstChar == previousKeyData.SecondChar)
-                    {
-                        KeyPressRelease secondKeyReleasedFirst = KeysPressedAndReleased.FirstOrDefault(x => x.Character == keysData.SecondChar);
+                    
+                    KeyPressRelease secondKeyReleasedFirst = KeysPressedAndReleased.FirstOrDefault(x => x.Character == keysData.SecondChar);
 
-                        if (secondKeyReleasedFirst != null)
-                        {
-                            keysData.Digraph2 = TimeSpan.FromTicks(secondKeyReleasedFirst.TimeReleasedInTicks - timeInTicks);
-                            keysData.Digraph3 = GetDigraph3(keysData);
-                        }
+                    if (secondKeyReleasedFirst != null)
+                    {
+                        keysData.Digraph2 = TimeSpan.FromTicks(secondKeyReleasedFirst.TimeReleasedInTicks - timeInTicks);
+                        keysData.Digraph3 = GetDigraph3(keysData);
                     }
+                    
                     RemoveUnnecesarryKeys(charReleased);
                 }
             }

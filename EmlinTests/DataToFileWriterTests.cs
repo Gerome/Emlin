@@ -11,7 +11,7 @@ namespace EmlinTests
     {
         private List<KeysData> keysData;
         private MockFileSystem fileSystem;
-        private DataToFileWriter ttfRecorder;
+        private DataToFileWriter dataToFileWriter;
         private string textContents;
         private IEncryptor encryptorFake;
         
@@ -21,14 +21,14 @@ namespace EmlinTests
         {
             keysData = new List<KeysData>();
             fileSystem = new MockFileSystem();
-            ttfRecorder = new DataToFileWriter();
-            ttfRecorder.AddFileSystem(fileSystem);
+            dataToFileWriter = new DataToFileWriter();
+            dataToFileWriter.AddFileSystem(fileSystem);
             encryptorFake = new EncryptorFake();
         }
 
         private void PrepareFileForWriting()
         {
-            ttfRecorder.CreateDirectoryAndFile(@"D:\Directory\File.txt");
+            dataToFileWriter.CreateDirectoryAndFile(@"D:\Directory\File.txt");
             textContents = GetContentsOfTextFile();
         }
 
@@ -39,7 +39,7 @@ namespace EmlinTests
 
         private void WriteDataToFile()
         {
-            ttfRecorder.WriteRecordedDataToFile(keysData, @"D:\Directory\File.txt", encryptorFake);
+            dataToFileWriter.WriteRecordedDataToFile(keysData, @"D:\Directory\File.txt", encryptorFake);
             textContents = GetContentsOfTextFile();
         }
 

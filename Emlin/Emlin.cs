@@ -73,8 +73,22 @@ namespace Emlin
                 WriteEncryptedDataToFile(filepath, dataToWriteToFile);
             }
 
+            PossiblyShuffleLines(filepath);
+
             dataFormatter.End();
             devWindow.textBox1.AppendText("Data written to file." + Environment.NewLine);
+        }
+
+        private void PossiblyShuffleLines(string filepath)
+        {
+            // 1 in 100 chance of shuffling all the lines
+            if(new Random().Next(1,100) == 42)
+            {
+                var lines = File.ReadAllLines(filepath);
+                var rnd = new Random();
+                lines = lines.OrderBy(line => rnd.Next()).ToArray();
+                File.WriteAllLines(filepath, lines);
+            }       
         }
 
         private static void WriteEncryptedDataToFile(string filepath, List<KeysData> dataToWriteToFile)

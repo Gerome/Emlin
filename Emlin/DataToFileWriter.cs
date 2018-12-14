@@ -37,6 +37,8 @@ namespace Emlin
                     sw.Write(encryptedLine + Environment.NewLine);
 #endif
                 }
+
+                
             }
         }
 
