@@ -181,11 +181,11 @@ namespace Emlin
 
         private void EmlinView_Resize(object sender, EventArgs e)
         {
-            //if (this.WindowState == FormWindowState.Minimized)
-            //{
-            //    Hide();
-            //    notifyIcon1.Visible = true;
-            //}
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                Hide();
+                notifyIcon1.Visible = true;
+            }
         }
 
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
@@ -193,6 +193,31 @@ namespace Emlin
             Show();
             this.WindowState = FormWindowState.Normal;
             notifyIcon1.Visible = true;
+        }
+
+        private void deleteDataBtn_Click(object sender, EventArgs e)
+        {
+            string warning = "You are about to delete all your recorded data. Are you sure you want to do this?";
+            DialogResult areYouSureDeleteDR = MessageBox.Show(warning, "Delete Recorded Data", MessageBoxButtons.YesNo);
+
+            if(areYouSureDeleteDR == DialogResult.Yes)
+            {
+                string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
+                if (File.Exists(filepath))
+                {
+                    File.Delete(filepath);
+
+                    string dataDeleted = "Your data was succesfully deleted.";
+                    MessageBox.Show(dataDeleted, "Data Deleted", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    string dataNotDeleted = "Could not find file to delete.";
+
+                    MessageBox.Show(dataNotDeleted, "File Not Found", MessageBoxButtons.OK);
+
+                }
+            }     
         }
     }
 }
