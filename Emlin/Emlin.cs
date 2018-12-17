@@ -71,12 +71,12 @@ namespace Emlin
             if (dataToWriteToFile.Count != 0)
             {
                 WriteEncryptedDataToFile(filepath, dataToWriteToFile);
+                WriteToDebugWindow("Data written to file.");
             }
 
             PossiblyShuffleLines(filepath);
 
             dataFormatter.End();
-            devWindow.textBox1.AppendText("Data written to file." + Environment.NewLine);
         }
 
         private void PossiblyShuffleLines(string filepath)
@@ -109,13 +109,13 @@ namespace Emlin
 
         private void SendKeyPressToCurrentSession(char charPressed, long timeInTicks)
         {
-            devWindow.textBox1.AppendText(charPressed.ToString() + " pressed at " + new TimeSpan(timeInTicks).TotalMilliseconds.ToString() + Environment.NewLine);
+            WriteToDebugWindow(charPressed.ToString() + " pressed at " + new TimeSpan(timeInTicks).TotalMilliseconds.ToString());
             dataFormatter.KeyWasPressed(charPressed, timeInTicks);  
         }
 
         private void SendKeyReleaseToCurrentSession(char charReleased, long timeInTicks)
         {
-            devWindow.textBox1.AppendText(charReleased.ToString() + " released at " + new TimeSpan(timeInTicks).TotalMilliseconds.ToString() + Environment.NewLine);
+            WriteToDebugWindow(charReleased.ToString() + " released at " + new TimeSpan(timeInTicks).TotalMilliseconds.ToString());
             if (!OnlyKeyUpEvent(charReleased))
             {
                 dataFormatter.KeyWasReleased(charReleased, timeInTicks);
@@ -186,6 +186,11 @@ namespace Emlin
                 Hide();
                 notifyIcon1.Visible = true;
             }
+        }
+
+        private void WriteToDebugWindow(string output)
+        {
+            devWindow.textBox1.AppendText(output + Environment.NewLine);
         }
 
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
