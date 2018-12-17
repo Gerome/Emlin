@@ -145,7 +145,7 @@ namespace Emlin
             int VK_SHIFT = 0x10;
             int VK_CAPS = 0X14;
 
-            if (nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_KEYUP))
+            if (RecordingPossible(nCode, wParam))
             {
                 int value = Marshal.ReadInt32(lParam);
                 char key = (char)value;
@@ -156,7 +156,7 @@ namespace Emlin
                 {
                     int shiftState = GetKeyState(VK_SHIFT) & 0x0001;
 
-                    key = char.ToLower(key);    
+                    key = char.ToLower(key);
                 }
 
                 if (wParam == (IntPtr)WM_KEYDOWN)
@@ -172,7 +172,12 @@ namespace Emlin
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
 
-#endregion
+        private bool RecordingPossible(int nCode, IntPtr wParam)
+        {
+            return nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_KEYUP) && recordingEnabled.Checked;
+        }
+
+        #endregion
 
         private void EmlinView_Resize(object sender, EventArgs e)
         {
