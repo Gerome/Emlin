@@ -107,7 +107,10 @@ namespace Emlin
 
             KeysData keysData = KeysDataWhereFirstCharIs(charReleased);
 
-            RecordOnReleaseData(charReleased, timeInTicks, keysData);
+            if(keysData != null)
+            {
+                RecordOnReleaseData(charReleased, timeInTicks, keysData);
+            }
 
             keysCurrentlyHeld.Remove(charReleased);
             timeOfPreviousRelease = timeInTicks;
@@ -269,7 +272,7 @@ namespace Emlin
 
         private KeysData KeysDataWhereFirstCharIs(char firstChar)
         {
-            return DataRecorded.Last(x => x.FirstChar == firstChar);
+            return DataRecorded.LastOrDefault(x => x.FirstChar == firstChar);
         }
 
         private KeysData KeysDataWhereSecondCharIs(char secondChar)
