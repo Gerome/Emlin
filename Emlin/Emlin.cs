@@ -54,6 +54,9 @@ namespace Emlin
             timer.Tick += TimerCountdown;        
             dataFormatter = new DataFormatter(timer);
 
+            WindowState = FormWindowState.Minimized;
+            ShowInTaskbar = false;
+
 #if DEBUG
             devWindow.Show();
 #endif
@@ -186,6 +189,7 @@ namespace Emlin
                 Hide();
                 notifyIcon1.Visible = true;
             }
+            
         }
 
         private void WriteToDebugWindow(string output)
@@ -196,7 +200,8 @@ namespace Emlin
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
         {
             Show();
-            this.WindowState = FormWindowState.Normal;
+            WindowState = FormWindowState.Normal;
+            ShowInTaskbar = true;
             notifyIcon1.Visible = true;
         }
 
