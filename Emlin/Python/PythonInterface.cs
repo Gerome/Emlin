@@ -22,18 +22,22 @@ namespace Emlin.Python
 
 
             // Create new process start info 
-            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python);
+            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python)
+            {
 
-            // make sure we can read the output from stdout 
-            myProcessStartInfo.UseShellExecute = false;
-            myProcessStartInfo.RedirectStandardOutput = true;
+                // make sure we can read the output from stdout 
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
 
-            myProcessStartInfo.Arguments = myPythonApp + " " + x + " " + y;
+                Arguments = myPythonApp + " " + x + " " + y
+            };
 
 
-            Process myProcess = new Process();
-            // assign start information to the process 
-            myProcess.StartInfo = myProcessStartInfo;
+            Process myProcess = new Process
+            {
+                // assign start information to the process 
+                StartInfo = myProcessStartInfo
+            };
 
             // start process 
             myProcess.Start();

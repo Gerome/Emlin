@@ -69,7 +69,7 @@ namespace Emlin
 
         private void TimerCountdown(object sender, EventArgs e)
         {
-            string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
+            string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + "\\" + ConstantValues.KEYBOARD_FILE_NAME;
 
             dataFormatter.RemoveLastDataItem();
             List<KeysData> dataToWriteToFile = dataFormatter.DataRecorded;
@@ -215,7 +215,7 @@ namespace Emlin
 
             if(areYouSureDeleteDR == DialogResult.Yes)
             {
-                string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + @"\KeyboardData.txt";
+                string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + "\\" + ConstantValues.KEYBOARD_FILE_NAME;
                 if (File.Exists(filepath))
                 {
                     File.Delete(filepath);
@@ -231,6 +231,11 @@ namespace Emlin
 
                 }
             }     
+        }
+
+        private void GoToDataBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start(ConstantValues.KEYBOARD_DATA_FILEPATH + "\\");
         }
     }
 }
