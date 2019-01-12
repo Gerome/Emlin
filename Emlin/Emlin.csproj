@@ -141,6 +141,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ITimerInterface.cs" />
     <Compile Include="DataToFileWriter.cs" />
+    <Compile Include="Python\PythonInterface.cs" />
     <EmbeddedResource Include="DevWindow.resx">
       <DependentUpon>DevWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -172,6 +173,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Python\test.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
