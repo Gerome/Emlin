@@ -29,18 +29,12 @@ namespace Emlin
             {
                 foreach(string line in textToWrite)
                 {
-#if DEBUG
-                    sw.Write(line);
-#else
-                    WriteEncryptorIV(encryptor, sw);
                     string encryptedLine = encryptor.Encrypt(line);
+                    WriteEncryptorIV(encryptor, sw);
                     sw.Write(encryptedLine + Environment.NewLine);
-#endif
                 }
-
-                
             }
-        }
+         }
 
         private static void WriteEncryptorIV(IEncryptor encryptor, StreamWriter sw)
         {

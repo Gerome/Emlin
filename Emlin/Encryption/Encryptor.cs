@@ -11,14 +11,14 @@ namespace Emlin.Encryption
 
         public Encryptor()
         {
-            Endec = new AesCryptoServiceProvider()
+            Endec = new AesCryptoServiceProvider
             {
                 BlockSize = 128,
                 KeySize = 256,
                 Padding = PaddingMode.PKCS7,
-                Mode = CipherMode.CBC
+                Mode = CipherMode.CBC,
+                Key = GetKey()
             };
-            Endec.Key = GetKey();
         }
 
         public string Encrypt(string decrypted)
@@ -28,12 +28,15 @@ namespace Emlin.Encryption
             ICryptoTransform icrypt = Endec.CreateEncryptor(Endec.Key, Endec.IV);
             byte[] enc = icrypt.TransformFinalBlock(textbytes, 0, textbytes.Length);
             icrypt.Dispose();
+
             return Convert.ToBase64String(enc);
         }
 
-        public string Decrypted(string encrypted)
+        public string Decrypted(string lineToDecrypt)
         {
-            byte[] textbytes = Convert.FromBase64String(encrypted);
+            Endec.IV = Convert.FromBase64String(lineToDecrypt.Split(' ')[0]);
+            byte[] textbytes = Convert.FromBase64String(lineToDecrypt.Split(' ')[1]);
+
             ICryptoTransform icrypt = Endec.CreateDecryptor(Endec.Key, Endec.IV);
             byte[] enc = icrypt.TransformFinalBlock(textbytes, 0, textbytes.Length);
             icrypt.Dispose();
