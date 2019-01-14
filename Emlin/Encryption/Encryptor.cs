@@ -17,8 +17,8 @@ namespace Emlin.Encryption
                 KeySize = 256,
                 Padding = PaddingMode.PKCS7,
                 Mode = CipherMode.CBC,
-                Key = GetKey()
             };
+            Endec.Key = GetKey();
         }
 
         public string Encrypt(string decrypted)

@@ -11,10 +11,10 @@ namespace Emlin.Python
         public static void TestRunPython()
         {
             // full path of python interpreter  
-            string python = @"D:\Python27\python.exe";
+            string python = @"C:\Users\Gerome\AppData\Local\Programs\Python\Python37-32\python.exe";
 
             // python app to call  
-            string myPythonApp = "\"C:\\Users\\Gerome\\Dropbox\\CI301-The Individual Project\\Emlin\\Emlin\\Python\\test.py\"";
+            string myPythonApp = "\"C:\\Users\\Gerome\\Dropbox\\CI301-The Individual Project\\Emlin\\Emlin\\Python\\EmlinSVM.py\"";
 
             // dummy parameters to send Python script  
             int x = 2;
@@ -53,7 +53,28 @@ namespace Emlin.Python
             myProcess.Close();
 
             // write the output we got from python app 
-            Console.WriteLine("Value received from script: " + myString);
+            Console.WriteLine(myString);
+            myString = myStreamReader.ReadLine();
+            Console.WriteLine(myString);
+            myString = myStreamReader.ReadLine();
+            Console.WriteLine(myString);
+            myString = myStreamReader.ReadLine();
+            Console.WriteLine(myString);
+            myString = myStreamReader.ReadLine();
+            Console.WriteLine(myString);
+            myString = myStreamReader.ReadLine();
+            Console.WriteLine(myString);
+            myString = myStreamReader.ReadLine();
+            Console.WriteLine(myString);
+            myString = myStreamReader.ReadLine();
+            Console.WriteLine(myString);
+            myString = myStreamReader.ReadLine();
+            Console.WriteLine(myString);
+            myString = myStreamReader.ReadLine();
+            Console.WriteLine(myString);
+            myString = myStreamReader.ReadLine();
+            Console.WriteLine(myString);
+            myString = myStreamReader.ReadLine();
         }
     }
 }

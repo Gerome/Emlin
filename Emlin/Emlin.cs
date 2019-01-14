@@ -61,7 +61,7 @@ namespace Emlin
 #if DEBUG
             devWindow.Show();
 #endif
-
+            PythonInterface.TestRunPython();
           
         }
 
