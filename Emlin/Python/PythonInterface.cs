@@ -42,39 +42,26 @@ namespace Emlin.Python
             // start process 
             myProcess.Start();
 
-            // Read the standard output of the app we called.  
-            StreamReader myStreamReader = myProcess.StandardOutput;
-            string myString = myStreamReader.ReadLine();
 
+            PrintPythonOutput(myProcess);
             // wait exit signal from the app we called 
             myProcess.WaitForExit();
 
             // close the process 
             myProcess.Close();
+        }
 
-            // write the output we got from python app 
-            Console.WriteLine(myString);
-            myString = myStreamReader.ReadLine();
-            Console.WriteLine(myString);
-            myString = myStreamReader.ReadLine();
-            Console.WriteLine(myString);
-            myString = myStreamReader.ReadLine();
-            Console.WriteLine(myString);
-            myString = myStreamReader.ReadLine();
-            Console.WriteLine(myString);
-            myString = myStreamReader.ReadLine();
-            Console.WriteLine(myString);
-            myString = myStreamReader.ReadLine();
-            Console.WriteLine(myString);
-            myString = myStreamReader.ReadLine();
-            Console.WriteLine(myString);
-            myString = myStreamReader.ReadLine();
-            Console.WriteLine(myString);
-            myString = myStreamReader.ReadLine();
-            Console.WriteLine(myString);
-            myString = myStreamReader.ReadLine();
-            Console.WriteLine(myString);
-            myString = myStreamReader.ReadLine();
+        private static void PrintPythonOutput(Process myProcess)
+        {
+            // Read the standard output of the app we called.  
+            StreamReader myStreamReader = myProcess.StandardOutput;
+            string myString = myStreamReader.ReadLine();
+
+            while (myString != null)
+            {
+                Console.WriteLine(myString);
+                myString = myStreamReader.ReadLine();
+            }
         }
     }
 }

@@ -41,7 +41,6 @@ train_set.info()
 
 # In[9]:
 
-
 import numpy as np
 from sklearn.svm import SVC
 from sklearn.model_selection import cross_val_score
@@ -60,7 +59,6 @@ svm_clf = Pipeline((
 svm_scores = cross_val_score(svm_clf, all_x, all_y, cv=5, verbose=True, n_jobs=5)
 
 print(svm_scores.mean())
-print("hello")
 # In[8]:
 from sklearn.externals import joblib
 svm_clf.fit(all_x, all_y)
