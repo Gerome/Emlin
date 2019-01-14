@@ -1,5 +1,4 @@
 ﻿using Emlin.Encryption;
-using Emlin.Python;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -61,7 +60,7 @@ namespace Emlin
 #if DEBUG
             devWindow.Show();
 #endif
-            //PythonInterface.TestRunPython();
+            
             
         }
 

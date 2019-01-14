@@ -47,7 +47,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-all_x = group_data[['Id', 'Data']].values
+all_x = group_data[['Id', 'HT', 'FT', 'Di1', 'Di2', 'Di3']].values
 all_y = group_data[['User']].values
 all_y = np.ravel(all_y)
 

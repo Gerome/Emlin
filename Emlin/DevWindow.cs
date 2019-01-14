@@ -1,4 +1,5 @@
 ﻿using Emlin.Encryption;
+using Emlin.Python;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -49,5 +50,9 @@ namespace Emlin
             return Regex.Match(fileName, @"\d+").Value;
         }
 
+        private void RunPython_Click(object sender, EventArgs e)
+        {
+            PythonInterface.TestRunPython();
+        }
     }
 }

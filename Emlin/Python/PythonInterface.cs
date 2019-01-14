@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Emlin.Python
 {
-    class PythonInterface
+    static class PythonInterface
     {
         public static void TestRunPython()
         {
