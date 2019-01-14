@@ -18,13 +18,13 @@ namespace Emlin.Encryption
                 Padding = PaddingMode.PKCS7,
                 Mode = CipherMode.CBC,
             };
-            Endec.Key = GetKey();
         }
 
-        public string Encrypt(string decrypted)
+        public string Encrypt(string unencrypted)
         {
+            Endec.Key = GetKey();
             Endec.GenerateIV();
-            byte[] textbytes = Encoding.ASCII.GetBytes(decrypted);
+            byte[] textbytes = Encoding.ASCII.GetBytes(unencrypted);
             ICryptoTransform icrypt = Endec.CreateEncryptor(Endec.Key, Endec.IV);
             byte[] enc = icrypt.TransformFinalBlock(textbytes, 0, textbytes.Length);
             icrypt.Dispose();
@@ -32,8 +32,9 @@ namespace Emlin.Encryption
             return Convert.ToBase64String(enc);
         }
 
-        public string Decrypted(string lineToDecrypt)
+        public string Decrypted(string lineToDecrypt, string fileNumber)
         {
+            Endec.Key = GetDecryptKey(fileNumber);
             Endec.IV = Convert.FromBase64String(lineToDecrypt.Split(' ')[0]);
             byte[] textbytes = Convert.FromBase64String(lineToDecrypt.Split(' ')[1]);
 
@@ -41,6 +42,12 @@ namespace Emlin.Encryption
             byte[] enc = icrypt.TransformFinalBlock(textbytes, 0, textbytes.Length);
             icrypt.Dispose();
             return Encoding.ASCII.GetString(enc);
+        }
+
+        private byte[] GetDecryptKey(string fileNumber)
+        {
+            DotNetEnv.Env.Load(@"C:\Users\Gerome\Dropbox\CI301-The Individual Project\Emlin\Keys\keys_"+ fileNumber + ".env");
+            return Encoding.ASCII.GetBytes(DotNetEnv.Env.GetString("Key"));
         }
 
         public static byte[] GetKey()

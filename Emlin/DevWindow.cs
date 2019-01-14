@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Emlin.Encryption;
+using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Emlin
@@ -16,5 +12,42 @@ namespace Emlin
         {
             InitializeComponent();
         }
+
+        private void decryptBtn_Click(object sender, EventArgs e)
+        {
+            DecryptFiles();
+        }
+
+        private static void DecryptFiles()
+        {
+            DirectoryInfo d = new DirectoryInfo(@"C:\Users\Gerome\Dropbox\CI301-The Individual Project\Data");//Assuming Test is your Folder
+            FileInfo[] Files = d.GetFiles("KeyboardData_*.txt"); //Getting Text files
+            foreach (FileInfo file in Files)
+            {
+                DecryptFile(file);
+            }
+        }
+
+        private static void DecryptFile(FileInfo file)
+        {
+            IEncryptor decryptor = new Encryptor();
+
+            var lines = File.ReadLines(file.FullName);
+            using (StreamWriter sw = File.AppendText(@"C:\Users\Gerome\Dropbox\CI301-The Individual Project\Data\Decrypted\D_" + file.Name))
+            {
+                string fileNumber = GetFileNumber(file.Name);
+
+                foreach (string line in lines)
+                {
+                    sw.Write(decryptor.Decrypted(line, fileNumber));
+                }
+            }
+        }
+
+        private static string GetFileNumber(string fileName)
+        {
+            return Regex.Match(fileName, @"\d+").Value;
+        }
+
     }
 }

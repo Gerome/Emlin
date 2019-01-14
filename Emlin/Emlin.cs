@@ -61,8 +61,8 @@ namespace Emlin
 #if DEBUG
             devWindow.Show();
 #endif
-            PythonInterface.TestRunPython();
-          
+            //PythonInterface.TestRunPython();
+            
         }
 
 
@@ -104,31 +104,6 @@ namespace Emlin
             dtfw.WriteRecordedDataToFile(dataToWriteToFile, filepath, new Encryptor());
 
            
-        }
-
-
-        private static string DecryptFile()
-        {
-            string decryptedString = "";
-
-            var lines = File.ReadLines(@"C:\Users\Gerome\AppData\Roaming\Emlin\KeyboardData.txt");
-
-            using (StreamWriter sw = File.AppendText(@"C:\Users\Gerome\Dropbox\CI301-The Individual Project\Data\D_KeyboardData_6.txt"))
-            {
-
-                foreach (var line in lines)
-                {
-                    sw.Write(GetDecryptedString(line));
-                }
-            }
-               
-            return decryptedString;
-        }
-
-        private static string GetDecryptedString(string lineToDecrypt)
-        {
-            IEncryptor decryptor = new Encryptor();
-            return decryptor.Decrypted(lineToDecrypt);
         }
 
         private void SendKeyPressToCurrentSession(char charPressed, long timeInTicks)

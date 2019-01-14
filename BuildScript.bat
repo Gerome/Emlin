@@ -1,5 +1,5 @@
 
-FOR /L %%A IN (1,1,11) DO (del Emlin\keys.env
+FOR /L %%A IN (1,1,13) DO (del Emlin\keys.env
 	xcopy /i "..\Documents\Consent forms\%%Akeys.env" Emlin\keys.env*
 	msbuild.exe /p:Configuration=Release Emlin.sln
 	cd Emlin\bin
