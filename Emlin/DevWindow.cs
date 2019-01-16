@@ -21,7 +21,7 @@ namespace Emlin
 
         private static void DecryptFiles()
         {
-            DirectoryInfo d = new DirectoryInfo(@"C:\Users\Gerome\Dropbox\CI301-The Individual Project\Data");//Assuming Test is your Folder
+            DirectoryInfo d = new DirectoryInfo(@"C:\Users\Gerome\Dropbox\CI301-The Individual Project\Data\Raw");//Assuming Test is your Folder
             FileInfo[] Files = d.GetFiles("KeyboardData_*.txt"); //Getting Text files
             foreach (FileInfo file in Files)
             {
@@ -34,7 +34,7 @@ namespace Emlin
             IEncryptor decryptor = new Encryptor();
 
             var lines = File.ReadLines(file.FullName);
-            using (StreamWriter sw = File.AppendText(@"C:\Users\Gerome\Dropbox\CI301-The Individual Project\Data\Decrypted\D_" + file.Name))
+            using (StreamWriter sw = File.AppendText(@"C:\Users\Gerome\Dropbox\CI301-The Individual Project\Data\Interim\D_" + file.Name))
             {
                 string fileNumber = GetFileNumber(file.Name);
 

@@ -184,7 +184,7 @@ set file="$(ProjectDir)keys.env"
 
 if not exist %25file%25 (
     echo.&gt;;%25file%25
-    @echo Key=123456&gt;&gt;%25file%25
+    @echo Key=V4HW88YAFpdcTeKXOJGvLFhorDM3Rdb6&gt;&gt;%25file%25
 )</PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
