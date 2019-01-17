@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 namespace Emlin.Python
 {
@@ -38,17 +39,19 @@ namespace Emlin.Python
                 // assign start information to the process 
                 StartInfo = myProcessStartInfo
             };
+            
+            new Thread(() =>
+            {
+                // start process 
+                myProcess.Start();
 
-            // start process 
-            myProcess.Start();
+                PrintPythonOutput(myProcess);
+                // wait exit signal from the app we called 
+                myProcess.WaitForExit();
 
-
-            PrintPythonOutput(myProcess);
-            // wait exit signal from the app we called 
-            myProcess.WaitForExit();
-
-            // close the process 
-            myProcess.Close();
+                // close the process 
+                myProcess.Close();
+            }).Start();  
         }
 
         private static void PrintPythonOutput(Process myProcess)

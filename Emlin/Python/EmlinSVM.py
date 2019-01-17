@@ -6,7 +6,7 @@
 
 import os
 import pandas as pd
-DATA_PATH = "C:/Users/Gerome/Dropbox/CI301-The Individual Project/Data/"
+DATA_PATH = "C:/Users/Gerome/Dropbox/CI301-The Individual Project/Data/Processed"
 
 def load_group_data(data_path=DATA_PATH):
     csv_path = os.path.join(data_path, "GroupedData.csv")
