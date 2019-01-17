@@ -6,9 +6,9 @@ namespace EmlinTests
 {
     class EncryptorFake : IEncryptor
     {
-        public AesCryptoServiceProvider Endec => throw new NotImplementedException();
+        public AesCryptoServiceProvider Endec => new AesCryptoServiceProvider();
 
-        public string Decrypted(string encrypted)
+        public string Decrypted(string encrypted, string filepath)
         {
             return encrypted;
         }

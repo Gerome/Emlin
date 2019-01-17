@@ -21,7 +21,7 @@ namespace Emlin
 
         private static void DecryptFiles()
         {
-            DirectoryInfo d = new DirectoryInfo(@"C:\Users\Gerome\Dropbox\CI301-The Individual Project\Data\Raw");//Assuming Test is your Folder
+            DirectoryInfo d = new DirectoryInfo(@"C:\Users\Gerome\Dropbox\CI301-The Individual Project\Data\Raw");
             FileInfo[] Files = d.GetFiles("KeyboardData_*.txt"); //Getting Text files
             foreach (FileInfo file in Files)
             {
