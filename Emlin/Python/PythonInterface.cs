@@ -17,9 +17,6 @@ namespace Emlin.Python
             // python app to call  
             string myPythonApp = "\"C:\\Users\\Gerome\\Dropbox\\CI301-The Individual Project\\Emlin\\Emlin\\Python\\EmlinSVM.py\"";
 
-            // dummy parameters to send Python script  
-            int x = 2;
-            int y = 5;
 
 
             // Create new process start info 
@@ -30,7 +27,7 @@ namespace Emlin.Python
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
 
-                Arguments = myPythonApp + " " + x + " " + y
+                Arguments = myPythonApp + ""
             };
 
 
@@ -39,7 +36,7 @@ namespace Emlin.Python
                 // assign start information to the process 
                 StartInfo = myProcessStartInfo
             };
-            
+
             new Thread(() =>
             {
                 // start process 
@@ -51,7 +48,7 @@ namespace Emlin.Python
 
                 // close the process 
                 myProcess.Close();
-            }).Start();  
+            }).Start();
         }
 
         private static void PrintPythonOutput(Process myProcess)
