@@ -185,7 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Python\EmlinSVM.py" />
-    <Content Include="Python\LoadModel.py" />
+    <Content Include="Python\ModelSaveLoad.py" />
     <Content Include="Python\SVMModel.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

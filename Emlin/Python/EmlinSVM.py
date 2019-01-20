@@ -8,7 +8,7 @@ from sklearn.externals import joblib
 
 # User files
 import SVMModel
-
+import ModelSaveLoad as MSL
 
 def main():
 	DATA_PATH = "C:/Users/Gerome/Dropbox/CI301-The Individual Project/Data/Processed"
@@ -28,6 +28,8 @@ def main():
 
 	svm_clf = SVMModel.GetSVMClassifier();
 	svm_scores = SVMModel.TrainSVM(svm_clf, all_x, all_y)
+
+	MSL.SaveModelAsJoblib(svm_clf, "svmClf")
 
 	print(svm_scores.mean())
 

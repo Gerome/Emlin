@@ -53,6 +53,7 @@ namespace Emlin
         private void RunPython_Click(object sender, EventArgs e)
         {
             PythonInterface.TestRunPython();
+            textBox1.AppendText("Started running python scripts." + Environment.NewLine);
         }
     }
 }

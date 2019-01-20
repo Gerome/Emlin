@@ -40,14 +40,14 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(260, 312);
+            this.textBox1.Size = new System.Drawing.Size(260, 341);
             this.textBox1.TabIndex = 0;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 330);
+            this.button1.Location = new System.Drawing.Point(278, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(83, 23);
+            this.button1.Size = new System.Drawing.Size(85, 23);
             this.button1.TabIndex = 1;
             this.button1.Text = "Decrypt Files";
             this.button1.UseVisualStyleBackColor = true;
@@ -55,9 +55,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(188, 329);
+            this.button2.Location = new System.Drawing.Point(278, 41);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(83, 23);
+            this.button2.Size = new System.Drawing.Size(85, 23);
             this.button2.TabIndex = 2;
             this.button2.Text = "Run Python";
             this.button2.UseVisualStyleBackColor = true;
@@ -67,7 +67,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 365);
+            this.ClientSize = new System.Drawing.Size(375, 365);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
