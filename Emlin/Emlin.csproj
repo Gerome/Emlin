@@ -127,7 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConstantValues.cs" />
+    <Compile Include="HelperMembers\ConstantValues.cs" />
     <Compile Include="TestMembers\CustomTimer.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -146,12 +146,12 @@
     </Compile>
     <Compile Include="Encryption\Encryptor.cs" />
     <Compile Include="Encryption\IEncryptor.cs" />
-    <Compile Include="HelperFunctions.cs" />
+    <Compile Include="HelperMembers\HelperFunctions.cs" />
     <Compile Include="DataRecording\KeyPressRelease.cs" />
-    <Compile Include="KeysData.cs" />
+    <Compile Include="DataRecording\KeysData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ITimerInterface.cs" />
+    <Compile Include="TestMembers\ITimerInterface.cs" />
     <Compile Include="DataToFileWriter.cs" />
     <Compile Include="Python\PythonInterface.cs" />
     <EmbeddedResource Include="DevWindow.resx">
