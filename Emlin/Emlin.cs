@@ -1,4 +1,5 @@
 ﻿using Emlin.Encryption;
+using Emlin.Python;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -73,6 +74,15 @@ namespace Emlin
 
             if (dataToWriteToFile.Count != 0)
             {
+                PythonInterface pi = new PythonInterface();
+
+                List<string> formattedData = new List<string>();
+                foreach (KeysData keysData in dataToWriteToFile)
+                {
+                    formattedData.Add(DataFormatter.GetFormattedDataLine(keysData));
+                }
+                pi.TestUserInput(formattedData);
+
                 WriteEncryptedDataToFile(filepath, dataToWriteToFile);
                 WriteToDebugWindow("Data written to file.");
             }
@@ -99,8 +109,6 @@ namespace Emlin
             DataToFileWriter dtfw = new DataToFileWriter();
             dtfw.CreateDirectoryAndFile(filepath);
             dtfw.WriteRecordedDataToFile(dataToWriteToFile, filepath, new Encryptor());
-
-           
         }
 
         private void SendKeyPressToCurrentSession(char charPressed, long timeInTicks)

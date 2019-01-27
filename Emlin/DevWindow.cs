@@ -1,6 +1,7 @@
 ﻿using Emlin.Encryption;
 using Emlin.Python;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Emlin
@@ -28,7 +29,7 @@ namespace Emlin
         private void LoadModel_Click(object sender, EventArgs e)
         {
             PythonInterface pi = new PythonInterface();
-            pi.TestUserInput("1186,118,791,910,1028,1147");
+            pi.TestUserInput(new List<string> { "20835,586,-243,343,-103,483", "12222,586,-243,343,-103,483" });
         }
     }
 }

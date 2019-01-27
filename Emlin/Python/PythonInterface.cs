@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -51,9 +52,19 @@ namespace Emlin.Python
             }).Start();
         }
 
-        public void TestUserInput(string testData)
+        public void TestUserInput(List<string> testData)
         {
             string myPythonApp = "\"" + Environment.CurrentDirectory + @"\..\..\Python\LoadSVM.py" + "\"";
+
+
+            string data = "";
+
+            foreach(string line in testData)
+            {
+                data += line + ".";
+            }
+
+            data = data.Remove(data.Length - 1);
 
             // Create new process start info 
             ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python)
@@ -63,7 +74,7 @@ namespace Emlin.Python
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
 
-                Arguments = myPythonApp + " " + testData
+                Arguments = myPythonApp + " " + data
             };
 
             Process myProcess = new Process

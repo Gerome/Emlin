@@ -21,7 +21,7 @@ namespace Emlin
 
             foreach(KeysData data in listOfKeysData)
             {
-                textToWrite.Add(GetFormattedDataLine(data));         
+                textToWrite.Add(DataFormatter.GetFormattedDataLine(data)+ Environment.NewLine);         
             }
 
           
@@ -41,16 +41,7 @@ namespace Emlin
             sw.Write(Convert.ToBase64String(encryptor.Endec.IV) + " ");
         }
 
-        private string GetFormattedDataLine(KeysData data)
-        {
-            return data.CombinationID.ToString() + "," 
-                + ((int)data.HoldTime.TotalMilliseconds).ToString() + ","
-                + ((int)data.FlightTime.TotalMilliseconds).ToString() + ','
-                + ((int)data.Digraph1.TotalMilliseconds).ToString() + ','
-                + ((int)data.Digraph2.TotalMilliseconds).ToString() + ','
-                + ((int)data.Digraph3.TotalMilliseconds).ToString()
-                + Environment.NewLine;
-        }
+        
 
         public void CreateDirectoryAndFile(string filepath)
         {
