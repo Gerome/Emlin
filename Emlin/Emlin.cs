@@ -64,8 +64,6 @@ namespace Emlin
             
         }
 
-
-
         private void TimerCountdown(object sender, EventArgs e)
         {
             string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + "\\" + ConstantValues.KEYBOARD_FILE_NAME;

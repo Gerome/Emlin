@@ -127,6 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Encryption\Decryptor.cs" />
     <Compile Include="HelperMembers\ConstantValues.cs" />
     <Compile Include="TestMembers\CustomTimer.cs">
       <SubType>Component</SubType>
@@ -188,7 +189,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
-    <Content Include="Python\EmlinSVM.py" />
+    <Content Include="Python\CreateSVM.py" />
+    <Content Include="Python\LoadSVM.py" />
     <Content Include="Python\ModelSaveLoad.py" />
     <Content Include="Python\SVMModel.py" />
   </ItemGroup>
