@@ -12,7 +12,7 @@ import SVMModel
 
 #DATA_PATH = __file__ + r"\..\..\..\Data\Processed"
 
-DATA_PATH = "C:/Users/Gerome/Dropbox/CI301-The Individual Project/Data/Processed"
+DATA_PATH = "C:/Users/Gerome/Dropbox/CI301-The Individual Project/Emlin/Data/Processed"
 
 def load_group_data(data_path=DATA_PATH):
 		csv_path = os.path.join(data_path, "GroupedData.csv")
@@ -28,7 +28,7 @@ def main():
 	all_y = np.ravel(all_y)
 
 	svm_clf = SVMModel.GetSVMClassifier()
-	#svm_scores = SVMModel.TrainSVM(svm_clf, all_x, all_y)
+	#svm_scores = SVMModel.GetScoreFrom(svm_clf, all_x, all_y)
 	#print(svm_scores.mean())
 	svm_clf.fit(all_x, all_y)
 	MSL.SaveModelAsJoblib(svm_clf, "svmClf")

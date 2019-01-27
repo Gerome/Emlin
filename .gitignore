@@ -322,3 +322,6 @@ ASALocalRun/
 # Custom ignores
 *.env
 *.joblib
+/Data/*
+Emlin/Python/svmClf.joblib
+*.joblib
