@@ -33,8 +33,6 @@ namespace Emlin
 
         public void KeyWasPressed(char charPressed, long timeInTicks)
         {
-            Console.WriteLine("Wait(" + TimeSpan.FromTicks(timeSinceLastAction).TotalMilliseconds.ToString() + ");");
-            Console.WriteLine("PressKey(\'" + charPressed.ToString() + "\');");
             timeSinceLastAction = timeInTicks;
             ResetTimer();
 
@@ -91,9 +89,7 @@ namespace Emlin
         public void KeyWasReleased(char charReleased, long timeInTicks)
         {
             charsReleased.Add(charReleased);
-
-            Console.WriteLine("Wait(" + TimeSpan.FromTicks(timeSinceLastAction).TotalMilliseconds.ToString() + ");");
-            Console.WriteLine("ReleaseKey(\'" + charReleased.ToString() + "\');");
+            
             timeSinceLastAction = timeInTicks;
 
             KeyPressRelease keyReleased = KeysPressedAndReleased.LastOrDefault(x => x.Character == charReleased);

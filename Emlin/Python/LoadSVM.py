@@ -6,11 +6,9 @@ allDataAsString = str(sys.argv[1])
 
 def main():
     svm_clf = MSL.LoadModelFromJoblib("svmClf.joblib")
-    print(allDataAsString)
     listOfData = allDataAsString.split(".")
 
     for dataString in listOfData:
-        print(dataString)
         formattedData =  dataString.split(",")
         print(svm_clf.predict([formattedData]))
 

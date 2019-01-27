@@ -104,11 +104,28 @@ namespace Emlin.Python
             StreamReader myStreamReader = myProcess.StandardOutput;
             string myString = myStreamReader.ReadLine();
 
+            int user1 = 0, user6 = 0, user10 = 0;
+
             while (myString != null)
             {
+                if (myString.Equals("[1]"))
+                {
+                    user1++;
+                }
+                if (myString.Equals("[6]"))
+                {
+                    user6++;
+                }
+                if (myString.Equals("[10]"))
+                {
+                    user10++;
+                }
                 Console.WriteLine(myString);
                 myString = myStreamReader.ReadLine();
             }
+            Console.WriteLine($"1 pressed {user1} times.");
+            Console.WriteLine($"6 pressed {user6} times.");
+            Console.WriteLine($"10 pressed {user10} times.");
         }
     }
 }

@@ -321,3 +321,4 @@ ASALocalRun/
 
 # Custom ignores
 *.env
+*.joblib
