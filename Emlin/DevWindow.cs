@@ -29,7 +29,7 @@ namespace Emlin
         private void LoadModel_Click(object sender, EventArgs e)
         {
             PythonInterface pi = new PythonInterface();
-            pi.TestUserInput(new List<string> { "20835,586,-243,343,-103,483", "12222,586,-243,343,-103,483" });
+            pi.TestUserInput(new List<string> { "13413,83,51,135,160,244", "12222,586,-243,343,-103,483" });
         }
     }
 }

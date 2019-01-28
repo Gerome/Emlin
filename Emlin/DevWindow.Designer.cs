@@ -70,7 +70,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(85, 23);
             this.button3.TabIndex = 3;
-            this.button3.Text = "Load Model";
+            this.button3.Text = "Test Model";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.LoadModel_Click);
             // 
