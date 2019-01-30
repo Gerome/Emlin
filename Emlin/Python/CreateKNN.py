@@ -24,14 +24,14 @@ def main():
 	all_y = group_data[['User']].values
 	all_y = np.ravel(all_y)
 
-	numberOfNeighbours = 10
-	for i in range(1, numberOfNeighbours):
-		knn_clf = KNeighborsClassifier(n_neighbors=i)
+	#numberOfNeighbours = 10
+	#for i in range(1, numberOfNeighbours):
+	knn_clf = KNeighborsClassifier(n_neighbors=5)
 	
-		knn_scores = MU.GetScoreFromCLF(knn_clf, all_x, all_y)
-		print("Evaluting " + i +" neighbours. Score is "+ knn_scores.mean())
-		#knn_clf.fit(all_x, all_y)
-		#MU.SaveModelAsJoblib(knn_clf, "knnClf")
+		#knn_scores = MU.GetScoreFromCLF(knn_clf, all_x, all_y)
+		#print("Evaluting " + str(i) +" neighbours. Score is "+ str(knn_scores.mean()))
+	knn_clf.fit(all_x, all_y)
+	MU.SaveModelAsJoblib(knn_clf, "knnClf")
 
 if __name__ == "__main__":
     sys.exit(int(main() or 0))
