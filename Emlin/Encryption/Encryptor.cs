@@ -46,7 +46,7 @@ namespace Emlin.Encryption
 
         private byte[] GetDecryptKey(string fileNumber)
         {
-            DotNetEnv.Env.Load(Environment.CurrentDirectory +  @"..\..\..s\Keys\keys_" + fileNumber + ".env");
+            DotNetEnv.Env.Load(Environment.CurrentDirectory +  @"..\..\..\..\Keys\keys_" + fileNumber + ".env");
             return Encoding.ASCII.GetBytes(DotNetEnv.Env.GetString("Key"));
         }
 

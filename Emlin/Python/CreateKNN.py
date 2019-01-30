@@ -1,16 +1,13 @@
-# Other librarys
+﻿# Other librarys
 import os
 import pandas as pd
 import numpy as np
 import sys
-from sklearn.model_selection import train_test_split
 from sklearn.externals import joblib
+from sklearn.neighbors import KNeighborsClassifier
 
 # User files
 import ModelUtils as MU
-import SVMModel
-
-#DATA_PATH = __file__ + r"\..\..\..\Data\Processed"
 
 DATA_PATH = "C:/Users/Gerome/Dropbox/CI301-The Individual Project/Emlin/Data/Processed"
 
@@ -27,11 +24,14 @@ def main():
 	all_y = group_data[['User']].values
 	all_y = np.ravel(all_y)
 
-	svm_clf = SVMModel.GetSVMClassifier()
-	#svm_scores = MU.GetScoreFrom(svm_clf, all_x, all_y)
-	#print(svm_scores.mean())
-	svm_clf.fit(all_x, all_y)
-	MSL.SaveModelAsJoblib(svm_clf, "svmClf")
+	numberOfNeighbours = 10
+	for i in range(1, numberOfNeighbours):
+		knn_clf = KNeighborsClassifier(n_neighbors=i)
+	
+		knn_scores = MU.GetScoreFromCLF(knn_clf, all_x, all_y)
+		print("Evaluting " + i +" neighbours. Score is "+ knn_scores.mean())
+		#knn_clf.fit(all_x, all_y)
+		#MU.SaveModelAsJoblib(knn_clf, "knnClf")
 
 if __name__ == "__main__":
     sys.exit(int(main() or 0))

@@ -13,12 +13,24 @@ namespace Emlin.Python
         // full path of python interpreter  
         private string python = @"C:\Users\Gerome\AppData\Local\Programs\Python\Python37-32\python.exe"; // TODO REMOVE THIS GARBAGE
 
-        public void TeachModel()
+        public void TeachModel(string model)
         {
             // python app to call  
-            string myPythonApp = "\"" + Environment.CurrentDirectory +  @"\..\..\Python\CreateSVM.py" + "\"";
+            string myPythonApp = "";
 
+            switch (model)
+            {
+                case ("KNN"):
+                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\..\..\Python\CreateKNN.py" + "\"";
+                    break;
 
+                case ("SVM"):
+                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\..\..\Python\CreateSVM.py" + "\"";
+                    break;
+
+                default:
+                    return;
+            }
 
             // Create new process start info 
             ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python)
@@ -54,7 +66,7 @@ namespace Emlin.Python
 
         public void TestUserInput(List<string> testData)
         {
-            string myPythonApp = "\"" + Environment.CurrentDirectory + @"\..\..\Python\LoadSVM.py" + "\"";
+            string myPythonApp = "\"" + Environment.CurrentDirectory + @"\..\..\Python\LoadKNN.py" + "\"";
 
 
             string data = "";

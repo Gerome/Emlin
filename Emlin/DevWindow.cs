@@ -11,6 +11,7 @@ namespace Emlin
         public DevWindow()
         {
             InitializeComponent();
+            comboBoxModelSelection.Text = comboBoxModelSelection.Items[0].ToString();
         }
 
         private void decryptBtn_Click(object sender, EventArgs e)
@@ -21,7 +22,7 @@ namespace Emlin
         private void TeachModelBtn_Click(object sender, EventArgs e)
         {
             PythonInterface pi = new PythonInterface();
-            pi.TeachModel();
+            pi.TeachModel(comboBoxModelSelection.Text);
 
             textBox1.AppendText("Started running python scripts." + Environment.NewLine);
         }

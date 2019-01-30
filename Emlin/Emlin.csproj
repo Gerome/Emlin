@@ -154,6 +154,7 @@
     <Compile Include="Graphing\LiveChartsPlot.cs" />
     <Compile Include="HealthSubject.cs" />
     <Compile Include="HelperMembers\ConstantValues.cs" />
+    <Content Include="Python\CreateKNN.py" />
     <Compile Include="TestMembers\CustomTimer.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -218,8 +219,9 @@
   <ItemGroup>
     <Content Include="icon.ico" />
     <Content Include="Python\CreateSVM.py" />
+    <Content Include="Python\LoadKNN.py" />
     <Content Include="Python\LoadSVM.py" />
-    <Content Include="Python\ModelSaveLoad.py" />
+    <Content Include="Python\ModelUtils.py" />
     <Content Include="Python\SVMModel.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
