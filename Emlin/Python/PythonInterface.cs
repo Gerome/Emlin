@@ -32,36 +32,7 @@ namespace Emlin.Python
                     return;
             }
 
-            // Create new process start info 
-            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python)
-            {
-
-                // make sure we can read the output from stdout 
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-
-                Arguments = myPythonApp
-            };
-
-
-            Process myProcess = new Process
-            {
-                // assign start information to the process 
-                StartInfo = myProcessStartInfo
-            };
-
-            new Thread(() =>
-            {
-                // start process 
-                myProcess.Start();
-
-                PrintPythonOutput(myProcess);
-                // wait exit signal from the app we called 
-                myProcess.WaitForExit();
-
-                // close the process 
-                myProcess.Close();
-            }).Start();
+            RunPython(myPythonApp);
         }
 
         public void TestUserInput(List<string> testData)
@@ -71,13 +42,17 @@ namespace Emlin.Python
 
             string data = "";
 
-            foreach(string line in testData)
+            foreach (string line in testData)
             {
                 data += line + ".";
             }
 
             data = data.Remove(data.Length - 1);
+            RunPython(myPythonApp, data);
+        }
 
+        private void RunPython(string myPythonApp, string data = "")
+        {
             // Create new process start info 
             ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python)
             {
@@ -85,7 +60,7 @@ namespace Emlin.Python
                 // make sure we can read the output from stdout 
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-
+                CreateNoWindow = true,
                 Arguments = myPythonApp + " " + data
             };
 
@@ -109,7 +84,6 @@ namespace Emlin.Python
             }).Start();
         }
 
-
         private static void PrintPythonOutput(Process myProcess)
         {
             // Read the standard output of the app we called.  
@@ -120,6 +94,7 @@ namespace Emlin.Python
 
             while (myString != null)
             {
+                Console.WriteLine(myString);
                 if (myString.Equals("[1]"))
                 {
                     user1++;
@@ -132,7 +107,6 @@ namespace Emlin.Python
                 {
                     user10++;
                 }
-                Console.WriteLine(myString);
                 myString = myStreamReader.ReadLine();
             }
             Console.WriteLine($"1 pressed {user1} times.");

@@ -27,10 +27,11 @@ namespace TestGraphing
             this.chart.Series.Add(new LineSeries
             {
                 Values = Values,
-                StrokeThickness = 2,
+                StrokeThickness = 1,
                 PointGeometrySize = 0,
                 Fill = Brushes.Transparent,
                 DataLabels = true,
+                
             });
         }
 
