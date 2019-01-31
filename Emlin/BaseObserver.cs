@@ -1,8 +1,8 @@
 ﻿
 namespace Emlin
 {
-    public abstract class BaseObserver
+    public interface BaseObserver
     {
-        public abstract void Update();
+        void UpdateView();
     }
 }

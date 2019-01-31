@@ -35,7 +35,7 @@ namespace Emlin.Python
             RunPython(myPythonApp);
         }
 
-        public void TestUserInput(List<string> testData)
+        public void TestUserInput(List<string> testData, HealthSubject health = null)
         {
             string myPythonApp = "\"" + Environment.CurrentDirectory + @"\..\..\Python\LoadKNN.py" + "\"";
 
@@ -48,10 +48,10 @@ namespace Emlin.Python
             }
 
             data = data.Remove(data.Length - 1);
-            RunPython(myPythonApp, data);
+            RunPython(myPythonApp, health, data);
         }
 
-        private void RunPython(string myPythonApp, string data = "")
+        private void RunPython(string myPythonApp, HealthSubject health = null, string data = "")
         {
             // Create new process start info 
             ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python)
@@ -75,7 +75,7 @@ namespace Emlin.Python
                 // start process 
                 myProcess.Start();
 
-                PrintPythonOutput(myProcess);
+                PrintPythonOutput(myProcess, health);
                 // wait exit signal from the app we called 
                 myProcess.WaitForExit();
 
@@ -84,7 +84,7 @@ namespace Emlin.Python
             }).Start();
         }
 
-        private static void PrintPythonOutput(Process myProcess)
+        private static void PrintPythonOutput(Process myProcess, HealthSubject health)
         {
             // Read the standard output of the app we called.  
             StreamReader myStreamReader = myProcess.StandardOutput;
@@ -98,14 +98,19 @@ namespace Emlin.Python
                 if (myString.Equals("[1]"))
                 {
                     user1++;
+                    health.SetValue(health.GetValue() - 1);
+
                 }
                 if (myString.Equals("[6]"))
                 {
                     user6++;
+                    health.SetValue(health.GetValue() + 1);
                 }
                 if (myString.Equals("[10]"))
                 {
                     user10++;
+                    health.SetValue(health.GetValue() - 1);
+
                 }
                 myString = myStreamReader.ReadLine();
             }

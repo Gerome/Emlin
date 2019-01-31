@@ -13,7 +13,7 @@ namespace Emlin
     public partial class Emlin : Form
     {
         private static DataFormatter dataFormatter;
-
+        private HealthSubject health;
 
         #region lower level stuff
         private const int WH_KEYBOARD_LL = 13;
@@ -54,15 +54,17 @@ namespace Emlin
             CustomTimer timer = new CustomTimer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
             timer.Tick += TimerCountdown;        
             dataFormatter = new DataFormatter(timer);
-
-            WindowState = FormWindowState.Minimized;
+            
             ShowInTaskbar = false;
 
 #if DEBUG
             devWindow.Show();
 #endif
-            
-            
+            health = new HealthSubject();
+            healthGraphView.SetHealthSubject(health);
+
+            health.Attach(healthGraphView);
+            health.SetValue(100);
         }
 
         private void TimerCountdown(object sender, EventArgs e)
@@ -81,7 +83,7 @@ namespace Emlin
                 {
                     formattedData.Add(DataFormatter.GetFormattedDataLine(keysData));
                 }
-                pi.TestUserInput(formattedData);
+                pi.TestUserInput(formattedData, health);
 
                 WriteEncryptedDataToFile(filepath, dataToWriteToFile);
                 WriteToDebugWindow("Data written to file.");

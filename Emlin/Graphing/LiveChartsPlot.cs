@@ -10,7 +10,7 @@ namespace TestGraphing
     class LiveChartsPlot : IGraphPlot
     {
         private LiveCharts.WinForms.CartesianChart chart;
-        private const int MAX_VALUES_ON_GRAPH = 20;
+        private const int MAX_VALUES_ON_GRAPH = 60;
         public ChartValues<ObservableValue> Values { get; set; }
 
 
@@ -70,7 +70,7 @@ namespace TestGraphing
                 PopValue();
             }
 
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
         }
 
         public void RandomiseValues()

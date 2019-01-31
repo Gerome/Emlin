@@ -20,7 +20,7 @@ namespace Emlin
         {
             foreach (BaseObserver observer in observers)
             {
-                observer.Update();
+                observer.UpdateView();
             }
         }
     }
