@@ -222,6 +222,7 @@
     <Content Include="Python\LoadKNN.py" />
     <Content Include="Python\LoadSVM.py" />
     <Content Include="Python\ModelUtils.py" />
+    <Content Include="Python\KNNModel.py" />
     <Content Include="Python\SVMModel.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

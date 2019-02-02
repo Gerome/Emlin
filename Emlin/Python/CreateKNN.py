@@ -8,6 +8,7 @@ from sklearn.neighbors import KNeighborsClassifier
 
 # User files
 import ModelUtils as MU
+import KNNModel
 
 DATA_PATH = "C:/Users/Gerome/Dropbox/CI301-The Individual Project/Emlin/Data/Processed"
 
@@ -26,10 +27,10 @@ def main():
 
 	#numberOfNeighbours = 10
 	#for i in range(1, numberOfNeighbours):
-	knn_clf = KNeighborsClassifier(n_neighbors=5)
-	
-		#knn_scores = MU.GetScoreFromCLF(knn_clf, all_x, all_y)
-		#print("Evaluting " + str(i) +" neighbours. Score is "+ str(knn_scores.mean()))
+	knn_clf = KNNModel.GetKNNClassifier()
+	knn_scores = MU.GetScoreFromCLF(knn_clf, all_x, all_y)
+	print(knn_scores)
+	#print("Evaluting " + str(i) +" neighbours. Score is "+ str(knn_scores.mean()))
 	knn_clf.fit(all_x, all_y)
 	MU.SaveModelAsJoblib(knn_clf, "knnClf")
 

@@ -10,7 +10,7 @@ namespace TestGraphing
     class LiveChartsPlot : IGraphPlot
     {
         private LiveCharts.WinForms.CartesianChart chart;
-        private const int MAX_VALUES_ON_GRAPH = 60;
+        private const int MAX_VALUES_ON_GRAPH = 65;
         public ChartValues<ObservableValue> Values { get; set; }
 
 
