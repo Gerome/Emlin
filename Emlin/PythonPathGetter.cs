@@ -5,7 +5,7 @@ namespace Emlin
 {
     public static class PythonPathGetter
     {
-        public static string GetPythonPath()
+        public static string GetPythonDirectoryPath()
         {
             string pythonPath = "";
 
@@ -24,7 +24,7 @@ namespace Emlin
                     }
                 }
             }
-            catch (Exception ex)  //just for demonstration...it's always best to handle specific exceptions
+            catch (NullReferenceException ex)  //just for demonstration...it's always best to handle specific exceptions
             {
                 //react appropriately
             }

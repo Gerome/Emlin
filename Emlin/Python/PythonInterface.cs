@@ -51,7 +51,7 @@ namespace Emlin.Python
         private void RunPython(string myPythonApp, HealthSubject health = null, string data = "")
         {
             // Create new process start info 
-            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(PythonPathGetter.GetPythonPath())
+            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(PythonPathGetter.GetPythonDirectoryPath() + "\\python.exe")
             {
 
                 // make sure we can read the output from stdout 
