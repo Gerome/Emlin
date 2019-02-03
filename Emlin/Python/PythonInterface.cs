@@ -10,9 +10,6 @@ namespace Emlin.Python
 {
     public class PythonInterface
     {
-        // full path of python interpreter  
-        private string python = @"C:\Users\Gerome\AppData\Local\Programs\Python\Python37-32\python.exe"; // TODO REMOVE THIS GARBAGE
-
         public void TeachModel(string model)
         {
             // python app to call  
@@ -54,7 +51,7 @@ namespace Emlin.Python
         private void RunPython(string myPythonApp, HealthSubject health = null, string data = "")
         {
             // Create new process start info 
-            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python)
+            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(PythonPathGetter.GetPythonPath())
             {
 
                 // make sure we can read the output from stdout 

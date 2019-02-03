@@ -155,6 +155,7 @@
     <Compile Include="HealthSubject.cs" />
     <Compile Include="HelperMembers\ConstantValues.cs" />
     <Content Include="Python\CreateKNN.py" />
+    <Compile Include="PythonPathGetter.cs" />
     <Compile Include="TestMembers\CustomTimer.cs">
       <SubType>Component</SubType>
     </Compile>
