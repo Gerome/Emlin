@@ -29,7 +29,7 @@ namespace Emlin
                 //react appropriately
             }
 
-            return pythonPath;
+            return pythonPath + @"\python.exe";
         }
     }
 }

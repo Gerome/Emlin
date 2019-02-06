@@ -4,13 +4,11 @@ import pandas as pd
 import numpy as np
 import sys
 from sklearn.model_selection import train_test_split
-from sklearn.externals import joblib
 
 # User files
 import ModelUtils as MU
 import SVMModel
 
-#DATA_PATH = __file__ + r"\..\..\..\Data\Processed"
 
 DATA_PATH = "C:/Users/Gerome/Dropbox/CI301-The Individual Project/Emlin/Data/Processed"
 
@@ -27,11 +25,13 @@ def main():
 	all_y = group_data[['User']].values
 	all_y = np.ravel(all_y)
 
+	X_train, X_test, y_train, y_test = train_test_split(all_x, all_y, test_size=0.2, random_state=42)
+
 	svm_clf = SVMModel.GetSVMClassifier()
 	#svm_scores = MU.GetScoreFrom(svm_clf, all_x, all_y)
 	#print(svm_scores.mean())
-	svm_clf.fit(all_x, all_y)
-	MSL.SaveModelAsJoblib(svm_clf, "svmClf")
+	svm_clf.fit(X_train, y_train)
+	MU.SaveModelAsJoblib(svm_clf, "svmClf")
 
 if __name__ == "__main__":
     sys.exit(int(main() or 0))
