@@ -31,7 +31,7 @@ def main():
     all_y = group_data[['User']].values
     all_y = np.ravel(all_y)
 
-    all_x = all_x[:, 0:2]
+    #all_x = all_x[:, 0:2]
 
     if printScores:
         printScoresOfNNeighbours(all_x, all_y)
@@ -42,13 +42,13 @@ def main():
     knn_clf.fit(X_train, y_train)
 
 
-    y_scores = knn_clf.predict_proba(X_test)
-    fpr, tpr, threshold = roc_curve(y_test, y_scores[:, 1])
-    roc_auc = auc(fpr, tpr)
+    #y_scores = knn_clf.predict_proba(X_test)
+    #fpr, tpr, threshold = roc_curve(y_test, y_scores[:, 1])
+    #roc_auc = auc(fpr, tpr)
 
-    MU.ShowPrecisionRecall(fpr, tpr, roc_auc)
+    #MU.ShowPrecisionRecall(fpr, tpr, roc_auc)
     #MU.ShowConfusionMatrix(knn_clf, X_test, y_test)
-    #MU.SaveModelAsJoblib(knn_clf, "knnClf")
+    MU.SaveModelAsJoblib(knn_clf, "knnClf")
 
 
 def printScoresOfNNeighbours(all_x, all_y):
