@@ -7,7 +7,7 @@ namespace Emlin
 {
     public static class PythonPathGetter
     {
-        public static string GetPythonDirectoryPath()
+        public static string GetPythonExePath()
         {
             string pythonPath = "";
 

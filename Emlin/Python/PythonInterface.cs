@@ -50,9 +50,9 @@ namespace Emlin.Python
 
         private void RunPython(string myPythonApp, HealthSubject health = null, string data = "")
         {
-            string pythonPath = PythonPathGetter.GetPythonDirectoryPath();
+            string pythonExePath = PythonPathGetter.GetPythonExePath();
 
-            if (pythonPath.Equals(""))
+            if (pythonExePath.Equals(""))
             {
                 return;
             }
@@ -62,6 +62,7 @@ namespace Emlin.Python
             {
 
                 // make sure we can read the output from stdout 
+                FileName = pythonExePath,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true,
