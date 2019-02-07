@@ -13,16 +13,13 @@ namespace Emlin
             {
                 using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Python\PythonCore\3.6\InstallPath"))
                 {
-                    if (key != null)
-                    {
-                        object o = key.GetValue(null);
 
-                        if (o != null)
-                        {
-                            pythonPath = o.ToString();
-                        }
-                    }
-                }
+                    object o = key.GetValue(null);
+
+                    pythonPath = o.ToString();
+                }      
+                    
+                
             }
             catch (NullReferenceException ex)  //just for demonstration...it's always best to handle specific exceptions
             {
