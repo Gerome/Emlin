@@ -10,7 +10,7 @@ namespace Emlin.Python
 {
     public class PythonInterface
     {
-        public void TeachModel(string model)
+        public void TeachModel(string model, HealthSubject health)
         {
             // python app to call  
             string myPythonApp = "";
@@ -18,23 +18,23 @@ namespace Emlin.Python
             switch (model)
             {
                 case ("KNN"):
-                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\..\..\Python\CreateKNN.py" + "\"";
+                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\CreateKNN.py" + "\"";
                     break;
 
                 case ("SVM"):
-                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\..\..\Python\CreateSVM.py" + "\"";
+                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\CreateSVM.py" + "\"";
                     break;
 
                 default:
                     return;
             }
 
-            RunPython(myPythonApp);
+            RunPython(myPythonApp, health);
         }
 
         public void TestUserInput(List<string> testData, HealthSubject health = null)
         {
-            string myPythonApp = "\"" + Environment.CurrentDirectory + @"\..\..\Python\LoadKNN.py" + "\"";
+            string myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\LoadKNN.py" + "\"";
 
 
             string data = "";
@@ -116,8 +116,8 @@ namespace Emlin.Python
                 }
             }
 
-            int changeInHealth = (user6 - (user1 + user10) / 2);
-      
+            int changeInHealth = (user6 - (int)((user1 + user10)/1));
+            Console.WriteLine(changeInHealth);
             health.SetValue(health.GetValue() + changeInHealth);
             
 

@@ -10,7 +10,7 @@ import ModelUtils as MU
 import SVMModel
 
 
-DATA_PATH = "C:/Users/Gerome/Dropbox/CI301-The Individual Project/Emlin/Data/Processed"
+DATA_PATH = Constants.DATA_PATH
 
 def load_group_data(data_path=DATA_PATH):
 		csv_path = os.path.join(data_path, "GroupedData.csv")

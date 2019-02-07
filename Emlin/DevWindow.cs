@@ -22,15 +22,18 @@ namespace Emlin
         private void TeachModelBtn_Click(object sender, EventArgs e)
         {
             PythonInterface pi = new PythonInterface();
-            pi.TeachModel(comboBoxModelSelection.Text);
-
+            HealthSubject hs = new HealthSubject();
+            hs.SetValue(100);
+            pi.TeachModel(comboBoxModelSelection.Text, hs);
             textBox1.AppendText("Started running python scripts." + Environment.NewLine);
         }
 
         private void LoadModel_Click(object sender, EventArgs e)
         {
             PythonInterface pi = new PythonInterface();
-            pi.TestUserInput(new List<string> { "13413,83,51,135,160,244", "12222,586,-243,343,-103,483" });
+            HealthSubject hs = new HealthSubject();
+            hs.SetValue(100);
+            pi.TestUserInput(new List<string> { "13413,83,51,135,160,244", "12222,586,-243,343,-103,483" }, hs);
         }
     }
 }

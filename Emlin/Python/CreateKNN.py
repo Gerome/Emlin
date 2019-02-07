@@ -13,9 +13,10 @@ from sklearn.metrics import auc
 # User files
 import ModelUtils as MU
 import KNNModel
+import Constants
 
-DATA_PATH = os.path.dirname(__file__) + "/../../Data/Processed"
 
+DATA_PATH = Constants.DATA_PATH
 
 def load_group_data(data_path=DATA_PATH):
 		csv_path = os.path.join(data_path, "GroupedData.csv")

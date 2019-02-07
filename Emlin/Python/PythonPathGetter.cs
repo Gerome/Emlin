@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Windows;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Emlin
@@ -28,13 +28,10 @@ namespace Emlin
                 string warning = "You don't have Python installed on this machine.";
                 string title = "Error";
                 System.Windows.Forms.MessageBox.Show(warning, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-               
-
                 return pythonPath;
             }
 
-            return pythonPath + @"python.exe";
+            return Path.Combine(pythonPath, @"python.exe");
         }
     }
 }
