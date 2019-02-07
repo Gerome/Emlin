@@ -105,19 +105,26 @@ namespace Emlin.Python
                 if (myString.Equals("[1]"))
                 {
                     user1++;
-                    health.SetValue(health.GetValue() - 1);
                 }
                 if (myString.Equals("[6]"))
                 {
                     user6++;
-                    health.SetValue(health.GetValue() + 1);
                 }
                 if (myString.Equals("[10]"))
                 {
                     user10++;
-                    health.SetValue(health.GetValue() - 1);
                 }
             }
+
+            if(user6 > user1 && user6 > user10)
+            {
+                health.SetValue(health.GetValue() + (user6 - (user1 + user10)/2));
+            }
+            else
+            {
+                health.SetValue(health.GetValue() - (user6 - (user1 + user10) / 2));
+            }
+
             Console.WriteLine($"1 pressed {user1} times.");
             Console.WriteLine($"6 pressed {user6} times.");
             Console.WriteLine($"10 pressed {user10} times.");
