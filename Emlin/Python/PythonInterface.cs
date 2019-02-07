@@ -116,14 +116,10 @@ namespace Emlin.Python
                 }
             }
 
-            if(user6 > user1 && user6 > user10)
-            {
-                health.SetValue(health.GetValue() + (user6 - (user1 + user10)/2));
-            }
-            else
-            {
-                health.SetValue(health.GetValue() - (user6 - (user1 + user10) / 2));
-            }
+            int changeInHealth = (user6 - (user1 + user10) / 2);
+      
+            health.SetValue(health.GetValue() + changeInHealth);
+            
 
             Console.WriteLine($"1 pressed {user1} times.");
             Console.WriteLine($"6 pressed {user6} times.");
