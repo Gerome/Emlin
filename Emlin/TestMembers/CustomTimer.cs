@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+﻿using System.Timers;
 
 namespace Emlin
 {

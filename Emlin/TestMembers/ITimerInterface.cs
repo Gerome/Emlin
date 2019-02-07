@@ -4,8 +4,6 @@
     {
         bool Enabled { get; set; }
 
-        int Interval { get; set; }
-
         void Dispose();
 
         void Start();

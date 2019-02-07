@@ -52,7 +52,8 @@ namespace Emlin
             InitializeComponent();
 
             CustomTimer timer = new CustomTimer(ConstantValues.LENGTH_OF_SESSION_IN_MILLIS);
-            timer.Tick += TimerCountdown;        
+            timer.Elapsed += TimerCountdown;
+            timer.AutoReset = false;
             dataFormatter = new DataFormatter(timer);
             
             ShowInTaskbar = false;
@@ -69,7 +70,7 @@ namespace Emlin
 
         private void TimerCountdown(object sender, EventArgs e)
         {
-            string filepath = ConstantValues.KEYBOARD_DATA_FILEPATH + "\\" + ConstantValues.KEYBOARD_FILE_NAME;
+            string filepath = Path.Combine(ConstantValues.KEYBOARD_DATA_FILEPATH, ConstantValues.KEYBOARD_FILE_NAME);
 
             dataFormatter.RemoveLastDataItem();
             List<KeysData> dataToWriteToFile = dataFormatter.DataRecorded;
@@ -116,7 +117,10 @@ namespace Emlin
         private void SendKeyPressToCurrentSession(char charPressed, long timeInTicks)
         {
             WriteToDebugWindow(charPressed.ToString() + " pressed at " + new TimeSpan(timeInTicks).TotalMilliseconds.ToString());
-            dataFormatter.KeyWasPressed(charPressed, timeInTicks);  
+            lock (dataFormatter)
+            {
+                dataFormatter.KeyWasPressed(charPressed, timeInTicks);
+            }
         }
 
         private void SendKeyReleaseToCurrentSession(char charReleased, long timeInTicks)
@@ -124,7 +128,10 @@ namespace Emlin
             WriteToDebugWindow(charReleased.ToString() + " released at " + new TimeSpan(timeInTicks).TotalMilliseconds.ToString());
             if (!OnlyKeyUpEvent(charReleased))
             {
-                dataFormatter.KeyWasReleased(charReleased, timeInTicks);
+                lock (dataFormatter)
+                {
+                    dataFormatter.KeyWasReleased(charReleased, timeInTicks);
+                }
             }
         }
 

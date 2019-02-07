@@ -54,7 +54,8 @@ namespace Emlin.Python
 
             if (pythonExePath.Equals(""))
             {
-                return;
+
+                Environment.Exit(0);
             }
 
             // Create new process start info 

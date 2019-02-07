@@ -13,7 +13,7 @@ namespace Emlin
 
             try
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Python\PythonCore\3.7\InstallPath"))
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Python\PythonCore\3.6\InstallPath"))
                 {
 
                     object o = key.GetValue(null);
@@ -28,6 +28,8 @@ namespace Emlin
                 string warning = "You don't have Python installed on this machine.";
                 string title = "Error";
                 System.Windows.Forms.MessageBox.Show(warning, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+               
 
                 return pythonPath;
             }
