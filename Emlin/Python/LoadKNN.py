@@ -10,7 +10,7 @@ def printType(x):
 
 def main():
     svm_clf = MU.LoadModelFromJoblib("knnClf.joblib")
-    listOfData = allDataAsString.split(".")
+    listOfData = allDataAsString.split(";")
 
     for dataString in listOfData:
         formattedData = dataString.split(",")

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Windows;
+using System.Windows.Forms;
 
 namespace Emlin
 {
@@ -11,7 +13,7 @@ namespace Emlin
 
             try
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Python\PythonCore\3.6\InstallPath"))
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Python\PythonCore\3.7\InstallPath"))
                 {
 
                     object o = key.GetValue(null);
@@ -21,12 +23,16 @@ namespace Emlin
                     
                 
             }
-            catch (NullReferenceException ex)  //just for demonstration...it's always best to handle specific exceptions
+            catch (NullReferenceException)
             {
-                //react appropriately
+                string warning = "You don't have Python installed on this machine.";
+                string title = "Error";
+                System.Windows.Forms.MessageBox.Show(warning, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return pythonPath;
             }
 
-            return pythonPath + @"\python.exe";
+            return pythonPath + @"python.exe";
         }
     }
 }

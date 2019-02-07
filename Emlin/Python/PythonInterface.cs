@@ -41,7 +41,7 @@ namespace Emlin.Python
 
             foreach (string line in testData)
             {
-                data += line + ".";
+                data += line + ";";
             }
 
             data = data.Remove(data.Length - 1);
@@ -50,8 +50,15 @@ namespace Emlin.Python
 
         private void RunPython(string myPythonApp, HealthSubject health = null, string data = "")
         {
+            string pythonPath = PythonPathGetter.GetPythonDirectoryPath();
+
+            if (pythonPath.Equals(""))
+            {
+                return;
+            }
+
             // Create new process start info 
-            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(PythonPathGetter.GetPythonDirectoryPath())
+            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo()
             {
 
                 // make sure we can read the output from stdout 

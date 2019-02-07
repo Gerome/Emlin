@@ -6,7 +6,7 @@ allDataAsString = str(sys.argv[1])
 
 def main():
     svm_clf = MU.LoadModelFromJoblib("svmClf.joblib")
-    listOfData = allDataAsString.split(".")
+    listOfData = allDataAsString.split(";")
 
     for dataString in listOfData:
         formattedData = dataString.split(",")

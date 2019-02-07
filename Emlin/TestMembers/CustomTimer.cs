@@ -6,7 +6,7 @@ namespace Emlin
     {
         public CustomTimer(int interval)
         {
-            this.Interval = interval;
+            Interval = interval;
         }
     }
 }
