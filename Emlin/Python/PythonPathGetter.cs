@@ -13,7 +13,7 @@ namespace Emlin
 
             try
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Python\PythonCore\3.6\InstallPath"))
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Python\PythonCore\3.7\InstallPath"))
                 {
 
                     object o = key.GetValue(null);

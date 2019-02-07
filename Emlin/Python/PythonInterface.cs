@@ -94,18 +94,18 @@ namespace Emlin.Python
         {
             // Read the standard output of the app we called.  
             StreamReader myStreamReader = myProcess.StandardOutput;
-            string myString = myStreamReader.ReadLine();
+          
+            string myString;
 
             int user1 = 0, user6 = 0, user10 = 0;
 
-            while (myString != null)
+            while((myString = myStreamReader.ReadLine()) != null)
             {
                 Console.WriteLine(myString);
                 if (myString.Equals("[1]"))
                 {
                     user1++;
                     health.SetValue(health.GetValue() - 1);
-
                 }
                 if (myString.Equals("[6]"))
                 {
@@ -116,9 +116,7 @@ namespace Emlin.Python
                 {
                     user10++;
                     health.SetValue(health.GetValue() - 1);
-
                 }
-                myString = myStreamReader.ReadLine();
             }
             Console.WriteLine($"1 pressed {user1} times.");
             Console.WriteLine($"6 pressed {user6} times.");

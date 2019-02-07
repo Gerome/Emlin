@@ -87,7 +87,6 @@ namespace Emlin
                 pi.TestUserInput(formattedData, health);
 
                 WriteEncryptedDataToFile(filepath, dataToWriteToFile);
-                WriteToDebugWindow("Data written to file.");
             }
 
             PossiblyShuffleLines(filepath);
