@@ -18,11 +18,11 @@ namespace Emlin.Python
             switch (model)
             {
                 case ("KNN"):
-                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\CreateKNN.py" + "\"";
+                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\KNN\CreateKNN.py" + "\"";
                     break;
 
                 case ("SVM"):
-                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\CreateSVM.py" + "\"";
+                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\SVM\CreateSVM.py" + "\"";
                     break;
 
                 default:
@@ -34,7 +34,7 @@ namespace Emlin.Python
 
         public void TestUserInput(List<string> testData, HealthSubject health = null)
         {
-            string myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\LoadKNN.py" + "\"";
+            string myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\KNN\LoadKNN.py" + "\"";
 
 
             string data = "";
