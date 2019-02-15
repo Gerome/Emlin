@@ -154,7 +154,7 @@
     <Compile Include="Graphing\LiveChartsPlot.cs" />
     <Compile Include="HealthSubject.cs" />
     <Compile Include="HelperMembers\ConstantValues.cs" />
-    <Content Include="Python\CreateKNN.py">
+    <Content Include="Python\KNN\CreateKNN.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="Python\PythonPathGetter.cs" />
@@ -218,28 +218,29 @@
     <Content Include="Python\Constants.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Python\GenerateInverseData.py" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
-    <Content Include="Python\CreateSVM.py">
+    <Content Include="Python\SVM\CreateSVM.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\LoadKNN.py">
+    <Content Include="Python\KNN\LoadKNN.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\LoadSVM.py">
+    <Content Include="Python\SVM\LoadSVM.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Python\ModelUtils.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\KNNModel.py">
+    <Content Include="Python\KNN\KNNModel.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\SVMModel.py">
+    <Content Include="Python\SVM\SVMModel.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -90,7 +90,6 @@ for i in range(min_ht, max_ht, data_dif):
                 break;
 
         if not too_close:
-            pass
-            #print(str(i) + ";" + str(j))
+            print(str(i) + ";" + str(j))
 
 
