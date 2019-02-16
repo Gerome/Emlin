@@ -48,6 +48,11 @@ namespace Emlin.Python
             RunPython(myPythonApp, health, data);
         }
 
+        public void GenerateNonUserData()
+        {
+            
+        }
+
         private void RunPython(string myPythonApp, HealthSubject health = null, string data = "")
         {
             string pythonExePath = PythonPathGetter.GetPythonExePath();
@@ -97,33 +102,28 @@ namespace Emlin.Python
           
             string myString;
 
-            int user1 = 0, user6 = 0, user10 = 0;
+            int user = 0, notUser = 0;
 
             while((myString = myStreamReader.ReadLine()) != null)
             {
                 Console.WriteLine(myString);
                 if (myString.Equals("[1]"))
                 {
-                    user1++;
+                    user++;
                 }
-                if (myString.Equals("[6]"))
+                if (myString.Equals("[0]"))
                 {
-                    user6++;
-                }
-                if (myString.Equals("[10]"))
-                {
-                    user10++;
+                    notUser++;       
                 }
             }
 
-            int changeInHealth = (user6 - (int)((user1 + user10)/1));
+            int changeInHealth = (user - notUser);
             Console.WriteLine(changeInHealth);
             health.SetValue(health.GetValue() + changeInHealth);
             
 
-            Console.WriteLine($"1 pressed {user1} times.");
-            Console.WriteLine($"6 pressed {user6} times.");
-            Console.WriteLine($"10 pressed {user10} times.");
+            Console.WriteLine($"User pressed {user} times.");
+            Console.WriteLine($"Not user pressed {notUser} times.");
         }
     }
 }

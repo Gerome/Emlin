@@ -312,9 +312,9 @@ namespace Emlin
             return data.CombinationID.ToString() + ","
                 + ((int)data.HoldTime.TotalMilliseconds).ToString() + ","
                 + ((int)data.FlightTime.TotalMilliseconds).ToString() + ','
-                + ((int)data.Digraph1.TotalMilliseconds).ToString() + ','
+                + ((int)data.Digraph1.TotalMilliseconds).ToString();/* + ','
                 + ((int)data.Digraph2.TotalMilliseconds).ToString() + ','
-                + ((int)data.Digraph3.TotalMilliseconds).ToString();
+                + ((int)data.Digraph3.TotalMilliseconds).ToString();*/
 
         }
     }
