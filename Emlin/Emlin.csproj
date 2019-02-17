@@ -154,6 +154,15 @@
     <Compile Include="Graphing\LiveChartsPlot.cs" />
     <Compile Include="HealthSubject.cs" />
     <Compile Include="HelperMembers\ConstantValues.cs" />
+    <Content Include="Python\RFT\CreateRFT.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Python\RFT\RFTModel.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Python\RFT\LoadRFT.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Python\KNN\CreateKNN.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

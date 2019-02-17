@@ -17,6 +17,10 @@ namespace Emlin.Python
 
             switch (model)
             {
+                case ("RFT"):
+                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\RFT\CreateRFT.py" + "\"";
+                    break;
+
                 case ("KNN"):
                     myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\KNN\CreateKNN.py" + "\"";
                     break;

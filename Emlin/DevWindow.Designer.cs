@@ -81,7 +81,8 @@
             this.comboBoxModelSelection.FormattingEnabled = true;
             this.comboBoxModelSelection.Items.AddRange(new object[] {
             "KNN",
-            "SVM"});
+            "SVM",
+            "RFT"});
             this.comboBoxModelSelection.Location = new System.Drawing.Point(279, 274);
             this.comboBoxModelSelection.Name = "comboBoxModelSelection";
             this.comboBoxModelSelection.Size = new System.Drawing.Size(84, 21);
