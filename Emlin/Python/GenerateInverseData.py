@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 
 DATA_PATH = os.path.dirname(__file__)
-no_outlier_file_path = os.path.join(DATA_PATH, "../../Data/interim/Amy/D_KeyboardData_10_O.csv")
-inverse_data_file_path = os.path.join(DATA_PATH, "../../Data/interim/Amy/D_KeyboardData_10_O_Not.csv")
+no_outlier_file_path = os.path.join(DATA_PATH, "../../Data/interim/Lewis/D_KeyboardData_1_O.csv")
+inverse_data_file_path = os.path.join(DATA_PATH, "../../Data/interim/Lewis/D_KeyboardData_1_O_Not.csv")
 
 
 def load_group_data(data_path=DATA_PATH):
-    csv_path = os.path.join(data_path, "../../Data/interim/D_KeyboardData_10.csv")
+    csv_path = os.path.join(data_path, "../../Data/interim/D_KeyboardData_1.csv")
     #csv_path = os.path.join(data_path, "test.csv")
     return pd.read_csv(csv_path)
 
