@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 from sklearn.metrics import precision_recall_curve
 from sklearn.utils.fixes import signature
-
+from sklearn.model_selection import StratifiedKFold
 
 def SaveModelAsJoblib(clf, directory, filename):
     joblib.dump(clf, os.path.join(directory, filename + '.joblib'))
@@ -52,4 +52,7 @@ def ShowPrecisionRecall(fpr, tpr, roc_auc):
 
 
 def GetScoreFromCLF(clf, all_x, all_y):
-    return cross_val_score(clf, all_x, all_y, cv=5, verbose=True, n_jobs=5)
+
+    for n in range(5):
+        strat_k_fold = StratifiedKFold(n_splits=10, shuffle=True, random_state=n)
+        return cross_val_score(clf, all_x, all_y, cv=strat_k_fold, verbose=True, n_jobs=5)
