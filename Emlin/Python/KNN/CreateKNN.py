@@ -33,7 +33,6 @@ def main():
     all_y = np.ravel(all_y)
 
 
-
     all_x = all_x.astype(float)
 
     if printScores:
