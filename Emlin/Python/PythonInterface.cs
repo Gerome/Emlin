@@ -24,7 +24,7 @@ namespace Emlin.Python
                     break;
 
                 case ("KNN"):
-                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\CreateKNN.py" + "\"";
+                    myPythonApp = GetPythonFilePath("CreateKNN");
                     break;
 
                 case ("SVM"):
@@ -41,8 +41,7 @@ namespace Emlin.Python
         public void TestUserInput(List<string> testData, HealthSubject health)
         {
             this.health = health;
-            string myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\LoadKNN.py" + "\"";
-
+            string myPythonApp = GetPythonFilePath("LoadKNN");
 
             string data = "";
 
@@ -57,7 +56,8 @@ namespace Emlin.Python
 
         public void GenerateNonUserData()
         {
-            
+            string myPythonApp = GetPythonFilePath("GenerateInverseData");
+
         }
 
         private void RunPython(string myPythonApp, string data = "")
@@ -131,6 +131,11 @@ namespace Emlin.Python
 
             Console.WriteLine($"User pressed {user} times.");
             Console.WriteLine($"Not user pressed {notUser} times.");
+        }
+
+        private static string GetPythonFilePath(string pythonFileName)
+        {
+            return "\"" + Environment.CurrentDirectory + @"\Python\" + pythonFileName + ".py" + "\"";
         }
     }
 }

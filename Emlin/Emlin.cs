@@ -55,8 +55,6 @@ namespace Emlin
             timer.Elapsed += TimerCountdown;
             timer.AutoReset = false;
             dataFormatter = new DataFormatter(timer);
-            
-            ShowInTaskbar = false;
 
 #if DEBUG
             devWindow.Show();
@@ -191,16 +189,7 @@ namespace Emlin
 
         #endregion
 
-        private void EmlinView_Resize(object sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Minimized)
-            {
-                Hide();
-                notifyIcon1.Visible = true;
-            }
-            
-        }
-
+  
         private void WriteToDebugWindow(string output)
         {
             devWindow.textBox1.AppendText(output + Environment.NewLine);
