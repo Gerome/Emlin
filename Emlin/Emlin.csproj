@@ -154,6 +154,9 @@
     <Compile Include="Graphing\LiveChartsPlot.cs" />
     <Compile Include="HealthSubject.cs" />
     <Compile Include="HelperMembers\ConstantValues.cs" />
+    <Content Include="Python\python-3.7.2-amd64.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Python\requirements.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -166,7 +169,7 @@
     <Content Include="Python\RFT\LoadRFT.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\KNN\CreateKNN.py">
+    <Content Include="Python\CreateKNN.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="Python\PythonPathGetter.cs" />
@@ -196,6 +199,12 @@
     <Compile Include="TestMembers\ITimerInterface.cs" />
     <Compile Include="DataRecording\DataToFileWriter.cs" />
     <Compile Include="Python\PythonInterface.cs" />
+    <Content Include="Python\RFT\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Python\SVM\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="DevWindow.resx">
       <DependentUpon>DevWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -233,20 +242,19 @@
     <Content Include="Python\Constants.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Python\GenerateInverseData.py" />
+    <Content Include="Python\GenerateInverseData.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
-    <Content Include="Python\python.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Python\SVM\CreateSVM.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\KNN\LoadKNN.py">
+    <Content Include="Python\LoadKNN.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Python\SVM\LoadSVM.py">
@@ -255,7 +263,7 @@
     <Content Include="Python\ModelUtils.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\KNN\KNNModel.py">
+    <Content Include="Python\KNNModel.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Python\SVM\SVMModel.py">

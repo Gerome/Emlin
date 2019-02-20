@@ -22,7 +22,7 @@ namespace Emlin.Python
                     break;
 
                 case ("KNN"):
-                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\KNN\CreateKNN.py" + "\"";
+                    myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\CreateKNN.py" + "\"";
                     break;
 
                 case ("SVM"):
@@ -38,7 +38,7 @@ namespace Emlin.Python
 
         public void TestUserInput(List<string> testData, HealthSubject health = null)
         {
-            string myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\KNN\LoadKNN.py" + "\"";
+            string myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\LoadKNN.py" + "\"";
 
 
             string data = "";

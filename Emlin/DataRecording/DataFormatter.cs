@@ -311,21 +311,17 @@ namespace Emlin
 
         public static string GetFormattedDataLine(KeysData data)
         {
-            bool AppendCombID = true;
-            bool AppendHoldTime = true;
-            bool AppendFlightTime = true;
-            bool AppendDi1 = false;
-            bool AppendDi2 = false;
-            bool AppendDi3 = false;
+            bool AppendCombID = true, AppendHoldTime = true, AppendFlightTime = true;
+            bool AppendDi1 = false, AppendDi2 = false, AppendDi3 = false;
 
             string formattedDataString = "";
 
-            if (AppendCombID) formattedDataString +=            data.CombinationID.ToString() + ',';
-            if (AppendHoldTime) formattedDataString +=    ((int)data.HoldTime.TotalMilliseconds).ToString() + ',';
-            if (AppendFlightTime) formattedDataString +=  ((int)data.FlightTime.TotalMilliseconds).ToString() + ',';
-            if (AppendDi1) formattedDataString +=         ((int)data.Digraph1.TotalMilliseconds).ToString()  +',';
-            if (AppendDi2) formattedDataString +=         ((int)data.Digraph2.TotalMilliseconds).ToString() + ',';
-            if (AppendDi3) formattedDataString +=         ((int)data.Digraph3.TotalMilliseconds).ToString();
+            if (AppendCombID) formattedDataString +=            data.CombinationID.ToString();
+            if (AppendHoldTime) formattedDataString += ',' + ((int)data.HoldTime.TotalMilliseconds).ToString();
+            if (AppendFlightTime) formattedDataString += ',' + ((int)data.FlightTime.TotalMilliseconds).ToString();
+            if (AppendDi1) formattedDataString += ',' + ((int)data.Digraph1.TotalMilliseconds).ToString();
+            if (AppendDi2) formattedDataString += ',' + ((int)data.Digraph2.TotalMilliseconds).ToString();
+            if (AppendDi3) formattedDataString += ',' + ((int)data.Digraph3.TotalMilliseconds).ToString();
 
             return formattedDataString;
 
