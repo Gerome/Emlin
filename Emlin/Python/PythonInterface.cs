@@ -10,7 +10,9 @@ namespace Emlin.Python
 {
     public class PythonInterface
     {
-        public void TeachModel(string model, HealthSubject health)
+        HealthSubject health;
+
+        public void TeachModel(string model)
         {
             // python app to call  
             string myPythonApp = "";
@@ -33,11 +35,12 @@ namespace Emlin.Python
                     return;
             }
 
-            RunPython(myPythonApp, health);
+            RunPython(myPythonApp);
         }
 
-        public void TestUserInput(List<string> testData, HealthSubject health = null)
+        public void TestUserInput(List<string> testData, HealthSubject health)
         {
+            this.health = health;
             string myPythonApp = "\"" + Environment.CurrentDirectory + @"\Python\LoadKNN.py" + "\"";
 
 
@@ -49,7 +52,7 @@ namespace Emlin.Python
             }
 
             data = data.Remove(data.Length - 1);
-            RunPython(myPythonApp, health, data);
+            RunPython(myPythonApp, data);
         }
 
         public void GenerateNonUserData()
@@ -57,7 +60,7 @@ namespace Emlin.Python
             
         }
 
-        private void RunPython(string myPythonApp, HealthSubject health = null, string data = "")
+        private void RunPython(string myPythonApp, string data = "")
         {
             string pythonExePath = PythonPathGetter.GetPythonExePath();
 
@@ -90,7 +93,7 @@ namespace Emlin.Python
                 // start process 
                 myProcess.Start();
 
-                PrintPythonOutput(myProcess, health);
+                PrintPythonOutput(myProcess);
                 // wait exit signal from the app we called 
                 myProcess.WaitForExit();
 
@@ -99,7 +102,7 @@ namespace Emlin.Python
             }).Start();
         }
 
-        private static void PrintPythonOutput(Process myProcess, HealthSubject health)
+        private void PrintPythonOutput(Process myProcess)
         {
             // Read the standard output of the app we called.  
             StreamReader myStreamReader = myProcess.StandardOutput;

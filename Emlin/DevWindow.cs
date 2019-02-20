@@ -25,7 +25,7 @@ namespace Emlin
         {
             HealthSubject hs = new HealthSubject();
             hs.SetValue(100);
-            pi.TeachModel(comboBoxModelSelection.Text, hs);
+            pi.TeachModel(comboBoxModelSelection.Text);
             textBox1.AppendText("Started running python scripts." + Environment.NewLine);
         }
 
