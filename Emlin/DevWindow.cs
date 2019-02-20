@@ -25,20 +25,8 @@ namespace Emlin
         {
             HealthSubject hs = new HealthSubject();
             hs.SetValue(100);
-            pi.TeachModel(comboBoxModelSelection.Text);
+            pi.TeachModel(comboBoxModelSelection.Text, ConstantValues.KEYBOARD_DATA_FILEPATH);
             textBox1.AppendText("Started running python scripts." + Environment.NewLine);
-        }
-
-        private void LoadModel_Click(object sender, EventArgs e)
-        {
-            HealthSubject hs = new HealthSubject();
-            hs.SetValue(100);
-            pi.TestUserInput(new List<string> { "13413,83,51,135,160,244", "12222,586,-243,343,-103,483" }, hs);
-        }
-
-        private void GenerateInverseUserData_Click(object sender, EventArgs e)
-        {
-            pi.GenerateNonUserData();
         }
     }
 }
