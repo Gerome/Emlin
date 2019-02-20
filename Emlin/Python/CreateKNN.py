@@ -16,10 +16,10 @@ import KNNModel
 import Constants
 
 
-DATA_PATH = Constants.DATA_PATH
+DATA_PATH = str(sys.argv[1])
 
 def load_group_data(data_path=DATA_PATH):
-		csv_path = os.path.join(data_path, "GroupedData.csv")
+		csv_path = os.path.join(data_path, "ProcessedData.csv")
 		return pd.read_csv(csv_path)
 
 printScores = False
@@ -49,7 +49,7 @@ def main():
 
     #MU.ShowPrecisionRecall(fpr, tpr, roc_auc)
     #MU.ShowConfusionMatrix(knn_clf, X_test, y_test)
-    MU.SaveModelAsJoblib(knn_clf, "knnClf")
+    MU.SaveModelAsJoblib(knn_clf, DATA_PATH, "knnClf")
 
 
 def printScoresOfNNeighbours(all_x, all_y):

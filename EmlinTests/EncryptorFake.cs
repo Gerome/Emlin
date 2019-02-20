@@ -1,5 +1,4 @@
 ﻿using Emlin.Encryption;
-using System;
 using System.Security.Cryptography;
 
 namespace EmlinTests

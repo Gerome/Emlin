@@ -8,12 +8,12 @@ from sklearn.metrics import precision_recall_curve
 from sklearn.utils.fixes import signature
 
 
-def SaveModelAsJoblib(clf, filename):
-    joblib.dump(clf, os.path.dirname(os.path.abspath(__file__)) + "\\" +filename + '.joblib')
+def SaveModelAsJoblib(clf, directory, filename):
+    joblib.dump(clf, os.path.join(directory, filename + '.joblib'))
 
 
-def LoadModelFromJoblib(filename):
-    return joblib.load(os.path.dirname(os.path.abspath(__file__)) + "\\" + filename)
+def LoadModelFromJoblib(directory, filename):
+    return joblib.load(os.path.join(directory, filename))
 
 
 def plot_confusion_matrix(df_confusion, title='Confusion matrix', cmap=plt.cm.gray_r):

@@ -12,7 +12,7 @@ namespace Emlin.Python
     {
         HealthSubject health;
 
-        public void TeachModel(string model)
+        public void TeachModel(string model, string dataDirectoryPath)
         {
             // python app to call  
             string myPythonApp = "";
@@ -35,10 +35,10 @@ namespace Emlin.Python
                     return;
             }
 
-            RunPython(myPythonApp);
+            RunPython(myPythonApp, dataDirectoryPath);
         }
 
-        public void TestUserInput(List<string> testData, HealthSubject health)
+        public void TestUserInput(List<string> testData, HealthSubject health, string dataDirectoryPath)
         {
             this.health = health;
             string myPythonApp = GetPythonFilePath("LoadKNN");
@@ -51,13 +51,21 @@ namespace Emlin.Python
             }
 
             data = data.Remove(data.Length - 1);
+
+            data += " " + dataDirectoryPath;
             RunPython(myPythonApp, data);
         }
 
-        public void GenerateNonUserData()
+        public void GenerateNonUserData(string dataDirectoryPath)
         {
-            string myPythonApp = GetPythonFilePath("GenerateInverseData");
+            string inverseDataGeneratorPath = GetPythonFilePath("GenerateInverseData");
+            RunPython(inverseDataGeneratorPath, dataDirectoryPath);
+        }
 
+        public void ProcessUserAndGeneratedData(string dataDirectoryPath)
+        {
+            string processedDataAppenderPath = GetPythonFilePath("AppendUserToLine");
+            RunPython(processedDataAppenderPath, dataDirectoryPath);
         }
 
         private void RunPython(string myPythonApp, string data = "")
@@ -88,18 +96,17 @@ namespace Emlin.Python
                 StartInfo = myProcessStartInfo
             };
 
-            new Thread(() =>
-            {
-                // start process 
-                myProcess.Start();
+            
+            // start process 
+            myProcess.Start();
 
-                PrintPythonOutput(myProcess);
-                // wait exit signal from the app we called 
-                myProcess.WaitForExit();
+            PrintPythonOutput(myProcess);
+            // wait exit signal from the app we called 
+            myProcess.WaitForExit();
 
-                // close the process 
-                myProcess.Close();
-            }).Start();
+            // close the process 
+            myProcess.Close();
+            
         }
 
         private void PrintPythonOutput(Process myProcess)
@@ -124,18 +131,22 @@ namespace Emlin.Python
                 }
             }
 
-            int changeInHealth = (user - notUser);
-            Console.WriteLine(changeInHealth);
-            health.SetValue(health.GetValue() + changeInHealth);
-            
 
-            Console.WriteLine($"User pressed {user} times.");
-            Console.WriteLine($"Not user pressed {notUser} times.");
+            if(health != null)
+            {
+                int changeInHealth = (user - notUser);
+                Console.WriteLine(changeInHealth);
+                health.SetValue(health.GetValue() + changeInHealth);
+                Console.WriteLine($"User pressed {user} times.");
+                Console.WriteLine($"Not user pressed {notUser} times.");
+            }
         }
 
         private static string GetPythonFilePath(string pythonFileName)
         {
             return "\"" + Environment.CurrentDirectory + @"\Python\" + pythonFileName + ".py" + "\"";
         }
+
+       
     }
 }

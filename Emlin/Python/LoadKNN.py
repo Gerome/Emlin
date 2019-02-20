@@ -2,14 +2,14 @@
 import sys
 import numpy as np
 allDataAsString = str(sys.argv[1])
-
+data_path = str(sys.argv[2])
 
 def printType(x):
     print(type(x))
 
 
 def main():
-    svm_clf = MU.LoadModelFromJoblib("knnClf.joblib")
+    svm_clf = MU.LoadModelFromJoblib(data_path, "knnClf.joblib")
     listOfData = allDataAsString.split(";")
 
     for dataString in listOfData:

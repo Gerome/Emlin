@@ -10,6 +10,7 @@ namespace Emlin
         public const int NUMBER_OF_COOMBINATIONS = NUMBER_OF_INPUTS * NUMBER_OF_INPUTS;
         public const int LENGTH_OF_SESSION_IN_MILLIS = 1500;
         public static string KEYBOARD_FILE_NAME = "KeyboardData.txt";
+        public static string KEYBOARD_CSV_FILE_NAME = "KeyboardData.csv";
         public static string KEYBOARD_DATA_FILEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) , Assembly.GetCallingAssembly().GetName().Name);
     }
 }

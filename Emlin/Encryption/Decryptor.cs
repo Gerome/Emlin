@@ -29,6 +29,7 @@ namespace Emlin.Encryption
         {
             using (StreamWriter sw = File.CreateText(targetFilepath))
             {
+                sw.Write("Id,HT,FT,Di1,Di2,Di3" + Environment.NewLine);
                 byte[] DecryptionKey = Encryptor.GetDecryptKey(Path.Combine(Environment.CurrentDirectory, @"keys.env"));
                 foreach (string line in lines)
                 {

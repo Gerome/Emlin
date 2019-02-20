@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Emlin
@@ -82,7 +83,7 @@ namespace Emlin
                 {
                     formattedData.Add(DataFormatter.GetFormattedDataLine(keysData));
                 }
-                pi.TestUserInput(formattedData, health);
+                pi.TestUserInput(formattedData, health, ConstantValues.KEYBOARD_DATA_FILEPATH);
 
                 WriteEncryptedDataToFile(filepath, dataToWriteToFile);
             }
@@ -236,9 +237,22 @@ namespace Emlin
         private void TeachModel_Click(object sender, EventArgs e)
         {
             string dataFilePath = Path.Combine(ConstantValues.KEYBOARD_DATA_FILEPATH, ConstantValues.KEYBOARD_FILE_NAME);
-            string decryptedFilePath = Path.Combine(ConstantValues.KEYBOARD_DATA_FILEPATH, "D_" + ConstantValues.KEYBOARD_FILE_NAME);
-            Decryptor.DecryptFile(new FileInfo(dataFilePath), decryptedFilePath);
+            string decryptedFilePath = Path.Combine(ConstantValues.KEYBOARD_DATA_FILEPATH, "D_" + ConstantValues.KEYBOARD_CSV_FILE_NAME);
+            FileInfo file = new FileInfo(dataFilePath);
+            
+            Decryptor.DecryptFile(file, decryptedFilePath);
 
+            PythonInterface pi = new PythonInterface();
+
+
+            new Thread(()=>
+            {
+                pi.GenerateNonUserData(ConstantValues.KEYBOARD_DATA_FILEPATH);
+
+                pi.ProcessUserAndGeneratedData(ConstantValues.KEYBOARD_DATA_FILEPATH);
+
+                pi.TeachModel("KNN", ConstantValues.KEYBOARD_DATA_FILEPATH);
+            }).Start();
         }
     }
 }

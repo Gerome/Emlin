@@ -154,6 +154,9 @@
     <Compile Include="Graphing\LiveChartsPlot.cs" />
     <Compile Include="HealthSubject.cs" />
     <Compile Include="HelperMembers\ConstantValues.cs" />
+    <Content Include="Python\AppendUserToLine.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Python\python-3.7.2-amd64.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
