@@ -232,5 +232,13 @@ namespace Emlin
         {
             Process.Start(ConstantValues.KEYBOARD_DATA_FILEPATH + "\\");
         }
+
+        private void TeachModel_Click(object sender, EventArgs e)
+        {
+            string dataFilePath = Path.Combine(ConstantValues.KEYBOARD_DATA_FILEPATH, ConstantValues.KEYBOARD_FILE_NAME);
+            string decryptedFilePath = Path.Combine(ConstantValues.KEYBOARD_DATA_FILEPATH, "D_" + ConstantValues.KEYBOARD_FILE_NAME);
+            Decryptor.DecryptFile(new FileInfo(dataFilePath), decryptedFilePath);
+
+        }
     }
 }

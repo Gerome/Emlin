@@ -22,7 +22,7 @@ namespace Emlin.Encryption
 
         public string Encrypt(string unencrypted)
         {
-            Endec.Key = GetKey();
+            Endec.Key = GetDecryptKey(Path.Combine(Environment.CurrentDirectory, @"keys.env"));
             Endec.GenerateIV();
             byte[] textbytes = Encoding.ASCII.GetBytes(unencrypted);
             ICryptoTransform icrypt = Endec.CreateEncryptor(Endec.Key, Endec.IV);
@@ -32,9 +32,9 @@ namespace Emlin.Encryption
             return Convert.ToBase64String(enc);
         }
 
-        public string Decrypted(string lineToDecrypt, string fileNumber)
+        public string Decrypted(string lineToDecrypt, byte[] key)
         {
-            Endec.Key = GetDecryptKey(fileNumber);
+            Endec.Key = key;
             Endec.IV = Convert.FromBase64String(lineToDecrypt.Split(' ')[0]);
             byte[] textbytes = Convert.FromBase64String(lineToDecrypt.Split(' ')[1]);
 
@@ -44,15 +44,9 @@ namespace Emlin.Encryption
             return Encoding.ASCII.GetString(enc);
         }
 
-        private byte[] GetDecryptKey(string fileNumber)
+        public static byte[] GetDecryptKey(string keyPath)
         {
-            DotNetEnv.Env.Load(Environment.CurrentDirectory +  @"..\..\..\..\Keys\keys_" + fileNumber + ".env");
-            return Encoding.ASCII.GetBytes(DotNetEnv.Env.GetString("Key"));
-        }
-
-        public static byte[] GetKey()
-        {
-            DotNetEnv.Env.Load(Directory.GetCurrentDirectory() + "/keys.env");
+            DotNetEnv.Env.Load(keyPath);
             return Encoding.ASCII.GetBytes(DotNetEnv.Env.GetString("Key"));
         }
     }

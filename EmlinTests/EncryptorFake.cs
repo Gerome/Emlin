@@ -8,7 +8,7 @@ namespace EmlinTests
     {
         public AesCryptoServiceProvider Endec => new AesCryptoServiceProvider();
 
-        public string Decrypted(string encrypted, string filepath)
+        public string Decrypted(string encrypted, byte[] fileNumber)
         {
             return encrypted;
         }

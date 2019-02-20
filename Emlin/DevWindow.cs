@@ -18,7 +18,7 @@ namespace Emlin
 
         private void decryptBtn_Click(object sender, EventArgs e)
         {
-            Decryptor.DecryptFiles();
+            Decryptor.DecryptDevFiles();
         }
 
         private void TeachModelBtn_Click(object sender, EventArgs e)

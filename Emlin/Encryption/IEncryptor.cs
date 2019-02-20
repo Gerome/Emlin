@@ -7,6 +7,6 @@ namespace Emlin.Encryption
         AesCryptoServiceProvider Endec { get; }
 
         string Encrypt(string unencrypted);
-        string Decrypted(string encrypted, string fileNumber);
+        string Decrypted(string encrypted, byte[] fileNumber);
     }
 }

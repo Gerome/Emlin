@@ -6,34 +6,34 @@ namespace Emlin.Encryption
 {
     public class Decryptor
     {
-        public static void DecryptFiles()
+        public static void DecryptDevFiles()
         {
 
             DirectoryInfo d = new DirectoryInfo(Environment.CurrentDirectory + @"\..\..\..\Data\Raw");
             FileInfo[] Files = d.GetFiles("KeyboardData_*.txt"); //Getting Text files
             foreach (FileInfo file in Files)
             {
-                DecryptFile(file);
+                DecryptFile(file, Environment.CurrentDirectory + @"\..\..\..\Data\Interim\D_" + file.Name);
             }
         }
 
-        private static void DecryptFile(FileInfo file)
+        public static void DecryptFile(FileInfo file, string targetFilepath)
         {
             IEncryptor decryptor = new Encryptor();
 
             var lines = File.ReadLines(file.FullName);
-            WriteDecryptedLinesToFile(file.Name, decryptor, lines);
+            WriteDecryptedLinesToFile(file.Name, targetFilepath, decryptor, lines);
         }
 
-        private static void WriteDecryptedLinesToFile(string fileName, IEncryptor decryptor, System.Collections.Generic.IEnumerable<string> lines)
+        private static void WriteDecryptedLinesToFile(string fileName, string targetFilepath, IEncryptor decryptor, System.Collections.Generic.IEnumerable<string> lines)
         {
-            using (StreamWriter sw = File.CreateText(Environment.CurrentDirectory + @"\..\..\..\Data\Interim\D_" + fileName))
+            using (StreamWriter sw = File.CreateText(targetFilepath))
             {
-                string fileNumber = GetFileNumber(fileName);
-
+                byte[] DecryptionKey = Encryptor.GetDecryptKey(Path.Combine(Environment.CurrentDirectory, @"keys.env"));
                 foreach (string line in lines)
                 {
-                    sw.Write(decryptor.Decrypted(line, fileNumber));
+
+                    sw.Write(decryptor.Decrypted(line, DecryptionKey));
                 }
             }
         }

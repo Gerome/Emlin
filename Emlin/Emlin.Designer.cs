@@ -82,12 +82,13 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Location = new System.Drawing.Point(410, 319);
+            this.button3.Location = new System.Drawing.Point(402, 319);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(83, 23);
             this.button3.TabIndex = 4;
-            this.button3.Text = "Delete Data";
+            this.button3.Text = "Teach Model";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.TeachModel_Click);
             // 
             // healthGraphView
             // 
