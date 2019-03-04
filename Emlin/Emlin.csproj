@@ -175,6 +175,12 @@
     <Content Include="Python\CreateKNN.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Compile Include="LoadingWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadingWindow.Designer.cs">
+      <DependentUpon>LoadingWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Python\PythonPathGetter.cs" />
     <Compile Include="TestMembers\CustomTimer.cs">
       <SubType>Component</SubType>
@@ -227,7 +233,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Content Include="PythonInstaller.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="keys.env">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -249,7 +255,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="PythonLibInstaller.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

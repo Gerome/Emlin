@@ -7,6 +7,9 @@ from mpl_toolkits import mplot3d
 import sys
 
 DATA_PATH = str(sys.argv[1])
+#DATA_PATH = os.path.dirname(__file__) + "/../../Data"
+
+
 no_outlier_file_path = os.path.join(DATA_PATH, "D_KeyboardData_O.csv")
 inverse_data_file_path = os.path.join(DATA_PATH, "D_KeyboardData_O_Not.csv")
 
@@ -57,7 +60,7 @@ def do_thing(group_data):
 
     def get_rows_index_of_outliers(x_values):
         z_scores = np.abs(stats.zscore(x_values[:, 1:]))
-        z_score_threshold = 2
+        z_score_threshold = 1.8
         indices_above_threshold = np.where(z_scores > z_score_threshold)[0]
         return list(dict.fromkeys(indices_above_threshold))
 
@@ -80,7 +83,7 @@ def do_thing(group_data):
     ht_std = all_x_no_outliers[:, group_data.columns.get_loc("HT")].std()
     ft_std = all_x_no_outliers[:, group_data.columns.get_loc("FT")].std()
 
-    average_std = (ht_std+ft_std)
+    average_std = (ht_std+ft_std)/2
 
     generated_grid_number = 10
 
@@ -120,12 +123,12 @@ def do_thing(group_data):
     y_data = all_x_no_outliers[:, 2]
     #z_data = all_x_no_outliers[:, 3]
 
-    '''
-    if len(x_data) > 30:
+
+    if len(x_data) > 100:
         plt.plot(y_not_data, x_not_data, 'ro')
         plt.plot(y_data, x_data, 'bx')
         plt.close()
-        
+        '''
     ax = plt.axes(projection='3d')
     ax.scatter3D(x_data, y_data, z_data, c='r')
     ax.scatter3D(x_not_data, y_not_data, z_not_data, c='b')'''

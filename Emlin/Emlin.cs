@@ -2,6 +2,7 @@
 using Emlin.Python;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Emlin
     {
         private static DataFormatter dataFormatter;
         private HealthSubject health;
+
 
         #region lower level stuff
         private const int WH_KEYBOARD_LL = 13;
@@ -42,6 +44,7 @@ namespace Emlin
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         #endregion
+        LoadingWindow loadingWindow = new LoadingWindow();
         DevWindow devWindow = new DevWindow();
 
         public Emlin()
@@ -242,17 +245,27 @@ namespace Emlin
             
             Decryptor.DecryptFile(file, decryptedFilePath);
 
+            loadingWindow.Show();
+
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += new DoWorkEventHandler(Worker_DoWork);
+            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Worker_RunWorkerCompleted);
+            worker.RunWorkerAsync();
+        }
+
+        void Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
             PythonInterface pi = new PythonInterface();
+            pi.GenerateNonUserData(ConstantValues.KEYBOARD_DATA_FILEPATH);
+            pi.ProcessUserAndGeneratedData(ConstantValues.KEYBOARD_DATA_FILEPATH);
+            pi.TeachModel("KNN", ConstantValues.KEYBOARD_DATA_FILEPATH);
 
+            Thread.Sleep(4000);
+        }
 
-            new Thread(()=>
-            {
-                pi.GenerateNonUserData(ConstantValues.KEYBOARD_DATA_FILEPATH);
-
-                pi.ProcessUserAndGeneratedData(ConstantValues.KEYBOARD_DATA_FILEPATH);
-
-                pi.TeachModel("KNN", ConstantValues.KEYBOARD_DATA_FILEPATH);
-            }).Start();
+        void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            loadingWindow.Hide();
         }
     }
 }

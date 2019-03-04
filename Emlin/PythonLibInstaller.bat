@@ -1,1 +1,2 @@
-Python\python-3.7.2-amd64.exe
+python -m pip install -r Python\requirements.txt
+pause
