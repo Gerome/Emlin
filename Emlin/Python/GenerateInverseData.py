@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 import sys
 
-DATA_PATH = str(sys.argv[1])
-#DATA_PATH = os.path.dirname(__file__) + "/../../Data"
+#DATA_PATH = str(sys.argv[1])
+DATA_PATH = os.path.join(os.getenv('APPDATA'), "Emlin")
 
 
 no_outlier_file_path = os.path.join(DATA_PATH, "D_KeyboardData_O.csv")
@@ -43,13 +43,21 @@ def delete_previously_generated_files():
         os.remove(inverse_data_file_path)
 
 
-def main():
-    delete_previously_generated_files()
-    group_data = load_group_data(DATA_PATH)
-    unique_ids = np.unique(group_data['Id'])
-    for combId in unique_ids:
-        group_data_of_a_comb = group_data.loc[group_data['Id'] == combId]
-        do_thing(group_data_of_a_comb)
+def get_rows_index_of_outliers(x_values):
+    z_scores = np.abs(stats.zscore(x_values[:, 1:]))
+    z_score_threshold = 2
+    indices_above_threshold = np.where(z_scores > z_score_threshold)[0]
+    return list(dict.fromkeys(indices_above_threshold))
+
+
+def remove_outliers_from_feature_list(list_of_data):
+    rows_with_outliers = get_rows_index_of_outliers(list_of_data)
+    for index in sorted(rows_with_outliers, reverse=True):
+        list_of_data = np.delete(list_of_data, index, axis=0)
+
+    return list_of_data
+
+
 
 
 def do_thing(group_data):
@@ -58,24 +66,12 @@ def do_thing(group_data):
     if len(all_x) <= 1:
         return
 
-    def get_rows_index_of_outliers(x_values):
-        z_scores = np.abs(stats.zscore(x_values[:, 1:]))
-        z_score_threshold = 1.8
-        indices_above_threshold = np.where(z_scores > z_score_threshold)[0]
-        return list(dict.fromkeys(indices_above_threshold))
-
-    rows_with_outliers = get_rows_index_of_outliers(all_x)
-
-    def remove_outliers_from_feature_list(list_of_data):
-        for index in sorted(rows_with_outliers, reverse=True):
-            list_of_data = np.delete(list_of_data, index, axis=0)
-
-        return list_of_data
-
     all_x_no_outliers = remove_outliers_from_feature_list(all_x)
+    all_x_no_outliers[:, 0] = all_x_no_outliers[:, 0]
 
-    min_ht,  max_ht  = calculate_min_max(group_data.columns.get_loc("HT"), all_x_no_outliers)
-    min_ft,  max_ft  = calculate_min_max(group_data.columns.get_loc("FT"), all_x_no_outliers)
+
+    min_ht,  max_ht = calculate_min_max(group_data.columns.get_loc("HT"), all_x_no_outliers)
+    min_ft,  max_ft = calculate_min_max(group_data.columns.get_loc("FT"), all_x_no_outliers)
     #min_di1, max_di1 = calculate_min_max(group_data.columns.get_loc('Di1'), all_x_no_outliers)
     #min_di2, max_di2 = calculate_min_max(group_data.columns.get_loc('Di2'), all_x_no_outliers)
     #min_di3, max_di3 = calculate_min_max(group_data.columns.get_loc('Di3'), all_x_no_outliers)
@@ -123,12 +119,12 @@ def do_thing(group_data):
     y_data = all_x_no_outliers[:, 2]
     #z_data = all_x_no_outliers[:, 3]
 
-
-    if len(x_data) > 100:
+    if len(x_data) > 5:
         plt.plot(y_not_data, x_not_data, 'ro')
         plt.plot(y_data, x_data, 'bx')
         plt.close()
-        '''
+
+    '''
     ax = plt.axes(projection='3d')
     ax.scatter3D(x_data, y_data, z_data, c='r')
     ax.scatter3D(x_not_data, y_not_data, z_not_data, c='b')'''
@@ -143,6 +139,13 @@ def do_thing(group_data):
     np.savetxt(f, not_data_to_write_to_file, delimiter=",", fmt='%i')
     f.close()
 
+def main():
+    delete_previously_generated_files()
+    group_data = load_group_data(DATA_PATH)
+    unique_ids = np.unique(group_data['Id'])
+    for combId in unique_ids:
+        group_data_of_a_comb = group_data.loc[group_data['Id'] == combId]
+        do_thing(group_data_of_a_comb)
 
 if __name__ == '__main__':
     main()
