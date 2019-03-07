@@ -8,7 +8,7 @@ import sys
 
 #DATA_PATH = str(sys.argv[1])
 DATA_PATH = os.path.join(os.getenv('APPDATA'), "Emlin")
-
+#DATA_PATH = os.path.dirname(__file__)
 
 no_outlier_file_path = os.path.join(DATA_PATH, "D_KeyboardData_O.csv")
 inverse_data_file_path = os.path.join(DATA_PATH, "D_KeyboardData_O_Not.csv")
@@ -45,7 +45,13 @@ def delete_previously_generated_files():
 
 def get_rows_index_of_outliers(x_values):
     z_scores = np.abs(stats.zscore(x_values[:, 1:]))
-    z_score_threshold = 2
+    number_of_instances = len(x_values)
+
+    if number_of_instances > 1000:
+        z_score_threshold = 0.2
+    else:
+        z_score_threshold = -0.0005 * number_of_instances + 1
+
     indices_above_threshold = np.where(z_scores > z_score_threshold)[0]
     return list(dict.fromkeys(indices_above_threshold))
 
@@ -58,17 +64,13 @@ def remove_outliers_from_feature_list(list_of_data):
     return list_of_data
 
 
-
-
 def do_thing(group_data):
     all_x = group_data[['Id', 'HT', 'FT', 'Di1', 'Di2', 'Di3']].values
 
-    if len(all_x) <= 1:
-        return
-
     all_x_no_outliers = remove_outliers_from_feature_list(all_x)
-    all_x_no_outliers[:, 0] = all_x_no_outliers[:, 0]
 
+    if len(all_x_no_outliers) <= 1:
+        return
 
     min_ht,  max_ht = calculate_min_max(group_data.columns.get_loc("HT"), all_x_no_outliers)
     min_ft,  max_ft = calculate_min_max(group_data.columns.get_loc("FT"), all_x_no_outliers)
@@ -79,7 +81,7 @@ def do_thing(group_data):
     ht_std = all_x_no_outliers[:, group_data.columns.get_loc("HT")].std()
     ft_std = all_x_no_outliers[:, group_data.columns.get_loc("FT")].std()
 
-    average_std = (ht_std+ft_std)/2
+    average_std = (ht_std+ft_std)/3
 
     generated_grid_number = 10
 
@@ -109,8 +111,6 @@ def do_thing(group_data):
                 if not too_close:
                     not_data_to_write_to_file = np.append(not_data_to_write_to_file, np.array([[comb_id, i, j]]), axis=0)
 
-
-
     x_not_data = not_data_to_write_to_file[:, 1]
     y_not_data = not_data_to_write_to_file[:, 2]
     #z_not_data = not_data_to_write_to_file[:, 3]
@@ -120,9 +120,7 @@ def do_thing(group_data):
     #z_data = all_x_no_outliers[:, 3]
 
     if len(x_data) > 5:
-        plt.plot(y_not_data, x_not_data, 'ro')
-        plt.plot(y_data, x_data, 'bx')
-        plt.close()
+        plot_data(comb_id,x_data, x_not_data, y_data, y_not_data)
 
     '''
     ax = plt.axes(projection='3d')
@@ -139,6 +137,16 @@ def do_thing(group_data):
     np.savetxt(f, not_data_to_write_to_file, delimiter=",", fmt='%i')
     f.close()
 
+
+def plot_data(title, x_data, x_not_data, y_data, y_not_data):
+    plt.title(title)
+    plt.xlabel("Hold time")
+    plt.ylabel("Flight time")
+    plt.plot(y_not_data, x_not_data, 'ro')
+    plt.plot(y_data, x_data, 'bx')
+    plt.close()
+
+
 def main():
     delete_previously_generated_files()
     group_data = load_group_data(DATA_PATH)
@@ -146,6 +154,34 @@ def main():
     for combId in unique_ids:
         group_data_of_a_comb = group_data.loc[group_data['Id'] == combId]
         do_thing(group_data_of_a_comb)
+
+
+def compare_users():
+
+    user1_data_filepath = "../../Data/interim/D_KeyboardData_1.csv"
+    user2_data_filepath = "../../Data/interim/D_KeyboardData_6.csv"
+
+    group_data_user1 = pd.read_csv(os.path.join(DATA_PATH, user1_data_filepath))
+    group_data_user2 = pd.read_csv(os.path.join(DATA_PATH, user2_data_filepath))
+
+    unique_ids_user1 = np.unique(group_data_user1['Id'])
+    unique_ids_user2 = np.unique(group_data_user2['Id'])
+
+    x = set(unique_ids_user1)
+    y = set(unique_ids_user2)
+
+    for shared_comb in sorted(x.intersection(y)):
+        group_data_of_a_comb_user1 = group_data_user1.loc[group_data_user1['Id'] == shared_comb]
+        group_data_of_a_comb_user2 = group_data_user2.loc[group_data_user2['Id'] == shared_comb]
+
+        all_x_user1 = group_data_of_a_comb_user1[['Id', 'HT', 'FT']].values
+        all_x_user2 = group_data_of_a_comb_user2[['Id', 'HT', 'FT']].values
+
+        all_x_user1 = remove_outliers_from_feature_list(all_x_user1)
+        all_x_user2 = remove_outliers_from_feature_list(all_x_user2)
+
+        plot_data(str(shared_comb), all_x_user1[:, 1], all_x_user2[:, 1], all_x_user1[:, 2], all_x_user2[:, 2])
+
 
 if __name__ == '__main__':
     main()
