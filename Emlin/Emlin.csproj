@@ -272,7 +272,7 @@
     <Content Include="Python\SVM\LoadSVM.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\ModelUtils.py">
+    <Content Include="Python\Helper\ModelUtils.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Python\KNNModel.py">

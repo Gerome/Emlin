@@ -11,7 +11,7 @@ from sklearn.metrics import roc_curve
 from sklearn.metrics import auc
 
 # User files
-import ModelUtils as MU
+from Helper import ModelUtils as MU
 import KNNModel
 import Constants
 

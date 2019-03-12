@@ -11,8 +11,8 @@ from sklearn.metrics import roc_curve
 from sklearn.metrics import auc
 
 # User files
-import ModelUtils as MU
-import RFTModel
+from Helper import ModelUtils as MU
+from RFT import RFTModel
 import Constants
 
 

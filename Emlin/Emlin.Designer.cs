@@ -81,7 +81,7 @@
             // 
             // button3
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.Location = new System.Drawing.Point(402, 319);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(83, 23);
@@ -112,6 +112,7 @@
             this.Controls.Add(this.recordingEnabled);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(300, 400);
+            this.MinimumSize = new System.Drawing.Size(400, 200);
             this.Name = "Emlin";
             this.Text = "Emlin";
             this.ResumeLayout(false);

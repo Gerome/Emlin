@@ -1,4 +1,4 @@
-﻿import ModelUtils as MU
+﻿from Helper import ModelUtils as MU
 import sys
 
 allDataAsString = str(sys.argv[1])

@@ -6,15 +6,17 @@ import sys
 from sklearn.model_selection import train_test_split
 
 # User files
-import ModelUtils as MU
-import SVMModel
-
+from Helper import ModelUtils as MU
+from SVM import SVMModel
+import Constants
 
 DATA_PATH = Constants.DATA_PATH
+
 
 def load_group_data(data_path=DATA_PATH):
 		csv_path = os.path.join(data_path, "GroupedData.csv")
 		return pd.read_csv(csv_path)
+
 
 def main():
 	group_data = load_group_data()
@@ -32,6 +34,7 @@ def main():
 	#print(svm_scores.mean())
 	svm_clf.fit(X_train, y_train)
 	MU.SaveModelAsJoblib(svm_clf, "svmClf")
+
 
 if __name__ == "__main__":
     sys.exit(int(main() or 0))
