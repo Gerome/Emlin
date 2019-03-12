@@ -88,7 +88,10 @@ namespace Emlin
                 }
                 pi.TestUserInput(formattedData, health, ConstantValues.KEYBOARD_DATA_FILEPATH);
 
-                WriteEncryptedDataToFile(filepath, dataToWriteToFile);
+                if (recordingEnabled.Checked)
+                {
+                    WriteEncryptedDataToFile(filepath, dataToWriteToFile);
+                }
             }
 
             PossiblyShuffleLines(filepath);
@@ -188,7 +191,7 @@ namespace Emlin
 
         private bool RecordingPossible(int nCode, IntPtr wParam)
         {
-            return nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_KEYUP) && recordingEnabled.Checked;
+            return nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_KEYUP);
         }
 
         #endregion

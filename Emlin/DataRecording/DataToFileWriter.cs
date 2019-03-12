@@ -19,35 +19,30 @@ namespace Emlin
         {
             List<string> textToWrite = new List<string>();
 
-            foreach(KeysData data in listOfKeysData)
+            foreach (KeysData data in listOfKeysData)
             {
-                textToWrite.Add(DataFormatter.GetFormattedDataLine(data)+ Environment.NewLine);         
+                textToWrite.Add(DataFormatter.GetFormattedDataLine(data) + Environment.NewLine);
             }
 
-          
             using (StreamWriter sw = fileSystem.File.AppendText(filepath))
             {
-                foreach(string line in textToWrite)
+                foreach (string line in textToWrite)
                 {
                     string encryptedLine = encryptor.Encrypt(line);
                     WriteEncryptorIV(encryptor, sw);
                     sw.Write(encryptedLine + Environment.NewLine);
                 }
             }
-         }
+        }
 
         private static void WriteEncryptorIV(IEncryptor encryptor, StreamWriter sw)
         {
             sw.Write(Convert.ToBase64String(encryptor.Endec.IV) + " ");
         }
 
-        
-
         public void CreateDirectoryAndFile(string filepath)
         {
             string directoryPath = Path.GetDirectoryName(filepath);
-
-            
 
             if (!fileSystem.Directory.Exists(directoryPath))
             {
@@ -55,7 +50,6 @@ namespace Emlin
             }
 
             using (StreamWriter sw = fileSystem.File.AppendText(filepath)) { }
-
         }
 
         public void AddFileSystem(IFileSystem fileSystem)

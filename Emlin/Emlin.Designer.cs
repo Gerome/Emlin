@@ -50,7 +50,7 @@
             this.recordingEnabled.AutoSize = true;
             this.recordingEnabled.Checked = true;
             this.recordingEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.recordingEnabled.Location = new System.Drawing.Point(12, 12);
+            this.recordingEnabled.Location = new System.Drawing.Point(12, 296);
             this.recordingEnabled.Name = "recordingEnabled";
             this.recordingEnabled.Size = new System.Drawing.Size(117, 17);
             this.recordingEnabled.TabIndex = 0;
@@ -71,7 +71,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(491, 319);
+            this.button2.Location = new System.Drawing.Point(506, 319);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
@@ -82,7 +82,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(402, 319);
+            this.button3.Location = new System.Drawing.Point(417, 319);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(83, 23);
             this.button3.TabIndex = 4;
@@ -95,16 +95,16 @@
             this.healthGraphView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.healthGraphView.Location = new System.Drawing.Point(12, 36);
+            this.healthGraphView.Location = new System.Drawing.Point(12, 12);
             this.healthGraphView.Name = "healthGraphView";
-            this.healthGraphView.Size = new System.Drawing.Size(569, 278);
+            this.healthGraphView.Size = new System.Drawing.Size(584, 278);
             this.healthGraphView.TabIndex = 3;
             // 
             // Emlin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(578, 354);
+            this.ClientSize = new System.Drawing.Size(593, 354);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.healthGraphView);
             this.Controls.Add(this.button2);

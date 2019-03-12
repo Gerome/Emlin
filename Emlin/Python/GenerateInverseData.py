@@ -184,7 +184,7 @@ def compare_users():
 
 
 if __name__ == '__main__':
-    compare_users()
+    main()
 
 
 
