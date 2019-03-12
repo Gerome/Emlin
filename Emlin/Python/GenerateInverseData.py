@@ -8,7 +8,7 @@ import sys
 
 #DATA_PATH = str(sys.argv[1])
 DATA_PATH = os.path.join(os.getenv('APPDATA'), "Emlin")
-#DATA_PATH = os.path.dirname(__file__)
+DEBUG_DATA_PATH = os.path.dirname(__file__)
 
 no_outlier_file_path = os.path.join(DATA_PATH, "D_KeyboardData_O.csv")
 inverse_data_file_path = os.path.join(DATA_PATH, "D_KeyboardData_O_Not.csv")
@@ -48,9 +48,9 @@ def get_rows_index_of_outliers(x_values):
     number_of_instances = len(x_values)
 
     if number_of_instances > 1000:
-        z_score_threshold = 0.2
+        z_score_threshold = 0.4
     else:
-        z_score_threshold = -0.0005 * number_of_instances + 1
+        z_score_threshold = -0.0016 * number_of_instances + 2
 
     indices_above_threshold = np.where(z_scores > z_score_threshold)[0]
     return list(dict.fromkeys(indices_above_threshold))
@@ -161,8 +161,8 @@ def compare_users():
     user1_data_filepath = "../../Data/interim/D_KeyboardData_1.csv"
     user2_data_filepath = "../../Data/interim/D_KeyboardData_6.csv"
 
-    group_data_user1 = pd.read_csv(os.path.join(DATA_PATH, user1_data_filepath))
-    group_data_user2 = pd.read_csv(os.path.join(DATA_PATH, user2_data_filepath))
+    group_data_user1 = pd.read_csv(os.path.join(DEBUG_DATA_PATH, user1_data_filepath))
+    group_data_user2 = pd.read_csv(os.path.join(DEBUG_DATA_PATH, user2_data_filepath))
 
     unique_ids_user1 = np.unique(group_data_user1['Id'])
     unique_ids_user2 = np.unique(group_data_user2['Id'])
@@ -184,7 +184,7 @@ def compare_users():
 
 
 if __name__ == '__main__':
-    main()
+    compare_users()
 
 
 

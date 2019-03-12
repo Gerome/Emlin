@@ -26,21 +26,6 @@ namespace TestGraphing
             this.healthSubject = healthSubject;
         }
 
-        private void GetSetpointNewThread()
-        {
-            Thread thread = new Thread(() =>
-            { // Thread begins here
-                for (int i = 0; i < NUMBER_OF_READINGS; i++)
-                {
-                    //graph.PushValue(deviceReader.GetSetpoint());
-                }
-            })
-            {
-                IsBackground = true
-            }; // Thread ends here
-            thread.Start();
-        }
-
         #region Button listeners
 
         private void PushButtonOnClick(object sender, EventArgs e)
@@ -63,8 +48,6 @@ namespace TestGraphing
             graph.PushValue(healthSubject.GetValue());
         }
 
-
         #endregion
-
     }
 }

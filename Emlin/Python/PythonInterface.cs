@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Windows;
+using System.Windows.Forms;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace Emlin.Python
 {
@@ -129,6 +132,12 @@ namespace Emlin.Python
                 {
                     notUser++;       
                 }
+
+                if (myString.Contains("ModuleNotFoundError"))
+                {
+                    ShowErrorWindow();
+                    break;
+                }
             }
 
 
@@ -140,6 +149,13 @@ namespace Emlin.Python
                 Console.WriteLine($"User pressed {user} times.");
                 Console.WriteLine($"Not user pressed {notUser} times.");
             }
+        }
+
+        private static void ShowErrorWindow()
+        {
+            string warning = "You don't have the required Python libraries installed. Please run the \"PythonLibInstaller.bat\" in the install folder.";
+            string title = "Error";
+            MessageBox.Show(warning, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private static string GetPythonFilePath(string pythonFileName)

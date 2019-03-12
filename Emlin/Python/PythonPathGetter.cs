@@ -21,12 +21,10 @@ namespace Emlin
 
                     pythonPath = o.ToString();
                 }
-
-
             }
             catch (NullReferenceException)
             {
-                string warning = "You don't have Python installed on this machine.";
+                string warning = "You don't have the correct version of Python installed on this machine. Please install Python 3.5 or higher";
                 string title = "Error";
                 MessageBox.Show(warning, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return pythonPath;

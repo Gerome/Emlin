@@ -26,24 +26,13 @@ namespace TestGraphing
 
             this.chart.Series.Add(new LineSeries
             {
+                Title = "Health",
                 Values = Values,
                 StrokeThickness = 1,
                 PointGeometrySize = 0,
                 Fill = Brushes.Transparent,
                 DataLabels = true,
                 
-            });
-        }
-
-
-        public void LoadChart()
-        {
-            chart.Series.Add(new LineSeries
-            {
-                Values = new ChartValues<ObservableValue>
-                {
-                    new ObservableValue(new Random().Next(-20, 20))
-                }
             });
         }
 

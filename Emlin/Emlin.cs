@@ -259,8 +259,6 @@ namespace Emlin
             pi.GenerateNonUserData(ConstantValues.KEYBOARD_DATA_FILEPATH);
             pi.ProcessUserAndGeneratedData(ConstantValues.KEYBOARD_DATA_FILEPATH);
             pi.TeachModel("KNN", ConstantValues.KEYBOARD_DATA_FILEPATH);
-
-            Thread.Sleep(4000);
         }
 
         void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
