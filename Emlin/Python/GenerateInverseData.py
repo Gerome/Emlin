@@ -50,7 +50,7 @@ def get_rows_index_of_outliers(x_values):
     if number_of_instances > 1000:
         z_score_threshold = 0.4
     else:
-        z_score_threshold = -0.0016 * number_of_instances + 2
+        z_score_threshold = -0.001 * number_of_instances + 1.5
 
     indices_above_threshold = np.where(z_scores > z_score_threshold)[0]
     return list(dict.fromkeys(indices_above_threshold))
@@ -58,6 +58,7 @@ def get_rows_index_of_outliers(x_values):
 
 def remove_outliers_from_feature_list(list_of_data):
     rows_with_outliers = get_rows_index_of_outliers(list_of_data)
+
     for index in sorted(rows_with_outliers, reverse=True):
         list_of_data = np.delete(list_of_data, index, axis=0)
 

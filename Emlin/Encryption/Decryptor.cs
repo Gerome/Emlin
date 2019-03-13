@@ -21,6 +21,7 @@ namespace Emlin.Encryption
         {
             IEncryptor decryptor = new Encryptor();
 
+            //TODO Check if file exists or not
             var lines = File.ReadLines(file.FullName);
             WriteDecryptedLinesToFile(file.Name, targetFilepath, decryptor, lines);
         }

@@ -80,12 +80,13 @@ namespace Emlin
             if (dataToWriteToFile.Count != 0)
             {
                 PythonInterface pi = new PythonInterface();
-
                 List<string> formattedData = new List<string>();
+
                 foreach (KeysData keysData in dataToWriteToFile)
                 {
                     formattedData.Add(DataFormatter.GetFormattedDataLine(keysData));
                 }
+
                 pi.TestUserInput(formattedData, health, ConstantValues.KEYBOARD_DATA_FILEPATH);
 
                 if (recordingEnabled.Checked)
@@ -95,6 +96,12 @@ namespace Emlin
             }
 
             PossiblyShuffleLines(filepath);
+
+            if(health.GetValue() < 0)
+            {
+                Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation");
+                health.SetValue(100);
+            }
 
             dataFormatter.End();
         }
