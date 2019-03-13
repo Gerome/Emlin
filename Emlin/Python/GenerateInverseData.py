@@ -121,7 +121,14 @@ def do_thing(group_data):
     #z_data = all_x_no_outliers[:, 3]
 
     if len(x_data) > 5:
-        plot_data(comb_id,x_data, x_not_data, y_data, y_not_data)
+        actual_comb_id = int(comb_id/6000)
+        first_ascii = actual_comb_id // 128
+        first_char_of_comb = chr(first_ascii)
+        second_ascii = int(((actual_comb_id / 128) % 1) * 128)
+        second_char_of_comb = chr(second_ascii)
+
+        title = "\'" + first_char_of_comb + '\' to \'' + second_char_of_comb + "\'"
+        plot_data(title, x_data, x_not_data, y_data, y_not_data)
 
     '''
     ax = plt.axes(projection='3d')

@@ -8,13 +8,11 @@ namespace Emlin.Encryption
     {
         public static void DecryptDevFiles()
         {
+            string dataFilePath = Path.Combine(ConstantValues.KEYBOARD_DATA_FILEPATH, ConstantValues.KEYBOARD_FILE_NAME);
+            string decryptedFilePath = Path.Combine(ConstantValues.KEYBOARD_DATA_FILEPATH, "D_" + ConstantValues.KEYBOARD_CSV_FILE_NAME);
+            FileInfo file = new FileInfo(dataFilePath);
 
-            DirectoryInfo d = new DirectoryInfo(Environment.CurrentDirectory + @"\..\..\..\Data\Raw");
-            FileInfo[] Files = d.GetFiles("KeyboardData_*.txt"); //Getting Text files
-            foreach (FileInfo file in Files)
-            {
-                DecryptFile(file, Environment.CurrentDirectory + @"\..\..\..\Data\Interim\D_" + file.Name);
-            }
+            DecryptFile(file, decryptedFilePath);
         }
 
         public static void DecryptFile(FileInfo file, string targetFilepath)

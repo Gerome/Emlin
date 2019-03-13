@@ -9,7 +9,7 @@
             int firstId = ((int)firstChar);
             int secondId = ((int)secondChar);
 
-            return (firstId * NUMBER_OF_INPUTS + secondId);
+            return 6000 * (firstId * NUMBER_OF_INPUTS + secondId);
         }
     }
 }
