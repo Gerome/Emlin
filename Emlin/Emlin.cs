@@ -267,6 +267,10 @@ namespace Emlin
         void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             loadingWindow.Hide();
+
+            string message = "The model has been successfully trained on your data.";
+            string title = "Model Successfully Trained";
+            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

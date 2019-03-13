@@ -47,6 +47,7 @@
             // 
             // recordingEnabled
             // 
+            this.recordingEnabled.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.recordingEnabled.AutoSize = true;
             this.recordingEnabled.Checked = true;
             this.recordingEnabled.CheckState = System.Windows.Forms.CheckState.Checked;

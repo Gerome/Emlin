@@ -12,8 +12,21 @@ namespace Emlin
 
         public void SetValue(int value)
         {
-            Value = value;
+            if (value >= 100)
+            {
+                Value = 100;
+            }
+            else
+            {
+                Value = value;
+            }
+
             Notify();
+
+            if(Value < 0)
+            {
+                System.Diagnostics.Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation");
+            }
         }
     }
 }
