@@ -6,7 +6,7 @@ import sys
 from sklearn.model_selection import train_test_split
 
 # User files
-from Helper import ModelUtils as MU
+from Helper import model_pers as MU
 from SVM import SVMModel
 import Constants
 
@@ -33,7 +33,7 @@ def main():
 	#svm_scores = MU.GetScoreFrom(svm_clf, all_x, all_y)
 	#print(svm_scores.mean())
 	svm_clf.fit(X_train, y_train)
-	MU.SaveModelAsJoblib(svm_clf, "svmClf")
+	MU.save_model(svm_clf, "svmClf")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-﻿from Helper import ModelUtils as MU
+﻿from Helper import model_pers as MU
 import sys
 import numpy as np
 allDataAsString = str(sys.argv[1])
@@ -9,7 +9,7 @@ def printType(x):
 
 
 def main():
-    rft_clf = MU.LoadModelFromJoblib("rftClf.joblib")
+    rft_clf = MU.load_model("rftClf.joblib")
     listOfData = allDataAsString.split(";")
 
     for dataString in listOfData:

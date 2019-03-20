@@ -3,18 +3,11 @@ import os
 import pandas as pd
 import numpy as np
 import sys
-from sklearn.model_selection import train_test_split
-from random import randint
-from sklearn.metrics import average_precision_score
-
-from sklearn.metrics import roc_curve
-from sklearn.metrics import auc
 
 # User files
-from Helper import ModelUtils as MU
+import utils.eval
+from utils import model_pers as persistance
 import KNNModel
-import Constants
-
 
 DATA_PATH = str(sys.argv[1])
 
@@ -46,14 +39,14 @@ def main():
 
     #MU.ShowPrecisionRecall(fpr, tpr, roc_auc)
     #MU.ShowConfusionMatrix(knn_clf, X_test, y_test)
-    MU.SaveModelAsJoblib(knn_clf, DATA_PATH, "knnClf")
+    persistance.save_model(knn_clf, DATA_PATH, "knnClf")
 
 
 def printScoresOfNNeighbours(all_x, all_y):
     numberOfNeighbours = 10
     for i in range(1, numberOfNeighbours):
         knn_clf = KNNModel.GetKNNClassifier(i)
-        knn_scores = MU.GetScoreFromCLF(knn_clf, all_x, all_y)
+        knn_scores = utils.eval.get_score(knn_clf, all_x, all_y)
         print(knn_scores)
         print("Evaluting " + str(i) + " neighbours. Score is " + str(knn_scores.mean()))
 

@@ -1,11 +1,11 @@
-﻿from Helper import ModelUtils as MU
+﻿from Helper import model_pers as MU
 import sys
 
 allDataAsString = str(sys.argv[1])
 
 
 def main():
-    svm_clf = MU.LoadModelFromJoblib("svmClf.joblib")
+    svm_clf = MU.load_model("svmClf.joblib")
     listOfData = allDataAsString.split(";")
 
     for dataString in listOfData:

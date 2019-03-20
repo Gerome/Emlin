@@ -5,13 +5,9 @@ import numpy as np
 import sys
 from sklearn.model_selection import train_test_split
 from random import randint
-from sklearn.metrics import average_precision_score
-
-from sklearn.metrics import roc_curve
-from sklearn.metrics import auc
 
 # User files
-from Helper import ModelUtils as MU
+from Helper import model_pers as MU
 from RFT import RFTModel
 import Constants
 
@@ -48,7 +44,7 @@ def main():
 
     #MU.ShowPrecisionRecall(fpr, tpr, roc_auc)
     #MU.ShowConfusionMatrix(knn_clf, X_test, y_test)
-    MU.SaveModelAsJoblib(rft_clf, "rftClf")
+    MU.save_model(rft_clf, "rftClf")
 
 
 
