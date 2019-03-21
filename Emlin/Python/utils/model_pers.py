@@ -3,7 +3,7 @@ import os
 
 
 def save_model(clf, directory, filename):
-    joblib.dump(clf, os.path.join(directory, filename, '.joblib'))
+    joblib.dump(clf, os.path.join(directory, filename + '.joblib'))
 
 
 def load_model(directory, filename):

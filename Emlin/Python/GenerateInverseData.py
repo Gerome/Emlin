@@ -2,12 +2,9 @@ import numpy as np
 import pandas as pd
 import os
 from scipy import stats
-
-#DATA_PATH = str(sys.argv[1])
-#DATA_PATH = os.path.join(os.getenv('APPDATA'), "Emlin")
 from utils.plot import plot_data
 
-DATA_PATH = ""
+DATA_PATH = os.path.join(os.getenv('APPDATA'), "Emlin")
 DEBUG_DATA_PATH = os.path.dirname(__file__)
 
 no_outlier_file_path = os.path.join(DATA_PATH, "D_KeyboardData_O.csv")
@@ -112,9 +109,11 @@ def do_thing(group_data):
     x_data = all_x_no_outliers[:, 1]
     y_data = all_x_no_outliers[:, 2]
 
-    if len(x_data) > 5:
+    all_data = [x_data, y_data]
 
-        plot_data(comb_id, x_data, x_not_data, y_data, y_not_data)
+    if len(x_data) > 5:
+        pass
+        #plot_data(comb_id, all_data)
 
     '''
     ax = plt.axes(projection='3d')
@@ -191,5 +190,5 @@ def compare_users():
 
 
 if __name__ == '__main__':
-    compare_users()
+    main()
 
