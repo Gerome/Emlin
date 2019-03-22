@@ -67,7 +67,7 @@ namespace Emlin.Python
 
         public void ProcessUserAndGeneratedData(string dataDirectoryPath)
         {
-            string processedDataAppenderPath = GetPythonFilePath("AppendUserToLine");
+            string processedDataAppenderPath = GetPythonFilePath("compile_final_data_into_file");
             RunPython(processedDataAppenderPath, dataDirectoryPath);
         }
 
