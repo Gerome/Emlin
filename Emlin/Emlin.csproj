@@ -190,9 +190,6 @@
     <Content Include="Python\AppendUserToLine.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\Constants.py">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Python\CreateKNN.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -231,6 +228,7 @@
     <Content Include="Python\SVM\__init__.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Python\utils\Constants.py" />
     <Content Include="Python\utils\eval.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

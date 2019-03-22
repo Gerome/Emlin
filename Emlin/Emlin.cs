@@ -237,7 +237,6 @@ namespace Emlin
                     string dataNotDeleted = "Could not find file to delete.";
 
                     MessageBox.Show(dataNotDeleted, "File Not Found", MessageBoxButtons.OK);
-
                 }
             }     
         }
@@ -275,9 +274,26 @@ namespace Emlin
         {
             loadingWindow.Hide();
 
-            string message = "The model has been successfully trained on your data.";
-            string title = "Model Successfully Trained";
-            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string message = "";
+            string title = "";
+
+            if (ModelFileExists())
+            {
+                message = "The model has been successfully trained on your data.";
+                title = "Model Successfully Trained";
+                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                message = "Emlin failed to create your model. Please try again.";
+                title = "Model Training Failed";
+                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ModelFileExists()
+        {
+            return File.Exists(Path.Combine(ConstantValues.KEYBOARD_DATA_FILEPATH, ConstantValues.MODEL_FILE_NAME));
         }
     }
 }
