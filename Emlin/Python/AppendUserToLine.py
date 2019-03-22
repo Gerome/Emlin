@@ -23,9 +23,9 @@ def main():
 
         with open(file_path) as currentFile:
             with open(groupedDataFilepath, 'a') as groupedDataFile:
-                for lineToWrite1 in currentFile:
-                    lineToWrite2 = lineToWrite1.replace('\n', ',' + classifier + '\n')
-                    groupedDataFile.write(lineToWrite2)
+                for line_to_write1 in currentFile:
+                    line_to_write2 = line_to_write1.replace('\n', ',' + classifier + '\n')
+                    groupedDataFile.write(line_to_write2)
 
 
 if __name__ == "__main__":

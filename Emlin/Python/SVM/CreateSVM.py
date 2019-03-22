@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 # User files
 from Helper import model_pers as MU
 from SVM import SVMModel
-import Constants
+from utils import Constants
 
 DATA_PATH = Constants.DATA_PATH
 

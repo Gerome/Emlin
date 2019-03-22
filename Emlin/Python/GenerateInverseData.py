@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 from scipy import stats
-from utils.plot import plot_data
+from utils.plot import plot_data, get_graph_title
 
 DATA_PATH = os.path.join(os.getenv('APPDATA'), "Emlin")
 DEBUG_DATA_PATH = os.path.dirname(__file__)
@@ -62,8 +62,8 @@ def remove_outliers_from_feature_list(list_of_data):
     return list_of_data
 
 
-def do_thing(group_data):
-    all_x = group_data[['Id', 'HT', 'FT', 'Di1', 'Di2', 'Di3']].values
+def generate_inverse_data_for_comb(group_data):
+    all_x = group_data[['Id', 'HT', 'FT']].values
 
     all_x_no_outliers = remove_outliers_from_feature_list(all_x)
 
@@ -137,17 +137,114 @@ def main():
     unique_ids = np.unique(group_data['Id'])
     for combId in unique_ids:
         group_data_of_a_comb = group_data.loc[group_data['Id'] == combId]
-        do_thing(group_data_of_a_comb)
+        generate_inverse_data_for_comb(group_data_of_a_comb)
 
 
-def sort_by_highest_average(data_of_first_user, unique_IDs):
+def get_id_of_closest_point(copy_of_data, point):
+    unique_IDs = np.unique(copy_of_data['Id'])
+
+    current_closest_id = 0
+    current_closest_mean = 9999
 
     for id in unique_IDs:
-        data_of_id = np.where(data_of_first_user['Id'] == id)
-        mean = data_of_first_user.loc[data_of_first_user['Id'] == id].mean()
-        std = data_of_first_user.loc[data_of_first_user['Id'] == id].std()
+        data_where_id = copy_of_data.loc[copy_of_data['Id'] == id]
+        hold_time_mean = data_where_id[['HT']].values
+        flight_time_mean = data_where_id[['FT']].values
 
-        pass
+        euc_distance = distance_between(np.array([[hold_time_mean, flight_time_mean]]), point)
+
+        if euc_distance < current_closest_mean:
+            current_closest_id = id
+            current_closest_mean = euc_distance
+
+    return current_closest_id
+
+
+
+def sort_by_highest_average(data, unique_IDs):
+
+    start_id = get_id_with_highest_mean(data, unique_IDs)
+    copy_of_data = data
+    current_id = start_id
+
+    ordered_ids = [start_id]
+
+    while len(copy_of_data) > 1:
+        data_where_id = copy_of_data.loc[copy_of_data['Id'] == current_id]
+        hold_time_mean = data_where_id[['HT']].values.mean()
+        flight_time_mean = data_where_id[['FT']].values.mean()
+
+        copy_of_data = copy_of_data[copy_of_data.Id != current_id]
+
+        next_closest_id = get_id_of_closest_point(copy_of_data, np.array([[hold_time_mean, flight_time_mean]]))
+        ordered_ids.append(next_closest_id)
+
+        current_id = next_closest_id
+
+    return ordered_ids
+
+def get_id_with_highest_mean(data):
+
+    current_highest_id = 0
+    current_highest_mean = 0
+
+    for row in data:
+        euc_dist = np.sqrt(row[1] * row[1] + row[2] * row[2])
+
+        if euc_dist > current_highest_mean:
+            current_highest_mean = euc_dist
+            current_highest_id = row[0]
+
+    return current_highest_id
+
+
+def get_mean_from_data(Id, X_of_Id_no_outliers):
+    ht_mean = int(X_of_Id_no_outliers[:, 1].mean())
+    ft_mean = int(X_of_Id_no_outliers[:, 2].mean())
+    return [Id, ht_mean, ft_mean]
+
+
+def order_id_by_similarity():
+    test_data_filepath = "../../Data/interim/D_KeyboardData_test.csv"
+    user_data_filepath = "../../Data/interim/D_KeyboardData.csv"
+
+    data = pd.read_csv(os.path.join(DEBUG_DATA_PATH, user_data_filepath))
+    unique_ids = np.unique(data['Id'])
+
+    X_clean_data = []
+    X_mean = []
+
+    for Id in unique_ids:
+        data_of_comb = data.loc[data['Id'] == Id]
+
+        X_of_Id_no_outliers = np.array(remove_outliers_from_feature_list(data_of_comb[['Id', 'HT', 'FT']].values))
+        X_mean.append(get_mean_from_data(Id/6000, X_of_Id_no_outliers))
+
+        X_clean_data.append(X_of_Id_no_outliers)
+
+    highest_mean = get_id_with_highest_mean(X_mean)
+
+    current_id = highest_mean
+    ordered_ids = [current_id]
+    copy_of_X_mean = pd.DataFrame(X_mean)
+
+    copy_of_X_mean.rename(columns={list(copy_of_X_mean)[0]: 'Id'}, inplace=True)
+    copy_of_X_mean.rename(columns={list(copy_of_X_mean)[1]: 'HT'}, inplace=True)
+    copy_of_X_mean.rename(columns={list(copy_of_X_mean)[2]: 'FT'}, inplace=True)
+
+    while len(copy_of_X_mean) > 1:
+        data_where_id = copy_of_X_mean.loc[copy_of_X_mean['Id'] == current_id]
+        hold_time = data_where_id[['HT']].values
+        flight_time = data_where_id[['FT']].values
+
+        copy_of_X_mean = copy_of_X_mean[copy_of_X_mean.Id != current_id]
+
+        next_closest_id = get_id_of_closest_point(copy_of_X_mean, np.array([[hold_time, flight_time]]))
+        ordered_ids.append(next_closest_id)
+        whatever = get_graph_title(current_id)
+        current_id = next_closest_id
+
+    return ordered_ids
 
 def compare_users():
     user1_data_filepath = "../../Data/interim/D_KeyboardData_1.csv"
@@ -155,7 +252,7 @@ def compare_users():
     user3_data_filepath = "../../Data/interim/D_KeyboardData_10.csv"
     user_test_data_filepath = "../../Data/interim/D_KeyboardData_test.csv"
 
-    user_data_filepaths = [user_test_data_filepath, user_test_data_filepath]
+    user_data_filepaths = [user1_data_filepath, user1_data_filepath]
 
     data_users = []
 
@@ -168,7 +265,7 @@ def compare_users():
     for data in data_users:
         unique_IDs = np.unique(data['Id'])
         unique_IDs_list.append(unique_IDs)
-        sort_by_highest_average(data_users[0], unique_IDs)
+        sort_by_highest_average(data, unique_IDs)
 
     x = set(unique_IDs_list[0])
     y = set(unique_IDs_list[1])
@@ -185,6 +282,7 @@ def compare_users():
         for user in data_of_comb:
             x_data_no_outlier = remove_outliers_from_feature_list(user[['Id', 'HT', 'FT']].values)
             all_x_data.append(x_data_no_outlier)
+
 
         plot_data(shared_comb, all_x_data)
 

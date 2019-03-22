@@ -9,8 +9,7 @@ from random import randint
 # User files
 from Helper import model_pers as MU
 from RFT import RFTModel
-import Constants
-
+from utils import Constants
 
 DATA_PATH = Constants.DATA_PATH
 
