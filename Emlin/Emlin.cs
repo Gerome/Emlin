@@ -254,11 +254,31 @@ namespace Emlin
             string dataFilePath = Path.Combine(ConstantValues.KEYBOARD_DATA_FILEPATH, ConstantValues.KEYBOARD_FILE_NAME);
             string decryptedFilePath = Path.Combine(ConstantValues.KEYBOARD_DATA_FILEPATH, "D_" + ConstantValues.KEYBOARD_CSV_FILE_NAME);
             FileInfo file = new FileInfo(dataFilePath);
-            
+
             Decryptor.DecryptFile(file, decryptedFilePath);
 
             loadingWindow.Show();
 
+            DeleteOldGeneratedFiles();
+
+            CreateModelInBackground();
+        }
+
+        private void DeleteOldGeneratedFiles()
+        {
+            string[] filePaths = Directory.GetFiles(ConstantValues.KEYBOARD_DATA_FILEPATH);
+            foreach (string filePath in filePaths)
+            {
+                var name = new FileInfo(filePath).Name;
+                if (!name.Equals(ConstantValues.KEYBOARD_FILE_NAME) && !name.Equals("D_" + ConstantValues.KEYBOARD_CSV_FILE_NAME))
+                {
+                    File.Delete(filePath);
+                }
+            }
+        }
+
+        private void CreateModelInBackground()
+        {
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += new DoWorkEventHandler(Worker_DoWork);
             worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Worker_RunWorkerCompleted);
