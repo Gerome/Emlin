@@ -8,9 +8,9 @@ from sklearn.model_selection import train_test_split
 # User files
 from Helper import model_pers as MU
 from SVM import SVMModel
-from utils import Constants
+from utils import constants
 
-DATA_PATH = Constants.DATA_PATH
+DATA_PATH = constants.DATA_PATH
 
 
 def load_group_data(data_path=DATA_PATH):

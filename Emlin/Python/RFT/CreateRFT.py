@@ -9,9 +9,9 @@ from random import randint
 # User files
 from Helper import model_pers as MU
 from RFT import RFTModel
-from utils import Constants
+from utils import constants
 
-DATA_PATH = Constants.DATA_PATH
+DATA_PATH = constants.DATA_PATH
 
 def load_group_data(data_path=DATA_PATH):
 		csv_path = os.path.join(data_path, "GroupedData.csv")

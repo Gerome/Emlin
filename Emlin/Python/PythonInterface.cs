@@ -61,7 +61,7 @@ namespace Emlin.Python
 
         public void GenerateNonUserData(string dataDirectoryPath)
         {
-            string inverseDataGeneratorPath = GetPythonFilePath("GenerateInverseData");
+            string inverseDataGeneratorPath = GetPythonFilePath("generate_inverse_data");
             RunPython(inverseDataGeneratorPath, dataDirectoryPath);
         }
 

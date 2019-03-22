@@ -193,7 +193,13 @@
     <Content Include="Python\CreateKNN.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\GenerateInverseData.py">
+    <Content Include="Python\data_insights\compare_users.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Python\data_insights\sort_combinations_by_similarity.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Python\generate_inverse_data.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Python\KNNModel.py">
@@ -228,7 +234,9 @@
     <Content Include="Python\SVM\__init__.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\utils\Constants.py" />
+    <Content Include="Python\utils\constants.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Python\utils\eval.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -275,6 +283,8 @@
     <Content Include="PythonLibInstaller.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Python\utils\__pycache__\plot.cpython-36.pyc" />
+    <None Include="Python\utils\__pycache__\plot.cpython-37.pyc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

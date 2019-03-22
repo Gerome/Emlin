@@ -87,7 +87,10 @@ namespace Emlin
                     formattedData.Add(DataFormatter.GetFormattedDataLine(keysData));
                 }
 
-                pi.TestUserInput(formattedData, health, ConstantValues.KEYBOARD_DATA_FILEPATH);
+                if (ModelFileExists())
+                {
+                    pi.TestUserInput(formattedData, health, ConstantValues.KEYBOARD_DATA_FILEPATH);
+                }
 
                 if (recordingEnabled.Checked)
                 {
