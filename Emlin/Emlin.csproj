@@ -187,7 +187,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestMembers\ITimerInterface.cs" />
     <Compile Include="DataRecording\DataToFileWriter.cs" />
-    <Content Include="Python\AppendUserToLine.py">
+    <Content Include="Python\compile_final_data_into_file.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Python\CreateKNN.py">
