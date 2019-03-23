@@ -46,7 +46,17 @@ namespace Emlin.Encryption
 
         public static byte[] GetDecryptKey(string keyPath)
         {
-            DotNetEnv.Env.Load(keyPath);
+            try
+            {
+                DotNetEnv.Env.Load(keyPath);
+            }
+            catch (FileNotFoundException)
+            {
+                EncryptionKeyGenerator generator = new EncryptionKeyGenerator();
+                generator.CreateKeyEnvFile(keyPath);
+                DotNetEnv.Env.Load(keyPath);
+            } 
+            
             return Encoding.ASCII.GetBytes(DotNetEnv.Env.GetString("Key"));
         }
     }

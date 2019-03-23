@@ -144,6 +144,7 @@
     <Compile Include="BaseObserver.cs" />
     <Compile Include="BaseSubject.cs" />
     <Compile Include="Encryption\Decryptor.cs" />
+    <Compile Include="Encryption\EncryptionKeyGenerator.cs" />
     <Compile Include="Graphing\GraphView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -255,6 +256,9 @@
     <EmbeddedResource Include="Graphing\GraphView.resx">
       <DependentUpon>GraphView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LoadingWindow.resx">
+      <DependentUpon>LoadingWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -295,12 +299,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
-set file="$(ProjectDir)keys.env"
-
-if not exist %25file%25 (
-    echo.&gt;;%25file%25
-    @echo Key=V4HW88YAFpdcTeKXOJGvLFhorDM3Rdb6&gt;&gt;%25file%25
-)</PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

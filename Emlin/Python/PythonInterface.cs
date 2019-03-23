@@ -77,7 +77,6 @@ namespace Emlin.Python
 
             if (pythonExePath.Equals(""))
             {
-
                 Environment.Exit(0);
             }
 
@@ -162,7 +161,5 @@ namespace Emlin.Python
         {
             return "\"" + Environment.CurrentDirectory + @"\Python\" + pythonFileName + ".py" + "\"";
         }
-
-       
     }
 }
