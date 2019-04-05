@@ -324,3 +324,6 @@ ASALocalRun/
 *.joblib
 /Data/*
 /DataProcessing/*
+Emlin/Python/data_insights/combs/*
+Emlin/Python/data_insights/ids/*
+Emlin/Python/data_insights/points/*

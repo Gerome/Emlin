@@ -59,8 +59,52 @@ def get_graph_title(comb_id):
 
 
 def get_ascii_replacement(second_ascii):
-    if second_ascii == 8:
-        second_char_of_comb = "BkSp"
-    else:
-        second_char_of_comb = chr(second_ascii)
-    return second_char_of_comb
+
+    switcher = {
+        8: "BackSpace",
+        9: "Hz-Tab",
+        10: "Line-Feed",
+        11: "Vertical-Feed",
+        12: "Form-Feed",
+        13: "Carriage-Return",
+        14: "Shift-Out",
+        15: "Shift-In",
+        16: "Data-Link-Esc",
+        17: "Device-Control-1",
+        18: "Device-Control-2",
+        19: "Device-Control-3",
+        20: "Device-Control-4",
+        21: "Negative-Acknowledge",
+        22: "Synch-Idle",
+        23: "End-of-Trans",
+        24: "Cancel",
+        25: "End-of-Medium",
+        26: "Substitute",
+        27: "Escape",
+        28: "File-Separator",
+        29: "Group-Separator",
+        30: "Record-Separator",
+        31: "Unit-Separator",
+        32: "Space",
+    }
+
+    return switcher.get(second_ascii,  chr(second_ascii))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
