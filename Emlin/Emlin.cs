@@ -129,7 +129,7 @@ namespace Emlin
 
         private void SendKeyPressToCurrentSession(char charPressed, long timeInTicks)
         {
-            WriteToDebugWindow(charPressed.ToString() + " pressed at " + new TimeSpan(timeInTicks).TotalMilliseconds.ToString());
+            WriteToDebugWindow(charPressed.ToString() + " pressed at " + new DateTime(timeInTicks).ToLongTimeString().ToString());
             lock (dataFormatter)
             {
                 dataFormatter.KeyWasPressed(charPressed, timeInTicks);
@@ -138,7 +138,7 @@ namespace Emlin
 
         private void SendKeyReleaseToCurrentSession(char charReleased, long timeInTicks)
         {
-            WriteToDebugWindow(charReleased.ToString() + " released at " + new TimeSpan(timeInTicks).TotalMilliseconds.ToString());
+            WriteToDebugWindow(charReleased.ToString() + " released at " + new DateTime(timeInTicks).ToLongTimeString().ToString());
             if (!OnlyKeyUpEvent(charReleased))
             {
                 lock (dataFormatter)
