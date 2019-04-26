@@ -66,7 +66,7 @@ namespace Emlin
             healthGraphView.SetHealthSubject(health);
 
             health.Attach(healthGraphView);
-            health.SetValue(100);
+            health.SetValue(ConstantValues.DEFAULT_HEALTH_VALUE);
         }
 
         private void TimerCountdown(object sender, EventArgs e)
@@ -99,10 +99,10 @@ namespace Emlin
 
             PossiblyShuffleLines(filepath);
 
-            if(health.GetValue() < 0)
+            if(health.GetValue() < ConstantValues.HEALTH_VALUE_THRESHOLD)
             {
                 Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation");
-                health.SetValue(100);
+                health.SetValue(ConstantValues.DEFAULT_HEALTH_VALUE);
             }
 
             dataFormatter.End();
