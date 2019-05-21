@@ -101,7 +101,8 @@ namespace Emlin
 
             if(health.GetValue() < ConstantValues.HEALTH_VALUE_THRESHOLD)
             {
-                Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation");
+                // Uncomment to lock user out of computer
+                //Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation");
                 health.SetValue(ConstantValues.DEFAULT_HEALTH_VALUE);
             }
 

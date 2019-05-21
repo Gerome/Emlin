@@ -123,11 +123,11 @@ namespace Emlin.Python
             while((myString = myStreamReader.ReadLine()) != null)
             {
                 Console.WriteLine(myString);
-                if (myString.Equals("[1]"))
+                if (myString.Contains("1"))
                 {
                     user++;
                 }
-                if (myString.Equals("[0]"))
+                if (myString.Contains("0"))
                 {
                     notUser++;       
                 }

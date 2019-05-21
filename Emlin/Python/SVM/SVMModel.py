@@ -4,10 +4,9 @@ from sklearn.svm import SVC
 from sklearn.preprocessing import PolynomialFeatures
 
 def GetSVMClassifier():
-	svm_clf = Pipeline((
-        ("poly_features", PolynomialFeatures(degree=3)),
+	poly_kernel_svm_clf = Pipeline((
 		("scaler", StandardScaler()),
-		("linear_svc", SVC(kernel="poly", degree=2, coef0=1, C=5)),
+		("svm_clf", SVC(kernel="poly", degree=5, coef0=10, C=2)),
 	))
 
-	return svm_clf
+	return poly_kernel_svm_clf

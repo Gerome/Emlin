@@ -2,8 +2,10 @@ import numpy as np
 import pandas as pd
 import os
 from scipy import stats
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
 
-from utils.constants import DATA_PATH, no_outlier_file_path, inverse_data_file_path
+from utils.constants import *
 from utils.plot import plot_data
 
 
@@ -58,10 +60,17 @@ def remove_outliers_from_feature_list(list_of_data):
     return list_of_data
 
 
-def generate_inverse_data_for_comb(group_data):
+def generate_inverse_data_for_comb(group_data, testing_mode):
+
     all_x = group_data[['Id', 'HT', 'FT']].values
 
     all_x_no_outliers = remove_outliers_from_feature_list(all_x)
+
+    #if testing_mode and all_x_no_outliers.size > 4:
+    #    all_x_no_outliers_test, all_x_no_outliers = train_test_split(all_x_no_outliers, shuffle=True, train_size=0.10)
+    #    test_set = open(test_file_path, 'a')
+    #    np.savetxt(test_set, all_x_no_outliers_test, delimiter=",", fmt='%i')
+    #    test_set.close()
 
     if len(all_x_no_outliers) <= 1:
         return
@@ -72,7 +81,7 @@ def generate_inverse_data_for_comb(group_data):
     ht_std = all_x_no_outliers[:, group_data.columns.get_loc("HT")].std()
     ft_std = all_x_no_outliers[:, group_data.columns.get_loc("FT")].std()
 
-    average_std = (ht_std+ft_std)/3
+    average_std = (ht_std + ft_std)/3
 
     generated_grid_number = 10
 
@@ -108,15 +117,8 @@ def generate_inverse_data_for_comb(group_data):
     all_data = [x_data, y_data]
 
     if len(x_data) > 5:
-        pass
         #plot_data(comb_id, all_data)
-
-    '''
-    ax = plt.axes(projection='3d')
-    ax.scatter3D(x_data, y_data, z_data, c='r')
-    ax.scatter3D(x_not_data, y_not_data, z_not_data, c='b')'''
-
-    all_x_no_outliers = np.delete(all_x_no_outliers, np.s_[3, 4, 5], axis=1)
+        pass
 
     nofp = open(no_outlier_file_path, 'a')
     np.savetxt(nofp, all_x_no_outliers, delimiter=",", fmt='%i')
@@ -133,7 +135,7 @@ def main():
     unique_ids = np.unique(group_data['Id'])
     for combId in unique_ids:
         group_data_of_a_comb = group_data.loc[group_data['Id'] == combId]
-        generate_inverse_data_for_comb(group_data_of_a_comb)
+        generate_inverse_data_for_comb(group_data_of_a_comb, False)
 
 
 if __name__ == '__main__':

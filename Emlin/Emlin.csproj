@@ -203,14 +203,15 @@
     <Content Include="Python\generate_inverse_data.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\KNNModel.py">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Python\LoadKNN.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Python\python-3.7.2-amd64.exe" />
-    <Content Include="Python\requirements.txt" />
+    <Content Include="Python\python-3.7.2-amd64.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Python\requirements.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Python\RFT\CreateRFT.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

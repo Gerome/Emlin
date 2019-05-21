@@ -5,50 +5,46 @@ import numpy as np
 import sys
 
 # User files
+from sklearn.neighbors import KNeighborsClassifier
+
 import utils.eval
-from utils import model_pers as persistance
-import KNNModel
+import utils.plot
+from utils import model_pers as persistence
 
-DATA_PATH = str(sys.argv[1])
+#DATA_PATH = str(sys.argv[1])
+DATA_PATH = "C:\\Users\\Gerome\\AppData\\Roaming\\Emlin"
 
 
-def load_group_data(data_path=DATA_PATH):
-    csv_path = os.path.join(data_path, "ProcessedData.csv")
+def load_training_data(data_path=DATA_PATH):
+    csv_path = os.path.join(data_path, "TrainData.csv")
     return pd.read_csv(csv_path)
 
 
-printScores = False
+def load_test_data(data_path=DATA_PATH):
+    csv_path = os.path.join(data_path, "ValidationData.csv")
+    return pd.read_csv(csv_path)
 
 
 def main():
-    group_data = load_group_data()
-    print(group_data.head())
+    train_data = load_training_data()
 
-    all_x = group_data[['Id', 'HT', 'FT']].values #'Di1', 'Di2', 'Di3']].values
-    all_y = group_data[['User']].values
-    all_y = np.ravel(all_y)
+    X_train = train_data[['Id', 'HT', 'FT']].values
+    y_train = train_data[['User']].values.astype(float)
+    y_train = np.ravel(y_train)
 
-    all_x = all_x.astype(float)
+    knn_clf = KNeighborsClassifier(1)
 
-    if printScores:
-        printScoresOfNNeighbours(all_x, all_y)
+    knn_clf.fit(X_train, y_train)
 
-    knn_clf = KNNModel.GetKNNClassifier(1)
+    #test_data = load_test_data()
 
-    knn_clf.fit(all_x, all_y)
+    #X_test = test_data[['Id', 'HT', 'FT']].values
+    #y_test = np.ravel(test_data[['User']].values)
 
-    #MU.ShowPrecisionRecall(fpr, tpr, roc_auc)
-    #MU.ShowConfusionMatrix(knn_clf, X_test, y_test)
-    persistance.save_model(knn_clf, DATA_PATH, "knnClf")
-
-
-def printScoresOfNNeighbours(all_x, all_y):
-    numberOfNeighbours = 10
-    for i in range(1, numberOfNeighbours):
-        knn_clf = KNNModel.GetKNNClassifier(i)
-        knn_scores = utils.eval.get_score(knn_clf, all_x, all_y)
-        print(knn_scores)
-        print("Evaluting " + str(i) + " neighbours. Score is " + str(knn_scores.mean()))
+    #utils.plot.show_confusion_matrix(knn_clf, X_test, y_test)
+    #utils.plot.show_precision_recall(knn_clf, X_test, y_test)
+    #utils.plot.show_roc_curve(knn_clf, X_test, y_test)
+    persistence.save_model(knn_clf, DATA_PATH, "knnClf")
 
 
 if __name__ == "__main__":

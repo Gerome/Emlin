@@ -61,7 +61,7 @@ def write_list_to_file(ordered_ids, ordered_points):
 
     with open(os.path.join(DEBUG_DATA_PATH, '../data_insights/ids/ordered_ids.txt'), 'w') as f:
         for item in ordered_ids:
-            f.write("%s\n" % item)
+            f.write("%s\n" % (item/6000))
 
     with open(os.path.join(DEBUG_DATA_PATH, '../data_insights/combs/ordered_combs.txt'), 'w') as f:
         for item in ordered_ids:
@@ -94,10 +94,11 @@ def get_mean_from_data(Id, X_of_Id_no_outliers):
 
 
 def order_id_by_similarity():
-    test_data_filepath = "../../../Data/interim/D_KeyboardData_test.csv"
-    user_data_filepath = "../../../Data/interim/D_KeyboardData_10.csv"
+    path = "C:\\Users\\Gerome\\AppData\\Roaming\\Emlin\\OtherUserData\\NoOutliers"
 
-    data = pd.read_csv(os.path.join(DEBUG_DATA_PATH, user_data_filepath))
+    user1 = os.path.join(path, "D_KeyboardData_O_6.csv")
+
+    data = pd.read_csv(user1)
     unique_ids = np.unique(data['Id'])
 
     X_clean_data = []

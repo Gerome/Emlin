@@ -10,12 +10,21 @@ from utils.plot import plot_data
 
 
 def compare_users():
-    user1_data_filepath = "../../Data/interim/D_KeyboardData_1.csv"
-    user2_data_filepath = "../../Data/interim/D_KeyboardData_6.csv"
-    user3_data_filepath = "../../Data/interim/D_KeyboardData_10.csv"
+    user1_data_filepath = "../../../Data/interim/D_KeyboardData_O_1.csv"
+    user2_data_filepath = "../../../Data/interim/D_KeyboardData_O_2.csv"
+    user3_data_filepath = "../../../Data/interim/D_KeyboardData_O_3.csv"
+    user4_data_filepath = "../../../Data/interim/D_KeyboardData_O_4.csv"
+    user5_data_filepath = "../../../Data/interim/D_KeyboardData_O_5.csv"
+    user6_data_filepath = "../../../Data/interim/D_KeyboardData_O_6.csv"
     user_test_data_filepath = "../../Data/interim/D_KeyboardData_test.csv"
 
-    user_data_filepaths = [user1_data_filepath, user1_data_filepath]
+    test1 = "C:/Users/Gerome/AppData/Roaming/Emlin/D_KeyBoardData_O.csv"
+    test2 = "C:/Users/Gerome/AppData/Roaming/Emlin/D_KeyBoardData_O_Test.csv"
+    test3 = "C:/Users/Gerome/AppData/Roaming/Emlin/D_KeyBoardData_O_Not.csv"
+    test4 = "C:/Users/Gerome/AppData/Roaming/Emlin/ValidationNotSet/D_KeyboardData_O_6_Not.csv"
+
+    #user_data_filepaths = [user1_data_filepath, user2_data_filepath, user3_data_filepath, user4_data_filepath, user5_data_filepath, user6_data_filepath]
+    user_data_filepaths = [test1, test2, test4, test3]
 
     data_users = []
 
@@ -28,7 +37,6 @@ def compare_users():
     for data in data_users:
         unique_IDs = np.unique(data['Id'])
         unique_IDs_list.append(unique_IDs)
-        sort_by_highest_average(data, unique_IDs)
 
     x = set(unique_IDs_list[0])
     y = set(unique_IDs_list[1])
@@ -46,5 +54,6 @@ def compare_users():
             x_data_no_outlier = remove_outliers_from_feature_list(user[['Id', 'HT', 'FT']].values)
             all_x_data.append(x_data_no_outlier)
 
-
         plot_data(shared_comb, all_x_data)
+
+compare_users()

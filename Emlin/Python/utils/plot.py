@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-
+from utils.eval import get_score
+from sklearn.metrics import precision_recall_curve, roc_curve
 
 def plot_confusion_matrix(df_confusion, title='Confusion matrix', cmap=plt.cm.gray_r):
     plt.matshow(df_confusion, cmap=cmap) # imshow
@@ -19,19 +20,47 @@ def plot_confusion_matrix(df_confusion, title='Confusion matrix', cmap=plt.cm.gr
 def show_confusion_matrix(clf, test_x, test_y):
     y_actu = pd.Series(test_y, name='Actual')
     y_pred = pd.Series(clf.predict(test_x), name='Predicted')
-    df_confusion = pd.crosstab(y_actu, y_pred)
+    df_confusion = pd.crosstab(y_actu, y_pred, margins=True)
     print(df_confusion)
     plot_confusion_matrix(df_confusion)
 
 
-def plot_data(comb_id, all_x_data):
-    visual_identifiers = ['ro', 'bx', 'g+', 'k+']
+def show_precision_recall(clf, test_x, test_y):
+    y_scores = get_score(clf, test_x, test_y)
+    precisions, recalls, thresholds = precision_recall_curve(test_y, y_scores)
+    print(precisions)
+    print(recalls)
+    print(thresholds)
+    plt.plot(thresholds, precisions[:-1], "b--", label="Precision")
+    plt.plot(thresholds, recalls[:-1], "g-", label="Recall")
+    plt.xlabel("Threshold")
+    plt.legend(loc="upper left")
+    plt.show()
 
-    title = get_graph_title(comb_id)
+
+def show_roc_curve(clf, test_x, test_y):
+    y_scores = get_score(clf, test_x, test_y)
+    fpr, tpr, thresholds = roc_curve(test_y, y_scores)
+
+    print(fpr)
+    print(tpr)
+    print(thresholds)
+
+    plt.plot(fpr, tpr, label=None)
+    plt.axis([0, 1, 0, 1])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.show()
+
+
+def plot_data(comb_id, all_x_data):
+    visual_identifiers = ['bo', 'gx', 'r+', 'c+', 'mx', 'k^']
+
+    title = get_graph_title(comb_id/6000)
 
     plt.title(title)
-    plt.xlabel("Flight time")
-    plt.ylabel("Hold time")
+    plt.xlabel("Hold time")
+    plt.ylabel("Flight time")
 
     user_idx = 0
 
@@ -39,15 +68,15 @@ def plot_data(comb_id, all_x_data):
         hold_time = user_data[:, 1]
         flight_time_time = user_data[:, 2]
 
+        plt.axes().set_aspect('equal', 'datalim')
         legend_val = plt.plot(hold_time, flight_time_time, visual_identifiers[user_idx], label='test')
-        plt.legend([legend_val], ['Val'])
         user_idx += 1
 
     plt.close()
 
 
 def get_graph_title(comb_id):
-    actual_comb_id = int(comb_id)
+    actual_comb_id = int(comb_id/6000)
     first_ascii = actual_comb_id // 128
     second_ascii = int(((actual_comb_id / 128) % 1) * 128)
 

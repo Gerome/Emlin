@@ -22,7 +22,7 @@ def main():
     group_data = load_group_data()
     print(group_data.head())
 
-    all_x = group_data[['Id', 'HT', 'FT']].values #'Di1', 'Di2', 'Di3']].values
+    all_x = group_data[['Id', 'HT', 'FT']].values
     all_y = group_data[['User']].values
     all_y = np.ravel(all_y)
 
