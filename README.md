@@ -2,7 +2,7 @@
 
 How to start Emlin tool.
 
-1.	Download fro Github.
+1.	Download from Github.
 2.	Run "BuildScript.bat".
 3.	Right click “Emlin.exe” and copy.
 4.	Click windows button, type run and hit enter. 
